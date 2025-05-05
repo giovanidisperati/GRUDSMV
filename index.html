@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/estilo.css">
+    <link rel="stylesheet" href="css/prism.css">
+
+    <title>Desenvolvimento Mobile - Apresentação da Disciplina</title>
+</head>
+
+<body>
+    <div class="wrapper d-flex align-items-stretch">
+        <nav id="sidebar">
+            <div class="custom-menu">
+                <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                    <i class="fa fa-bars"></i>
+                    <span class="sr-only">Toggle Menu</span>
+                </button>
+            </div>
+            <h1><a href="index.html" class="logo text-center">AULAS</a></h1>
+            <ul class="list-unstyled components mb-5">
+                <li>
+                    <a href="Aula01.html"><span class="mr-1"></span>01 - Introdução e Panorama Mobile</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>02 - Setup com Expo e TypeScript</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>03 - Componentes, JSX e Hooks</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>04 - Estilização e Layout Responsivo</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>05 - Navegação com React Navigation</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>06 - Consumo de APIs REST</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>07 - Armazenamento e Estado Global</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>08 - Recursos Nativos (Câmera, Localização)</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>09 - Boas Práticas e Arquitetura</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>10 - Build, Publicação e Projeto Final</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div id="content" class="p-4 p-md-5 pt-5">
+
+            <h2><strong>Apresentação da Disciplina: Desenvolvimento de Aplicações Mobile com React Native e Expo
+                    📱</strong></h2>
+            <p>Bem-vindos à disciplina de Desenvolvimento Mobile! Nesta matéria, vamos mergulhar no universo da criação
+                de aplicações móveis modernas, utilizando o ecossistema <strong>React Native com Expo</strong>. O
+                objetivo ao longo do semestre é proporcionar uma base sólida para o desenvolvimento de apps
+                multiplataforma (iOS e Android), aliando produtividade, boas práticas e uso de tecnologias amplamente
+                adotadas pelo mercado.</p>
+            <p>Ao longo do curso, exploraremos a evolução do desenvolvimento mobile, analisando as diferenças entre
+                abordagens nativas, híbridas e web. Em seguida, aprenderemos a criar aplicativos reais utilizando React
+                Native, com foco na estruturação de interfaces, gerenciamento de estado, navegação, consumo de APIs e
+                uso de recursos nativos como câmera, geolocalização e notificações.</p>
+            <p>Ao término do curso, espera-se que vocês estejam aptos a desenvolver aplicações móveis completas, com
+                atenção à arquitetura, manutenibilidade e experiência do usuário. A disciplina será prática e orientada
+                a projetos, permitindo que cada aluno construa seu próprio app do zero.</p>
+            <hr>
+            <h2><strong>Conteúdo Programático da Disciplina 🛠️</strong></h2>
+            <h3>Fundamentos do Desenvolvimento Mobile</h3>
+            <ul>
+                <li>Panorama histórico e evolução das plataformas móveis</li>
+                <li>Comparação entre aplicações nativas, híbridas e web</li>
+                <li>Arquiteturas mobile e seus trade-offs</li>
+            </ul>
+            <h3>Ambiente de Desenvolvimento com Expo</h3>
+            <ul>
+                <li>Configuração de ambiente com Node.js, Git e Expo CLI</li>
+                <li>Uso do Expo Go e emuladores</li>
+                <li>Organização inicial de projetos React Native com TypeScript</li>
+            </ul>
+            <h3>Estruturação de Aplicações em React Native</h3>
+            <ul>
+                <li>Conceitos de componentes, JSX e hooks</li>
+                <li>Boas práticas de layout e responsividade</li>
+                <li>Estilização com StyleSheet e bibliotecas externas</li>
+            </ul>
+            <h3>Gerenciamento de Estado e Navegação</h3>
+            <ul>
+                <li>Estado local com <code>useState</code> e <code>useEffect</code></li>
+                <li>Context API e hooks customizados</li>
+                <li>Navegação entre telas com React Navigation</li>
+            </ul>
+            <h3>Consumo de APIs e Integração com Serviços Externos</h3>
+            <ul>
+                <li>Fetch de dados remotos com <code>fetch</code> e <code>axios</code></li>
+                <li>Integração com REST APIs e manipulação de JSON</li>
+                <li>Armazenamento local com AsyncStorage</li>
+            </ul>
+            <h3>Acesso a Recursos Nativos via Expo</h3>
+            <ul>
+                <li>Uso de câmera, localização, sensores e notificações</li>
+                <li>Permissões e segurança no uso de funcionalidades do dispositivo</li>
+                <li>Expo Modules e alternativas avançadas</li>
+            </ul>
+            <h3>Introdução a Boas Práticas de Arquitetura</h3>
+            <ul>
+                <li>Organização de pastas e arquivos</li>
+                <li>Separação de lógica de apresentação e dados</li>
+                <li>Padrões simples como Container/Presenter e Hooks Reutilizáveis</li>
+            </ul>
+            <h3>Testes e Depuração</h3>
+            <ul>
+                <li>Debug com o Metro Bundler</li>
+                <li>Testes manuais, logs e inspeção com React Native Debugger</li>
+            </ul>
+            <h3>Publicação e Distribuição</h3>
+            <ul>
+                <li>Build com EAS Build (Expo Application Services)</li>
+                <li>Geração de APK/IPA para Android e iOS</li>
+                <li>Publicação na Play Store e App Store (visão geral)</li>
+            </ul>
+            <hr>
+            <p>Essa disciplina será desenvolvida utilizando <strong>TypeScript, React Native e Expo</strong> como
+                tecnologias principais. Isso permitirá que vocês experimentem o desenvolvimento mobile moderno com
+                ferramentas leves, acessíveis e amplamente utilizadas por startups e grandes empresas.</p>
+            <p><strong>Documentação oficial recomendada:</strong></p>
+            <ul>
+                <li><a href="https://reactnative.dev/">React Native Docs</a></li>
+                <li><a href="https://docs.expo.dev/">Expo Documentation</a></li>
+                <li><a href="https://reactnavigation.org/">React Navigation</a></li>
+            </ul>
+            <p>Preparem-se para um curso <strong>mão na massa</strong>, repleto de desafios e com alto potencial de
+                aplicabilidade no mundo real! 🚀📲</p>
+        </div>
+
+    </div>
+
+
+    <footer class="footer mt-auto py-3">
+        <div class="container-fluid">
+            <span>
+                <p class="text-center text-light">Instituto Federal de Educação, Ciência e Tecnologia de São Paulo,
+                    Câmpus Guarulhos. Desenvolvimento Mobile - Prof. Giovani.</p>
+            </span>
+        </div>
+    </footer>
+
+
+    <script src="js/prism.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>

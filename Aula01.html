@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/estilo.css">
+  <link rel="stylesheet" href="css/prism.css">
+
+  <title>Desenvolvimento Mobile - Apresentação da Disciplina</title>
+</head>
+
+<body>
+  <div class="wrapper d-flex align-items-stretch">
+    <nav id="sidebar">
+      <div class="custom-menu">
+        <button type="button" id="sidebarCollapse" class="btn btn-primary">
+          <i class="fa fa-bars"></i>
+          <span class="sr-only">Toggle Menu</span>
+        </button>
+      </div>
+      <h1><a href="index.html" class="logo text-center">AULAS</a></h1>
+      <ul class="list-unstyled components mb-5">
+        <li class="active">
+          <a href="Aula01.html"><span class="mr-1"></span>01 - Introdução e Panorama Mobile</a>
+        </li>
+        <li>
+          <a href=""><span class="mr-0"></span>02 - Setup com Expo e TypeScript</a>
+        </li>
+        <li>
+          <a href=""><span class="mr-0"></span>03 - Componentes, JSX e Hooks</a>
+        </li>
+        <li>
+          <a href=""><span class="mr-0"></span>04 - Estilização e Layout Responsivo</a>
+        </li>
+        <li>
+          <a href=""><span class="mr-0"></span>05 - Navegação com React Navigation</a>
+        </li>
+        <li>
+          <a href=""><span class="mr-0"></span>06 - Consumo de APIs REST</a>
+        </li>
+        <li>
+          <a href=""><span class="mr-0"></span>07 - Armazenamento e Estado Global</a>
+        </li>
+        <li>
+          <a href=""><span class="mr-0"></span>08 - Recursos Nativos (Câmera, Localização)</a>
+        </li>
+        <li>
+          <a href=""><span class="mr-0"></span>09 - Boas Práticas e Arquitetura</a>
+        </li>
+        <li>
+          <a href=""><span class="mr-0"></span>10 - Build, Publicação e Projeto Final</a>
+        </li>
+      </ul>
+    </nav>
+    <div id="content" class="p-4 p-md-5 pt-5">
+      <h1>Aula 01 – Introdução ao Desenvolvimento Mobile: Panorama, Arquitetura e Setup com React Native + Expo</h1>
+      <h2>1. Panorama Histórico do Desenvolvimento Mobile</h2>
+      <p>O desenvolvimento de aplicações móveis é um campo que evoluiu substancialmente desde o início dos anos 2000.
+        Com o surgimento dos primeiros dispositivos inteligentes, como os celulares BlackBerry e os que utilizavam o
+        sistema Symbian, começou a ganhar força a ideia de que um celular poderia executar aplicações além das funções
+        básicas de chamada e SMS.</p>
+      <p>Antes da popularização dos smartphones modernos, o desenvolvimento mobile já existia em plataformas mais
+        limitadas, como os aplicativos J2ME (Java 2 Micro Edition), comuns em celulares da Nokia, e as soluções WAP
+        (Wireless Application Protocol), que ofereciam uma experiência simplificada de navegação mobile. Essas
+        tecnologias permitiam o uso de jogos, bancos e aplicativos corporativos, mas com recursos visuais e interativos
+        bastante restritos.</p>
+      <p>A revolução veio com o iPhone (2007), não apenas pelo avanço no hardware e na interface de toque capacitiva,
+        mas principalmente com o lançamento da App Store (2008). A loja da Apple, seguida pela Google Play, inaugurou um
+        modelo centralizado de distribuição, monetização e atualização de aplicativos, impulsionando todo um ecossistema
+        de desenvolvedores e empresas ao redor do mobile.</p>
+      <p>O iPhone e, em seguida, o Android, consolidaram os smartphones como plataformas computacionais completas.</p>
+      <p>Dados históricos de participação de mercado revelam as seguintes tendências:</p>
+      <ul>
+        <li><strong>iOS</strong>: Lançado em 2007 com o iPhone, o iOS rapidamente ganhou popularidade, especialmente na
+          América do Norte e Europa. Sua participação de mercado global estabilizou entre 25–30% nos últimos anos, com
+          maior penetração em mercados desenvolvidos devido à integração de hardware e software da Apple.</li>
+        <li><strong>Android</strong>: Introduzido em 2008, domina com mais de 70% do mercado global. Sua natureza
+          open-source e suporte por diversos fabricantes de dispositivos contribuíram para sua adoção massiva.</li>
+        <li><strong>Windows Phone</strong>: Lançado em 2010, teve pico de 3–4% de participação em 2013–2014, mas foi
+          descontinuado em 2017 por não conseguir atrair desenvolvedores e fabricantes.</li>
+      </ul>
+      <p>As curvas de adoção refletem estratégias distintas:</p>
+      <ul>
+        <li>iOS priorizou dispositivos premium e um ecossistema fechado.</li>
+        <li>Android apostou em acessibilidade e customização.</li>
+        <li>Windows Phone falhou ao não criar um ecossistema competitivo.</li>
+      </ul>
+      <h3>Tabela de Participação de Mercado</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Ano/Trimestre</th>
+            <th>Android (%)</th>
+            <th>iOS (%)</th>
+            <th>Windows Phone (%)</th>
+            <th>Outros (%)</th>
+            <th>Fonte</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2010, Dez</td>
+            <td>28,7</td>
+            <td>25,0</td>
+            <td>8,4</td>
+            <td>3,7</td>
+            <td>comScore (EUA)</td>
+          </tr>
+          <tr>
+            <td>2014, Fev</td>
+            <td>47,57</td>
+            <td>22,97</td>
+            <td>2,22</td>
+            <td>6,08</td>
+            <td>StatCounter</td>
+          </tr>
+          <tr>
+            <td>2015, Mar</td>
+            <td>61,94</td>
+            <td>22,64</td>
+            <td>2,27</td>
+            <td>7,09</td>
+            <td>StatCounter</td>
+          </tr>
+          <tr>
+            <td>2019, Set</td>
+            <td>76,24</td>
+            <td>22,48</td>
+            <td>0,17</td>
+            <td>1,07</td>
+            <td>StatCounter</td>
+          </tr>
+          <tr>
+            <td>2022, Q4</td>
+            <td>71,1</td>
+            <td>28,3</td>
+            <td>—</td>
+            <td>0,6</td>
+            <td>Statista</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>A consolidação do mercado entre Android e iOS moldou não apenas a forma como os aplicativos são distribuídos e
+        consumidos, mas também impactou profundamente os modelos de desenvolvimento adotados pela indústria. Com a
+        dominância de dois ecossistemas distintos, cresceu a demanda por soluções que permitissem o desenvolvimento de
+        aplicações multiplataforma sem a necessidade de manter duas bases de código independentes. </p>
+      <p>Foi nesse contexto que, a partir de 2015, surgiram e ganharam destaque frameworks híbridos como o React Native
+        e o Flutter. Essas ferramentas responderam à necessidade de reduzir custos e tempo de desenvolvimento, ao mesmo
+        tempo que entregavam experiências de uso cada vez mais próximas das nativas. Nos anos seguintes, esse cenário
+        continuou a evoluir com a crescente integração de tecnologias emergentes, como Internet das Coisas (IoT),
+        Inteligência Artificial (IA) e serviços em nuvem, tornando o desenvolvimento mobile um campo ainda mais
+        complexo, estratégico e orientado à performance, segurança e escalabilidade.</p>
+      <p>Com esse panorama histórico em mente, é importante entender como diferentes estratégias de desenvolvimento
+        impactam os aplicativos que usamos no dia a dia. Assim, diante dessas características e desafios, a escolha de
+        uma stack moderna e produtiva torna-se de grande importância. A seguir, discutimos as possibilidades existentes
+        no desenvolvimento mobile atual.</p>
+      <hr>
+      <h2>2. Tipos de Aplicações Móveis: Nativo, Híbrido e Web</h2>
+      <p>O desenvolvimento de aplicações móveis pode ser estruturado em três abordagens distintas, cada uma com suas
+        próprias características, vantagens e limitações: <strong>nativa</strong>, <strong>híbrida</strong> e
+        <strong>web app</strong>. A escolha entre essas alternativas deve considerar fatores como desempenho, custo de
+        desenvolvimento, tempo de entrega e acesso a recursos específicos do dispositivo.</p>
+      <p>As <strong>aplicações nativas</strong> são desenvolvidas diretamente nas linguagens e frameworks recomendados
+        por cada sistema operacional. No caso do Android, utiliza-se principalmente Java ou Kotlin; no iOS, Swift ou
+        Objective-C. Essa abordagem permite o uso total dos recursos do dispositivo, como câmera, sensores, GPS,
+        notificações push e armazenamento local, com o máximo de performance e fluidez. Contudo, sua principal
+        desvantagem está no custo: é necessário manter duas bases de código distintas — uma para cada plataforma — o que
+        exige mais tempo, maior esforço de manutenção e, em muitos casos, duas equipes especializadas.</p>
+      <p>As <strong>aplicações web</strong>, por outro lado, funcionam dentro de navegadores móveis como o Chrome ou
+        Safari e são construídas com as tecnologias fundamentais da web: <strong>HTML5</strong>, que estrutura o
+        conteúdo; <strong>CSS3</strong>, responsável pela aparência visual e adaptação a diferentes tamanhos de tela por
+        meio de <em>media queries</em>; e <strong>JavaScript</strong>, que controla o comportamento dinâmico da
+        aplicação. O conceito de <strong>Progressive Web App (PWA)</strong> trouxe recursos que aproximam essas
+        aplicações da experiência nativa, como o uso de <strong>service workers</strong> para navegação offline, cache
+        inteligente e notificações push, além de arquivos <strong>manifest.json</strong> que possibilitam a instalação
+        da aplicação na tela inicial do dispositivo. Para esses recursos funcionarem plenamente, o aplicativo precisa
+        ser servido por HTTPS. Ferramentas como <strong>Workbox.js</strong> auxiliam na implementação desses recursos,
+        enquanto empacotadores como <strong>Webpack</strong> ou <strong>Vite</strong> otimizam a entrega do código.
+        Embora as aplicações web sejam mais simples de manter e funcionem em qualquer dispositivo com navegador, elas
+        ainda apresentam limitações quanto à performance e ao acesso a funcionalidades mais profundas do sistema
+        operacional, o que as torna mais indicadas para soluções informativas, aplicações corporativas de baixa
+        complexidade ou sistemas que não dependem de recursos como sensores, câmeras ou Bluetooth.</p>
+      <p>Entre esses dois extremos surgem as <strong>aplicações híbridas</strong>, como as desenvolvidas com React
+        Native ou Flutter. Essa abordagem permite escrever um único código-fonte que é interpretado ou compilado para
+        funcionar tanto em iOS quanto em Android, mantendo componentes nativos na interface. Frameworks híbridos
+        oferecem um ótimo equilíbrio entre produtividade e qualidade da experiência do usuário. Embora ainda possam
+        apresentar gargalos em cenários que exijam alto desempenho gráfico ou integração com hardware muito específico,
+        seu uso é amplamente viável para a maioria dos aplicativos comerciais e corporativos.</p>
+      <p>O estudo de Gunawardhana (2021) corrobora essa perspectiva ao apontar que os aplicativos híbridos podem reduzir
+        em até 80% os custos de desenvolvimento em relação às soluções nativas, mantendo um nível satisfatório de
+        desempenho para aplicações comuns — como redes sociais, apps de e-commerce ou sistemas internos empresariais.
+      </p>
+      <p>Para aprofundar essa análise, um estudo técnico conduzido por Kaczmarczyk et al. (2022) comparou diretamente o
+        desempenho de aplicações nativas e híbridas em dispositivos Android, avaliando métricas objetivas como
+        <strong>latência</strong>, <strong>consumo de bateria</strong> e <strong>uso de CPU/RAM</strong>.</p>
+      <h4>Latência</h4>
+      <ul>
+        <li><strong>Tempo de inicialização</strong>: os aplicativos nativos apresentaram tempo médio de 1,274 segundos,
+          enquanto os híbridos levaram 2,413 segundos para carregar, demonstrando que os nativos são quase duas vezes
+          mais rápidos na fase inicial.</li>
+        <li><strong>Transições de interface</strong>: após a inicialização, os apps híbridos reagiram mais rapidamente a
+          mudanças de tela (40,5ms) do que os nativos (178,0ms), provavelmente devido à forma como o layout é
+          pré-processado em frameworks como React Native.</li>
+        <li><strong>Processamento de dados</strong>: aplicações nativas realizaram operações com conjuntos de dados com
+          mais agilidade — 64,25ms para processar 100 objetos, contra 246,25ms em apps híbridos, uma diferença
+          significativa em contextos mais exigentes.</li>
+      </ul>
+      <h4>Consumo de Bateria</h4>
+      <p>As aplicações nativas foram consistentemente mais eficientes, consumindo aproximadamente <strong>20% menos
+          energia</strong> do que suas equivalentes híbridas. Essa vantagem se deve à ausência de camadas intermediárias
+        de abstração e à otimização do uso de hardware oferecida pelas APIs nativas.</p>
+      <h4>Uso de CPU e Memória RAM</h4>
+      <p>Apps nativos demonstraram ser mais econômicos no uso de recursos computacionais, apresentando menor demanda de
+        CPU e memória. Isso reforça sua adequação para aplicações de missão crítica ou com requisitos rigorosos de
+        desempenho.</p>
+      <h4>Tabela Comparativa de Performance</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Métrica</th>
+            <th>Nativo</th>
+            <th>Híbrido</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Latência de Inicialização</td>
+            <td>1,274 s</td>
+            <td>2,413 s</td>
+          </tr>
+          <tr>
+            <td>Latência de Transições</td>
+            <td>178,0 ms</td>
+            <td>40,5 ms</td>
+          </tr>
+          <tr>
+            <td>Processamento (100 objs)</td>
+            <td>64,25 ms</td>
+            <td>246,25 ms</td>
+          </tr>
+          <tr>
+            <td>Consumo de Recursos</td>
+            <td>~20% menor</td>
+            <td>Maior uso de RAM e CPU</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>Embora o desenvolvimento híbrido ofereça ganhos significativos em tempo e custo, os aplicativos nativos ainda
+        se destacam em cenários que exigem máxima eficiência, como jogos, apps com renderização gráfica intensa, ou
+        soluções que dependem fortemente de sensores, Bluetooth, realidade aumentada ou acesso constante ao sistema
+        operacional.</p>
+      <p>Por exemplo, imagine uma fintech que precisa de acesso aos sensores do dispositivo móvel e o desempenho mais
+        alto possível: a escolha natural, nesse caso, é o desenvolvimento nativo. Por outro lado, uma startup que deseja
+        lançar um MVP para validar sua ideia com rapidez pode se beneficiar do modelo híbrido.</p>
+      <p>Podemos, portanto, sintetizar as principais características dessas três abordagens como mostrado na Tabela
+        abaixo.</p>
+      <h4>Tabela Comparativa de Abordagens Mobile</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Critério</th>
+            <th>Nativo</th>
+            <th>Híbrido (React Native / Flutter)</th>
+            <th>Web App (PWA)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Código-fonte único</strong></td>
+            <td>❌ Necessário 1 por plataforma</td>
+            <td>✅ Um único código para Android e iOS</td>
+            <td>✅ Um único código para todos navegadores</td>
+          </tr>
+          <tr>
+            <td><strong>Acesso a recursos nativos</strong></td>
+            <td>✅ Total</td>
+            <td>⚠️ Parcial (via plugins / bridges)</td>
+            <td>❌ Limitado ao navegador</td>
+          </tr>
+          <tr>
+            <td><strong>Desempenho</strong></td>
+            <td>✅ Excelente</td>
+            <td>⚠️ Muito bom, mas inferior ao nativo</td>
+            <td>❌ Limitado pela engine do navegador</td>
+          </tr>
+          <tr>
+            <td><strong>Experiência de usuário</strong></td>
+            <td>✅ Fluida, nativa</td>
+            <td>⚠️ Muito próxima da nativa</td>
+            <td>❌ Inferior, sem comportamento nativo</td>
+          </tr>
+          <tr>
+            <td><strong>Distribuição</strong></td>
+            <td>App Stores (Google / Apple)</td>
+            <td>App Stores (Google / Apple)</td>
+            <td>Web (link ou atalho via navegador)</td>
+          </tr>
+          <tr>
+            <td><strong>Atualizações</strong></td>
+            <td>Manual via loja</td>
+            <td>Manual via loja</td>
+            <td>✅ Instantânea (como um site)</td>
+          </tr>
+          <tr>
+            <td><strong>Curva de aprendizado</strong></td>
+            <td>⚠️ Alta (Swift, Kotlin, SDKs)</td>
+            <td>✅ Moderada (JavaScript/TypeScript)</td>
+            <td>✅ Baixa (HTML, CSS, JS)</td>
+          </tr>
+          <tr>
+            <td><strong>Custos e tempo</strong></td>
+            <td>❌ Alto</td>
+            <td>✅ Reduzido (reaproveitamento de código)</td>
+            <td>✅ Baixo</td>
+          </tr>
+          <tr>
+            <td><strong>Indicado para</strong></td>
+            <td>Apps com uso intensivo de recursos</td>
+            <td>Apps comerciais e multiplataforma</td>
+            <td>Sistemas simples e informativos</td>
+          </tr>
+        </tbody>
+      </table>
+      <hr>
+      <h2>3. E quais tecnologias iremos utilizar?</h2>
+      <p>Diante desse panorama, optaremos na disciplina pela adoção da abordagem híbrida. O uso de frameworks como o
+        React Native, aliado ao Expo, permite que a construção de aplicações móveis completas, com acesso a recursos
+        nativos e experiência real de desenvolvimento multiplataforma, sem a complexidade inerente ao desenvolvimento
+        nativo ou as limitações das aplicações web. 😊</p>
+      <p>Além disso, essa escolha viabiliza um aprendizado mais fluido, com menor barreira de entrada e maior foco na
+        lógica da aplicação, na integração com APIs e na experiência do usuário — competências centrais para o
+        desenvolvimento de soluções móveis em contextos educacionais e profissionais. Essa abordagem, portanto,
+        representa um equilíbrio eficaz entre profundidade técnica, aplicabilidade prática e acessibilidade didática.
+      </p>
+      <p>React Native é um framework de código aberto lançado pelo Facebook (Meta) em 2015, criado para permitir o
+        desenvolvimento de aplicações móveis utilizando <strong>JavaScript</strong> ou <strong>TypeScript</strong>, com
+        base na mesma lógica de componentes usada no React para web.</p>
+      <p>A filosofia do React Native é abstrair a camada de visualização (UI), permitindo que o desenvolvedor escreva
+        componentes React, os quais são então renderizados como elementos nativos: por exemplo, o componente
+        <code>&lt;Button /&gt;</code> é convertido para <code>UIButton</code> no iOS e <code>Button</code> no Android.
+        Essa conversão é feita por uma ponte de comunicação interna entre o JavaScript e o código nativo.</p>
+      <hr>
+      <h2>4. React Native - Abrangência e Arquitetura</h2>
+      <p>Desde seu lançamento em 2015, o React Native se tornou uma das tecnologias móveis mais adotadas no mundo.
+        Empresas como <strong>Meta (Facebook), Instagram, Walmart, Uber Eats, Discord, Coinbase e Shopify</strong>
+        utilizam o framework em suas aplicações móveis. Seu apelo está na capacidade de entregar interfaces nativas com
+        um único código JavaScript/TypeScript, o que reduz custos e acelera o desenvolvimento.</p>
+      <p>Segundo o relatório de 2023 da Stack Overflow, React Native aparece entre os 10 frameworks mais populares entre
+        desenvolvedores. E de acordo com a plataforma de contratação StackShare, mais de 18 mil empresas já registraram
+        seu uso público da tecnologia.</p>
+      <p>Além disso, a comunidade em torno do React Native é extremamente ativa: há milhares de bibliotecas compatíveis,
+        inúmeros tutoriais, cursos e contribuições constantes da Meta e da comunidade open source. Isso significa que
+        quem aprende React Native encontra não só demanda no mercado, mas também uma base sólida de suporte para
+        evoluir.</p>
+      <p>Outra grande vantagem do React Native é sua <strong>semelhança conceitual com o React para Web</strong>. Ambos
+        utilizam <strong>JSX</strong> para descrever a interface, <strong>componentes funcionais</strong> como blocos
+        reutilizáveis de UI e <strong>hooks</strong> como <code>useState</code> e <code>useEffect</code> para controle
+        de estado e efeitos colaterais. Isso significa que quem aprende React Native desenvolve competências altamente
+        transferíveis para projetos web modernos com React.js — e vice-versa. A principal diferença está nos componentes
+        de interface: em vez de <code>&lt;div&gt;</code> e <code>&lt;span&gt;</code>, usamos <code>&lt;View&gt;</code>,
+        <code>&lt;Text&gt;</code> e <code>&lt;ScrollView&gt;</code>, que são traduzidos internamente para elementos
+        nativos do Android ou iOS.</p>
+      <p>A arquitetura do React Native é composta por três <em>threads</em> principais:</p>
+      <ul>
+        <li><strong>JS Thread</strong>: executa o código JavaScript do aplicativo.</li>
+        <li><strong>Shadow Thread</strong>: calcula o layout da interface usando o motor de layout Yoga.</li>
+        <li><strong>Native Thread</strong>: é responsável por desenhar os componentes na tela, utilizando as APIs
+          nativas de cada sistema.</li>
+      </ul>
+      <p>A comunicação entre essas camadas se dava inicialmente por meio da <strong>Bridge</strong>, uma ponte
+        assíncrona baseada em JSON. Contudo, essa abordagem impunha um gargalo na performance. A nova arquitetura do
+        React Native substitui a Bridge pelo <strong>JSI (JavaScript Interface)</strong>, que permite comunicação
+        síncrona e direta entre os threads, melhorando o desempenho e reduzindo a latência nas atualizações de UI.</p>
+      <p>Além disso, a nova arquitetura incorpora:</p>
+      <ul>
+        <li><strong>Hermes</strong>: motor de execução JavaScript otimizado para dispositivos móveis.</li>
+        <li><strong>Fabric</strong>: nova engine de renderização com melhor aproveitamento de atualizações de UI.</li>
+        <li><strong>TurboModules</strong>: módulos nativos carregados sob demanda, otimizando o uso de recursos.</li>
+      </ul>
+      <p>Abaixo um benchmark de performance mostrando a diferença entre a arquitetura antiga e atual do React Native.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Cenário</th>
+            <th>Dispositivo</th>
+            <th>Novo (ms)</th>
+            <th>Antigo (ms)</th>
+            <th>Melhoria (%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1500 Views</td>
+            <td>Pixel 4</td>
+            <td>258</td>
+            <td>282</td>
+            <td>~8%</td>
+          </tr>
+          <tr>
+            <td>5000 Views</td>
+            <td>Pixel 4</td>
+            <td>1045</td>
+            <td>1088</td>
+            <td>~4%</td>
+          </tr>
+          <tr>
+            <td>1500 Views</td>
+            <td>iPhone 12 Pro</td>
+            <td>117</td>
+            <td>137</td>
+            <td>~15%</td>
+          </tr>
+          <tr>
+            <td>5000 Views</td>
+            <td>iPhone 12 Pro</td>
+            <td>266</td>
+            <td>435</td>
+            <td>~39%</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>Ou seja, o React Native não apenas oferece uma curva de aprendizagem acessível e uma forte sinergia com o
+        desenvolvimento web moderno, como também já provou sua maturidade técnica e capacidade de atender a uma ampla
+        gama de aplicações. Antes do React Native, frameworks como PhoneGap e Ionic tentaram resolver o desafio do
+        desenvolvimento multiplataforma, mas com resultados menos satisfatórios. </p>
+      <p>Por todos os motivos dispostos acima, seguiremos na disciplina com essa escolha tecnológica. E apesar das
+        vantagens do React Native, sua configuração inicial pode ser um desafio. É nesse ponto que o Expo entra como uma
+        solução acessível! ✍️🧑‍💻</p>
+      <hr>
+      <h2>5. Expo: Facilitador no Desenvolvimento Mobile</h2>
+      <p>Embora o React Native seja um divisor de águas ao permitir o desenvolvimento híbrido com interface nativa, sua
+        configuração inicial tradicional exigia o uso de ferramentas pesadas como o <strong>Android Studio</strong>,
+        além de lidar com variáveis de ambiente, SDKs e builds nativos. Para iniciantes, isso representava uma barreira
+        considerável. 😬</p>
+      <p>Foi justamente para superar esse obstáculo que surgiu o <strong>Expo</strong> — uma plataforma que simplifica
+        significativamente o processo de desenvolvimento com React Native. Com ele, é possível criar, testar e
+        compartilhar aplicativos sem precisar instalar um emulador ou configurar um ambiente nativo completo. Basta um
+        navegador, um celular com o app <strong>Expo Go</strong> e poucos comandos no terminal para ver a mágica
+        acontecer. 🎉</p>
+      <p>Para facilitar a entrada de novos desenvolvedores no ecossistema React Native, o time do Expo criou um conjunto
+        de ferramentas que automatizam o processo de configuração e integração de bibliotecas nativas. </p>
+      <h4>Características Principais:</h4>
+      <ul>
+        <li><strong>Expo CLI</strong>: Ferramenta de linha de comando que permite criar e gerenciar projetos com
+          facilidade. Com o comando <code>npx create-expo-app</code>, é possível iniciar um projeto funcional sem a
+          necessidade imediata de configurar ambientes complexos como Android Studio ou Xcode.</li>
+        <li><strong>Expo Go</strong>: Aplicativo que permite testar projetos em dispositivos físicos sem a necessidade
+          de compilação nativa, ideal para prototipagem rápida.</li>
+        <li><strong>Módulos Pré-configurados</strong>: O Expo oferece uma variedade de módulos prontos para uso, como
+          <code>expo-camera</code>, <code>expo-location</code>, e <code>expo-notifications</code>, que simplificam o
+          acesso a APIs nativas comuns.</li>
+      </ul>
+      <h4>Vantagens:</h4>
+      <ol>
+        <li><strong>Configuração Simplificada</strong>: Elimina a necessidade de lidar diretamente com código nativo em
+          muitos casos, reduzindo a curva de aprendizado para iniciantes.</li>
+        <li><strong>Desenvolvimento Multiplataforma</strong>: Permite testar apps em dispositivos iOS e Android a partir
+          de sistemas operacionais como Windows ou Linux, sem a necessidade de um Mac para desenvolvimento inicial.</li>
+        <li><strong>Build na Nuvem</strong>: O serviço EAS Build permite compilar apps para iOS e Android sem configurar
+          ambientes locais complexos, ideal para times que não possuem acesso a máquinas Mac.</li>
+      </ol>
+      <h4>Desvantagens:</h4>
+      <ol>
+        <li><strong>Limitações em APIs Nativas</strong>: Não suporta todas as funcionalidades nativas, como Bluetooth ou
+          processamento em segundo plano avançado, o que pode ser um obstáculo para projetos mais complexos.</li>
+        <li><strong>Tamanho do Artefato</strong>: Os arquivos gerados (APK/IPA) tendem a ser maiores devido à inclusão
+          de bibliotecas do Expo, mesmo que não sejam utilizadas.</li>
+        <li><strong>Dependência do Ecossistema Expo</strong>: Atualizações do React Native chegam com atraso no Expo, e
+          a migração para o React Native CLI (via <code>eject</code>) pode ser necessária para projetos que exigem maior
+          flexibilidade.</li>
+      </ol>
+      <h4>Configuração em Windows e Linux:</h4>
+      <ul>
+        <li><strong>Windows</strong>: </li>
+        <li>Requer Node.js LTS, Git e Python instalados. Em alguns casos, é necessário ajustar políticas de execução no
+          PowerShell (e.g., <code>Set-ExecutionPolicy Unrestricted</code>) para instalar o Expo CLI globalmente.</li>
+        <li>Problemas comuns incluem permissões de instalação (solucionáveis com <code>sudo</code> no Linux ou
+          PowerShell como administrador no Windows).</li>
+        <li><strong>Linux</strong>: </li>
+        <li>Recomenda-se o uso de <code>nvm</code> para gerenciar versões do Node.js e evitar conflitos de permissões.
+        </li>
+        <li>A instalação via <code>npm install -g expo-cli</code> pode exigir ajustes de permissões ou a instalação de
+          dependências adicionais como <code>watchman</code>.</li>
+      </ul>
+      <h4>Quando Usar o Expo?</h4>
+      <ul>
+        <li><strong>Indicado para</strong>: Iniciantes, MVPs, projetos que não requerem APIs nativas não suportadas ou
+          times que precisam de agilidade no desenvolvimento.</li>
+        <li><strong>Alternativas</strong>: Para projetos avançados, o &quot;Bare Workflow&quot; do Expo ou o React
+          Native CLI permitem acesso total ao código nativo, com o trade-off de maior complexidade na configuração.</li>
+      </ul>
+      <h4>Migração para o CLI:</h4>
+      <p>Em casos onde o Expo não atende às necessidades do projeto, o comando <code>npx expo prebuild</code> gera as
+        pastas nativas (<code>android</code> e <code>ios</code>), permitindo a transição para o React Native CLI sem
+        perder funcionalidades já implementadas! 🤓</p>
+      <p>Uma vez que nosso ambiente estiver configurado com React Native e Expo, precisaremos tomar uma decisão
+        importante: <strong>qual linguagem usaremos para programar?</strong> Tanto o JavaScript tradicional quanto o
+        TypeScript são suportados pela stack que escolhemos — e você verá muitos exemplos nas duas linguagens ao longo
+        da internet.</p>
+      <p>Porém, nesta disciplina, optaremos por usar <strong>TypeScript</strong> como linguagem principal! A seguir,
+        vamos entender o porquê dessa escolha e quais benefícios ela traz para a organização, segurança e escalabilidade
+        do nosso código.</p>
+      <hr>
+      <h2>6. TypeScript: Segurança e Manutenibilidade em Aplicações Mobile</h2>
+      <p>O <strong>TypeScript</strong> é uma linguagem de programação de código aberto desenvolvida pela Microsoft que
+        estende o JavaScript, adicionando <strong>tipagem estática opcional</strong>, interfaces, enums, generics e
+        outros recursos. Sua principal vantagem é a <strong>detecção antecipada de erros</strong> durante o
+        desenvolvimento, reduzindo bugs em tempo de execução e melhorando a <strong>manutenibilidade</strong> e
+        <strong>escalabilidade</strong> de projetos. </p>
+      <h4><strong>Principais Benefícios do TypeScript no React Native</strong></h4>
+      <ol>
+        <li>
+          <p><strong>Tipagem Estática</strong> </p>
+          <ul>
+            <li>Define tipos explícitos para variáveis, funções e componentes, permitindo que IDEs como
+              <strong>VSCode</strong> e <strong>WebStorm</strong> ofereçam <strong>autocompletar inteligente</strong>,
+              verificação em tempo real e sugestões mais precisas. </li>
+            <li>Exemplo:
+              <pre><code class="language-typescript">interface User {
+      id: number;
+      name: string;
+      email: string;
+    }
+    
+    const getUser = (id: number): User =&gt; { ... };
+    </code></pre>
+            </li>
+            <li>Evita erros comuns como acessar propriedades inexistentes ou passar argumentos incorretos.</li>
+          </ul>
+        </li>
+        <li>
+          <p><strong>Melhor Documentação e Clareza do Código</strong> </p>
+          <ul>
+            <li>Tipos e interfaces servem como documentação embutida, facilitando a <strong>onboarding de novos
+                desenvolvedores</strong> em projetos grandes. </li>
+            <li>Reduz a necessidade de comentários excessivos, pois os tipos já indicam o formato esperado dos dados.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <p><strong>Refatoração Segura</strong> </p>
+          <ul>
+            <li>Ao alterar uma interface ou tipo, o compilador <strong>identifica todos os lugares onde a mudança
+                impacta</strong>, evitando erros de inconsistência. </li>
+            <li>Ferramentas como o <strong>&quot;Rename Symbol&quot;</strong> no VSCode funcionam com muito mais
+              precisão.</li>
+          </ul>
+        </li>
+        <li>
+          <p><strong>Integração com Bibliotecas JavaScript</strong> </p>
+          <ul>
+            <li>A maioria das bibliotecas populares do React Native (como <strong>React Navigation</strong>,
+              <strong>Redux</strong>, <strong>Axios</strong>) possui <strong>definições de tipo</strong>
+              (<code>@types/nome-da-biblioteca</code>), garantindo autocompletar e verificação de erros mesmo em código
+              de terceiros.</li>
+          </ul>
+        </li>
+        <li>
+          <p><strong>Suporte a Recursos Modernos</strong> </p>
+          <ul>
+            <li>TypeScript inclui suporte a <strong>ES6+</strong> (arrow functions, async/await, destructuring) e
+              adiciona recursos como: <ul>
+                <li><strong>Generics</strong> (para funções e componentes reutilizáveis). </li>
+                <li><strong>Decorators</strong> (usados em frameworks como <strong>MobX</strong> e
+                  <strong>NestJS</strong>). </li>
+                <li><strong>Union Types e Intersection Types</strong> para maior flexibilidade na tipagem.</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ol>
+      <h4><strong>Desafios e Considerações</strong></h4>
+      <ul>
+        <li><strong>Curva de Aprendizado</strong>: Desenvolvedores acostumados com JavaScript puro podem levar algum
+          tempo para se adaptar à sintaxe de tipos. </li>
+        <li><strong>Configuração Inicial</strong>: Requer um <strong><code>tsconfig.json</code></strong> para definir
+          regras de compilação (ex: <code>strict: true</code> para máxima segurança). </li>
+        <li><strong>Overhead em Projetos Pequenos</strong>: Em aplicações muito simples, a tipagem pode parecer
+          desnecessária, mas seu valor se torna evidente em projetos em crescimento.</li>
+      </ul>
+      <h4><strong>Ou seja...</strong></h4>
+      <p>TypeScript <strong>não é apenas uma &quot;camada extra&quot;</strong>, mas uma ferramenta que <strong>aumenta a
+          robustez</strong> do desenvolvimento mobile, especialmente em projetos de longo prazo. Sua adoção no React
+        Native tem crescido significativamente, tornando-se um padrão em muitas empresas de tecnologia.</p>
+      <p>Por esse motivo, vamos aproveitar essa oportunidade para também abordar essa tecnologia! 😁</p>
+      <hr>
+      <h2>7. Certo! Agora sim, ao setup...</h2>
+      <p>Agora que justificamos nossas escolhas, a ideia é finalizar essa primeira aula já <strong>vendo algo
+          funcionar</strong> no navegador ou no celular, sem instalar tudo que existe de uma vez. Para isso, basta
+        configurar <strong>Node.js</strong>, <strong>Git</strong> e o <strong>Expo CLI</strong>. Emulador Android,
+        Android Studio ou Xcode podem ficar para mais tarde, quando quisermos depurar algo específico ou gerar um build
+        de produção. Abaixo vamos detalhar o processo de instalação das tecnologias que iremos utilizar.</p>
+      <h4>7.1 Pré-requisitos em comum — Node.js e Git</h4>
+      <ol>
+        <li>
+          <p><strong>Node.js (LTS 18 +)</strong></p>
+          <ul>
+            <li>
+              <p><em>Windows / Linux</em>: baixe a versão LTS no site oficial ou use o <strong>nvm</strong> para
+                gerenciar versões:</p>
+              <pre><code class="language-bash"># Linux
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+    nvm install --lts
+    </code></pre>
+            </li>
+            <li>
+              <p>Confirme a instalação:</p>
+              <pre><code class="language-bash">node -v   # v18.x
+    npm -v    # v9.x ou superior
+    </code></pre>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <p><strong>Git</strong></p>
+          <ul>
+            <li><em>Windows</em>: instale pelo <a href="https://git-scm.com/download/win">Git-for-Windows</a>.</li>
+            <li><em>Linux (Debian/Ubuntu)</em>: <code>sudo apt update &amp;&amp; sudo apt install git -y</code></li>
+            <li>Verifique: <code>git --version</code></li>
+          </ul>
+        </li>
+      </ol>
+      <blockquote>
+        <p><strong>Pronto!</strong> Com esses dois itens você já consegue criar um projeto Expo, instalar dependências e
+          ver o app rodando no browser ou no celular com Expo Go.</p>
+      </blockquote>
+      <h4>7.2 Instalando o Expo CLI</h4>
+      <ul>
+        <li>Use primeiro via <strong><code>npx</code></strong> (instalação local); só instale globalmente se preferir
+          rapidez depois.</li>
+      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Sistema</th>
+            <th>Comando sugerido</th>
+            <th>Observações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Windows</td>
+            <td><code>npm install -g expo-cli</code></td>
+            <td>Abra o PowerShell como administrador se houver erros de permissão.</td>
+          </tr>
+          <tr>
+            <td>Linux</td>
+            <td><code>npx create-expo-app@latest my-app</code></td>
+            <td>Se quiser global: <code>npm install -g expo-cli</code>. Instale <code>make g++ python3</code> se o npm
+              solicitar.</td>
+          </tr>
+        </tbody>
+      </table>
+      <h4>7.3 Criando seu primeiro app Expo (sem emulador)</h4>
+      <ol>
+        <li>
+          <p><strong>Escolha uma pasta de trabalho</strong>:</p>
+          <pre><code class="language-bash">mkdir ~/meus-apps &amp;&amp; cd ~/meus-apps
+    </code></pre>
+        </li>
+        <li>
+          <p><strong>Gere um projeto do zero</strong>:</p>
+          <pre><code class="language-bash">npx create-expo-app@latest hello-grudsmv
+    cd hello-grudsmv
+    </code></pre>
+          <ul>
+            <li>
+              <p>Ao ser perguntado, selecione o template &quot;blank (TypeScript)&quot;. Isso garantirá que o projeto já
+                venha configurado com suporte a TypeScript, incluindo os arquivos .tsx, tsconfig.json e os tipos
+                necessários do React Native.</p>
+            </li>
+            <li>
+              <p>✅ Não se preocupe: mesmo que você não tenha o TypeScript instalado globalmente, o template já cuida
+                disso. Basta escolher o “blank (TypeScript)” e tudo funcionará normalmente!</p>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <p><strong>Instale dependências</strong> (se o script não fez isso):</p>
+          <pre><code class="language-bash">npm install
+    </code></pre>
+        </li>
+        <li>
+          <p><strong>Inicie o Metro Bundler</strong>:</p>
+          <pre><code class="language-bash">npx expo start
+    </code></pre>
+          <ul>
+            <li>Pressione <strong>w</strong> para abrir no navegador;</li>
+            <li><strong>t</strong> para usar <em>tunnel</em> e escanear o QR Code com o <strong>Expo Go</strong>;</li>
+            <li><strong>a</strong> ou <strong>i</strong> se já tiver um emulador Android/iOS rodando.</li>
+          </ul>
+        </li>
+      </ol>
+      <p>Se a tela <strong>“Welcome to React Native”</strong> aparecer, deu tudo certo — seu ambiente está pronto para
+        as próximas aulas!</p>
+      <h4>7.4 Quando (e por que) instalar o emulador Android ou o Xcode?</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Preciso agora?</th>
+            <th>Recurso</th>
+            <th>Quando instalar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>❌</td>
+            <td><strong>Android Studio + AVD</strong></td>
+            <td>Só se quiser depurar sem aparelho físico ou gerar APK local.</td>
+          </tr>
+          <tr>
+            <td>❌</td>
+            <td><strong>Xcode (macOS)</strong></td>
+            <td>Apenas em Mac e se precisar compilar para iOS nativo.</td>
+          </tr>
+        </tbody>
+      </table>
+      <blockquote>
+        <p>Lembre-se: o <strong>Expo Go</strong> cobre a maioria dos testes iniciais. Deixe os setups pesados para
+          quando surgirem necessidades específicas.</p>
+      </blockquote>
+      <h4>7.5 Editor VS Code e extensões</h4>
+      <ul>
+        <li><strong>Download</strong>: <a href="https://code.visualstudio.com/">VS Code</a></li>
+        <li>Extensões recomendadas: <strong>React Native Tools</strong>, <strong>ESLint</strong>, <strong>TypeScript
+            React</strong></li>
+      </ul>
+      <h4>7.6 Checklist rápido</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Obrigatório agora</th>
+            <th>Instalar depois</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Node.js + npm</td>
+            <td>✅</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>Git</td>
+            <td>✅</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>Expo CLI ou <code>npx create-expo-app</code></td>
+            <td>✅</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>Expo Go (app no celular)</td>
+            <td>❌ (opcional)</td>
+            <td>Se quiser!</td>
+          </tr>
+          <tr>
+            <td>Android Studio / AVD</td>
+            <td>❌</td>
+            <td>Quando precisar</td>
+          </tr>
+          <tr>
+            <td>Xcode / simulador iOS</td>
+            <td>❌</td>
+            <td>Quando precisar</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>Com esse setup enxuto você já consegue criar, editar e rodar suas próprias aplicações React Native via Expo — o
+        resto nós adicionaremos conforme as necessidades surgirem ao longo da disciplina.</p>
+      <p>Antes de começarmos, entretanto, é preciso ver um pouquinho de TypeScript, para nos familiarizarmos!</p>
+      <hr>
+      <h2><strong>8. Conclusão</strong></h2>
+      <p>A escolha pelo uso de <strong>React Native com Expo</strong> se justifica não apenas por sua curva de
+        aprendizagem mais suave, mas também pelo forte ecossistema e pelo equilíbrio entre produtividade e desempenho. A
+        introdução do <strong>TypeScript</strong> complementa essa abordagem com rigor tipológico e maior segurança em
+        tempo de desenvolvimento.</p>
+      <p>A partir da próxima aula, começaremos nosso primeiro projeto funcional com Expo e React Native, configurando o
+        ambiente, estruturando pastas e criando a primeira tela. 🤓</p>
+      <h2><strong>9. Exercícios de aquecimento em TypeScript</strong></h2>
+      <h4>Exercício 01 – <code>arrayUtils.js</code></h4>
+      <p>Neste exercício, você irá implementar três funções utilitárias em JavaScript moderno (ES6+), com foco em
+        manipulação de arrays de objetos — uma habilidade comum no desenvolvimento com React Native.</p>
+      <p>Abaixo há três funções já prontas. Adicione-as a um arquivo arrayUtils.js:</p>
+      <pre><code class="language-js">// unique([1,2,2]) → [1,2]
+    export const unique = arr =&gt; [...new Set(arr)];
+    
+    // groupBy([{tipo:&#39;A&#39;},{tipo:&#39;B&#39;}],&#39;tipo&#39;) → {A:[…], B:[…]}
+    export const groupBy = (arr, key) =&gt;
+      arr.reduce((acc, obj) =&gt; {
+        (acc[obj[key]] = acc[obj[key]] || []).push(obj);
+        return acc;
+      }, {});
+    
+    // sumBy([{valor:10},{valor:5}], &#39;valor&#39;) → 15
+    export const sumBy = (arr, key) =&gt;
+      arr.reduce((total, obj) =&gt; total + (obj[key] ?? 0), 0);
+    </code></pre>
+      <p>Após isso, escreva um arquivo <code>index.js</code> que utilize essas funções. Use <code>console.log</code>
+        para demonstrar o funcionamento de cada função com ao menos dois exemplos distintos por função. Comente também o
+        código, para entender como ele funciona!</p>
+      <h4>Exercício 02 – <code>arrayUtils.ts</code></h4>
+      <p>Migre o código do exercício anterior para TypeScript. Para isso, implemente o código em um arquivo chamado
+        <code>arrayUtils.ts</code>, declarando <strong>interfaces</strong> e <strong>genéricos</strong> onde couber. Em
+        seguida, crie um arquivo <code>tsconfig.json</code> com a configuração <code>&quot;strict&quot;: true</code>
+        para ativar a verificação mais rigorosa do compilador.</p>
+      <p>Para realizar este exercício, será necessário ter o TypeScript instalado no projeto. Você pode instalá-lo
+        localmente com:</p>
+      <pre><code class="language-bash">npm install typescript --save-dev
+    </code></pre>
+      <p>Depois, gere o arquivo de configuração com:</p>
+      <pre><code class="language-bash">npx tsc --init
+    </code></pre>
+      <p>Para rodar os testes diretamente no terminal precisaremos também do <code>ts-node</code>, sendo necessário
+        instalá-lo com o comando abaixo:</p>
+      <pre><code class="language-bash">npm install ts-node --save-dev
+    </code></pre>
+      <p>Garanta que, ao executar o comando abaixo, <strong>nenhum erro seja exibido</strong>:</p>
+      <pre><code class="language-bash">npx tsc --noEmit
+    </code></pre>
+      <p><strong>Dica</strong> <code>--noEmit</code>: diz ao compilador para não gerar nenhum arquivo .js — ou seja,
+        somente verificar o código, sem produzir saídas. Se aparecerem erros no terminal, é sinal de que o código contém
+        problemas de tipagem ou sintaxe, e você deve corrigi-los.</p>
+      <p>Ao final, o código deverá estar corretamente tipado e validado pelo compilador. </p>
+      <h4>Exercício 03 – <code>pokedex.ts</code></h4>
+      <p>Neste exercício, você irá construir um pequeno programa de linha de comando (CLI – <em>Command Line
+          Interface</em>) utilizando <strong>TypeScript</strong>, que consulta dados da <a
+          href="https://pokeapi.co/">PokéAPI</a> e exibe informações básicas de um Pokémon.</p>
+      <p>Criar um arquivo <code>pokedex.ts</code> que:</p>
+      <ol>
+        <li>
+          <p><strong>Recebe como argumento um nome ou ID de Pokémon</strong>, passado diretamente no terminal.</p>
+          <ul>
+            <li>
+              <p>Para isso, utilize <code>process.argv[2]</code>, que é o terceiro item do array
+                <code>process.argv</code>:</p>
+              <ul>
+                <li>
+                  <p><code>process.argv</code> é um array que armazena os argumentos passados na execução de um script
+                    via Node.js.</p>
+                </li>
+                <li>
+                  <p><code>process.argv[0]</code> → caminho do executável <code>node</code>.</p>
+                </li>
+                <li>
+                  <p><code>process.argv[1]</code> → caminho do arquivo <code>.ts</code> executado.</p>
+                </li>
+                <li>
+                  <p><code>process.argv[2]</code> → <strong>primeiro argumento útil passado pelo usuário</strong>.</p>
+                </li>
+                <li>
+                  <p>Exemplo de uso:</p>
+                  <pre><code class="language-bash">ts-node pokedex.ts pikachu
+    </code></pre>
+                  <p>Nesse caso, <code>process.argv[2]</code> terá o valor <code>&quot;pikachu&quot;</code>.</p>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <p><strong>Faz uma requisição <code>fetch</code></strong> para a URL:
+            <code>https://pokeapi.co/api/v2/pokemon/{id_or_name}</code>
+          </p>
+        </li>
+        <li>
+          <p><strong>Exibe no terminal o seguinte formato resumido de dados</strong>:</p>
+          <pre><code>Pikachu – 0.4 m – 6 kg – Electric
+    </code></pre>
+          <ul>
+            <li>Inclua: nome capitalizado, altura (em metros), peso (em kg) e o(s) tipo(s) do Pokémon.</li>
+          </ul>
+        </li>
+        <li>
+          <p><strong>Trata erros</strong> apropriadamente:</p>
+          <ul>
+            <li>Se o Pokémon não existir, exiba uma mensagem amigável como:
+              <code>❌ Pokémon não encontrado!</code>
+            </li>
+            <li>Se houver falha de conexão, exiba:
+              <code>⚠️ Erro de rede. Tente novamente.</code>
+            </li>
+          </ul>
+        </li>
+      </ol>
+      <h4>🛠️ Dicas e Considerações:</h4>
+      <ul>
+        <li>
+          <p>Para usar <code>fetch</code> no Node.js, você pode:</p>
+          <ul>
+            <li>
+              <p>Utilizar o pacote <code>node-fetch</code>, instalando com:</p>
+              <pre><code class="language-bash">npm install node-fetch
+    </code></pre>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <p>Usando Node.js v18+, <code>fetch</code> já é nativo.</p>
+        </li>
+        <li>
+          <p>Bônus: tente utilizar <code>async/await</code> para lidar com chamadas assíncronas.</p>
+        </li>
+        <li>
+          <p>Adicione comentários explicando o que cada parte faz.</p>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+
+
+  <footer class="footer mt-auto py-3">
+    <div class="container-fluid">
+      <span>
+        <p class="text-center text-light">Instituto Federal de Educação, Ciência e Tecnologia de São Paulo,
+          Câmpus Guarulhos. Desenvolvimento Mobile - Prof. Giovani.</p>
+      </span>
+    </div>
+  </footer>
+
+
+  <script src="js/prism.js"></script>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/popper.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+
+</html>
