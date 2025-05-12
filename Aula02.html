@@ -1,0 +1,2323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/estilo.css">
+  <link rel="stylesheet" href="css/prism.css">
+
+  <title>Desenvolvimento Mobile - Apresentação da Disciplina</title>
+</head>
+
+<body>
+  <div class="wrapper d-flex align-items-stretch">
+    <nav id="sidebar">
+      <div class="custom-menu">
+        <button type="button" id="sidebarCollapse" class="btn btn-primary">
+          <i class="fa fa-bars"></i>
+          <span class="sr-only">Toggle Menu</span>
+        </button>
+      </div>
+      <h1><a href="index.html" class="logo text-center">AULAS</a></h1>
+      <ul class="list-unstyled components mb-5">
+        <li>
+          <a href="Aula01.html"><span class="mr-1"></span>01 - Introdução e Panorama Mobile</a>
+        </li>
+        <li class="active">
+          <a href="Aula02.html"><span class="mr-0"></span>02 - Revisão de JavaScript e TypeScript</a>
+        </li>
+        <li>
+          <a href=""><span class="mr-0"></span>03 - Componentes, JSX e Hooks</a>
+        </li>
+        <li>
+          <a href=""><span class="mr-0"></span>04 - Estilização e Layout Responsivo</a>
+        </li>
+        <li>
+          <a href=""><span class="mr-0"></span>05 - Navegação com React Navigation</a>
+        </li>
+        <li>
+          <a href=""><span class="mr-0"></span>06 - Consumo de APIs REST</a>
+        </li>
+        <li>
+          <a href=""><span class="mr-0"></span>07 - Armazenamento e Estado Global</a>
+        </li>
+        <li>
+          <a href=""><span class="mr-0"></span>08 - Recursos Nativos (Câmera, Localização)</a>
+        </li>
+        <li>
+          <a href=""><span class="mr-0"></span>09 - Boas Práticas e Arquitetura</a>
+        </li>
+        <li>
+          <a href=""><span class="mr-0"></span>10 - Build, Publicação e Projeto Final</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div id="content" class="p-4 p-md-5 pt-5">
+      <h1><strong>Aula 02 – Revisão de JavaScript Moderno e Introdução ao TypeScript</strong></h1>
+      <p>Após nossa aula de abertura, em que exploramos a evolução do desenvolvimento mobile, as vantagens do React
+        Native e o ecossistema oferecido pelo Expo, nesta segunda aula daremos início à base técnica sobre a qual
+        construiremos nossas aplicações: a linguagem JavaScript moderna e o TypeScript!</p>
+      <p>O JavaScript é a linguagem principal do React Native. Seu domínio é fundamental para compreender o
+        funcionamento de componentes, o gerenciamento de estado, a manipulação de dados e a interação com APIs.
+        Entretanto, o JavaScript evoluiu significativamente ao longo dos anos. Muitas das práticas e sintaxes mais
+        utilizadas hoje surgiram com o padrão ECMAScript 2015 (ES6) e versões posteriores — e são essas que abordaremos
+        aqui, pois vale a pena relembrar esses conceitos antes de mergulharmos no TypeScript, que será nossa linguagem
+        principal no desenvolvimento de apps.</p>
+      <p>TypeScript é um superconjunto de JavaScript que adiciona tipagem estática ao código, proporcionando maior
+        segurança, clareza e produtividade. Por isso, esta aula também servirá como uma introdução prática e gradual ao
+        TypeScript, com foco em seus recursos fundamentais e na transição natural a partir do JavaScript moderno -
+        justificamos sua adoção e até propusemos alguns exercícios sobre ele na aula anterior, lembram-se? 🧑‍💻</p>
+      <p>O objetivo é garantir que todos estejam alinhados em relação aos conceitos, sintaxes e padrões essenciais de
+        ambas as linguagens, criando uma base para as próximas aulas, nas quais iniciaremos a construção de telas e
+        funcionalidades reais com React Native.</p>
+      <p>Vamos começar com a revisão dos principais recursos modernos do JavaScript.</p>
+      <h2><strong>1. Revisão de JavaScript Moderno (ES6+)</strong></h2>
+      <h2>1.1 Declaração de Variáveis: <code>let</code>, <code>const</code> e Escopo</h2>
+      <p>Até a padronização trazida pelo ECMAScript 2015 (ES6), a única forma de declarar variáveis em JavaScript era
+        por meio da palavra-chave <code>var</code>. Essa forma de declaração apresenta características que hoje são
+        consideradas problemáticas, principalmente pelo escopo limitado a funções e pelo comportamento conhecido como
+        <strong>hoisting</strong>, que pode levar a resultados inesperados e difíceis de depurar. Com a evolução da
+        linguagem e das aplicações web e móveis, tornou-se essencial adotar um modelo mais previsível e seguro. Foi
+        nesse contexto que surgiram <code>let</code> e <code>const</code>, duas palavras-chave que oferecem controle
+        mais rigoroso sobre escopo e mutabilidade, e que passaram a ser padrão no desenvolvimento moderno — tanto em
+        JavaScript quanto em TypeScript.</p>
+      <h3>Escopo de função e escopo de bloco</h3>
+      <p>Variáveis declaradas com <code>var</code> têm <strong>escopo de função</strong>, ou seja, são visíveis em toda
+        a função onde foram declaradas, mesmo que isso ocorra dentro de um bloco como <code>if</code>, <code>for</code>
+        ou <code>while</code>. Já <code>let</code> e <code>const</code> têm <strong>escopo de bloco</strong>, ficando
+        visíveis apenas dentro do bloco em que foram definidas. Essa mudança reduz a chance de conflitos de nomes e
+        facilita a manutenção do código.</p>
+      <pre><code class="language-javascript">function exemplo() {
+      if (true) {
+        var a = 1;
+        let b = 2;
+        const c = 3;
+      }
+    
+      console.log(a); // 1
+      console.log(b); // ReferenceError
+      console.log(c); // ReferenceError
+    }
+    </code></pre>
+      <p>No exemplo acima, <code>a</code> permanece acessível fora do bloco <code>if</code>, enquanto <code>b</code> e
+        <code>c</code> não, porque foram declaradas com escopo de bloco. Esse comportamento é mais intuitivo e
+        compatível com o que se espera ao declarar variáveis locais em linguagens como Java, C# ou Swift.</p>
+      <h3>Hoisting e zona morta temporal</h3>
+      <p><strong>Hoisting</strong> é o comportamento do JavaScript que consiste em <strong>elevar as declarações de
+          variáveis para o topo do escopo onde foram definidas</strong>, antes mesmo da execução do código. Esse
+        processo ocorre durante a fase de compilação da linguagem, e se aplica a variáveis (<code>var</code>,
+        <code>let</code>, <code>const</code>), funções e classes — embora com regras diferentes para cada caso.</p>
+      <p>No caso de variáveis declaradas com <code>var</code>, o nome da variável é elevado ao topo do escopo da função
+        (ou do escopo global, se fora de uma função) e seu valor inicial é definido como <code>undefined</code>. Isso
+        permite que a variável seja acessada antes de sua linha de declaração, embora ainda não tenha recebido o valor
+        atribuído.</p>
+      <pre><code class="language-javascript">function exemploVar() {
+      console.log(nome); // undefined
+      var nome = &quot;João&quot;;
+    }
+    </code></pre>
+      <p>Esse comportamento pode causar confusão, especialmente em funções longas ou mal estruturadas, pois a variável
+        &quot;parece existir&quot; antes mesmo de ser declarada, o que pode levar a interpretações erradas sobre a ordem
+        lógica do código.</p>
+      <p>Já no caso de <code>let</code> e <code>const</code>, embora também sofram hoisting (ou seja, seus nomes são
+        registrados internamente no topo do escopo), o acesso a essas variáveis <strong>antes da linha de declaração é
+          bloqueado</strong>. Isso ocorre porque elas permanecem em um estado especial chamado <strong>zona morta
+          temporal</strong> (<em>temporal dead zone</em>), que se estende desde o início do bloco até a linha em que a
+        variável é declarada. Qualquer tentativa de acessar a variável nesse período resulta em erro.</p>
+      <pre><code class="language-javascript">console.log(contador); // ReferenceError
+    let contador = 1;
+    </code></pre>
+      <pre><code class="language-javascript">console.log(apiUrl); // ReferenceError
+    const apiUrl = &quot;https://meuapp.dev&quot;;
+    </code></pre>
+      <p>Esse comportamento mais restritivo torna o código mais seguro e previsível, e é uma das razões pelas quais
+        <code>let</code> e <code>const</code> são preferidos em JavaScript moderno e TypeScript.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Tipo</th>
+            <th>Sofre hoisting?</th>
+            <th>Pode ser acessado antes da declaração?</th>
+            <th>Valor antes da linha de declaração</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>var</code></td>
+            <td>Sim</td>
+            <td>Sim</td>
+            <td><code>undefined</code></td>
+          </tr>
+          <tr>
+            <td><code>let</code></td>
+            <td>Sim</td>
+            <td>Não</td>
+            <td>Erro (zona morta temporal)</td>
+          </tr>
+          <tr>
+            <td><code>const</code></td>
+            <td>Sim</td>
+            <td>Não</td>
+            <td>Erro (zona morta temporal)</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3>Mutabilidade e constância</h3>
+      <p>Outro ponto importante é a <strong>mutabilidade</strong>. Variáveis declaradas com <code>let</code> podem ter
+        seus valores reatribuídos, enquanto aquelas declaradas com <code>const</code> <strong>não podem</strong>. Isso
+        não significa que <code>const</code> cria valores imutáveis, mas sim que a referência não pode ser alterada.
+        Quando se trata de objetos ou arrays, o conteúdo interno ainda pode ser modificado.</p>
+      <pre><code class="language-javascript">const usuario = { nome: &quot;Ana&quot; };
+    usuario.nome = &quot;Maria&quot;; // permitido
+    usuario = { nome: &quot;João&quot; }; // erro
+    
+    const lista = [1, 2, 3];
+    lista.push(4); // permitido
+    lista = [10, 20]; // erro
+    </code></pre>
+      <p>Esse comportamento é relevante para o React Native, onde frequentemente utilizamos <code>const</code> para
+        definir estados e funções auxiliares, mesmo quando o conteúdo pode ser atualizado por meio de mecanismos
+        controlados, como o <code>useState</code>. 🧑‍💻</p>
+      <pre><code class="language-tsx">const [tarefas, setTarefas] = useState([&quot;Estudar&quot;]);
+    </code></pre>
+      <p>Nesse caso, a referência ao estado (<code>tarefas</code>) permanece constante, e seu conteúdo muda
+        indiretamente via <code>setTarefas</code>.</p>
+      <h3>Tipagem em TypeScript</h3>
+      <p>No TypeScript, <code>let</code> e <code>const</code> seguem exatamente os mesmos comportamentos de escopo e
+        hoisting do JavaScript moderno. A principal diferença está na <strong>tipagem estática</strong>, que permite
+        especificar os tipos das variáveis e obter verificação de erros durante o desenvolvimento.</p>
+      <pre><code class="language-ts">let idade: number = 30;
+    idade = &quot;trinta&quot;; // Erro: string não é atribuível a number
+    </code></pre>
+      <p>Ao usar <code>const</code>, o TypeScript é capaz de inferir <strong>valores literais</strong> como tipos
+        específicos. Isso é útil para restringir valores em enums simulados ou parâmetros de configuração.</p>
+      <pre><code class="language-ts">const cor = &quot;azul&quot;; // Tipo: &quot;azul&quot;
+    type CorPrimaria = &quot;vermelho&quot; | &quot;azul&quot; | &quot;amarelo&quot;;
+    
+    const escolhida: CorPrimaria = cor; // válido
+    const invalida: CorPrimaria = &quot;verde&quot;; // erro
+    </code></pre>
+      <p>Quando declaramos uma variável com <code>const</code>, estamos dizendo que ela será <strong>uma
+          constante</strong>: ou seja, <strong>não será possível reatribuir outro valor a ela no futuro</strong>. Isso
+        significa que se você escrever:</p>
+      <pre><code class="language-ts">const status = &quot;ativo&quot;;
+    </code></pre>
+      <p>o valor <code>&quot;ativo&quot;</code> será permanentemente associado a essa variável — não será possível
+        fazer:</p>
+      <pre><code class="language-ts">status = &quot;inativo&quot;; // ❌ Erro: não é permitido reatribuir uma constante
+    </code></pre>
+      <p>Portanto, nesse exemplo, <code>&quot;ativo&quot;</code> não é apenas uma string qualquer: é <strong>um valor
+          literal imutável</strong> ligado a uma variável constante! No entanto, vale destacar um detalhe importante:
+        quando usamos <code>const</code> com objetos ou arrays, o que se torna constante é a <strong>referência</strong>
+        ao objeto — mas o conteúdo interno ainda pode ser alterado.</p>
+      <pre><code class="language-ts">const usuario = { nome: &quot;Ana&quot; };
+    usuario.nome = &quot;Maria&quot;; // ✅ permitido (estamos mudando o conteúdo)
+    usuario = { nome: &quot;João&quot; }; // ❌ erro (não podemos trocar o objeto)
+    </code></pre>
+      <p>Esse comportamento é consistente com outras linguagens que utilizam o conceito de referência. O que o
+        <code>const</code> garante é que <strong>a variável não apontará para outro valor</strong> — mas se o valor for
+        um objeto mutável, ainda será possível alterá-lo internamente.</p>
+      <p>Essa definição é essencial quando combinamos <code>const</code> com os tipos literais do TypeScript, pois a
+        combinação entre <strong>constância de valor</strong> e <strong>tipagem literal</strong> permite definir regras
+        muito precisas de quais valores são aceitos e impedir mudanças acidentais ao longo do código.</p>
+      <p>Esse recurso contribui para uma codificação mais segura e facilita a detecção precoce de erros, especialmente
+        em projetos grandes ou com múltiplos módulos.</p>
+      <h3>Diretrizes de uso</h3>
+      <p>A prática mais comum e recomendada é declarar variáveis com <code>const</code> sempre que não houver
+        necessidade de reatribuição. Isso torna o código mais previsível e explicita a intenção do desenvolvedor. Use
+        <code>let</code> apenas quando for necessário alterar o valor da variável ao longo do tempo, como em contadores
+        ou acúmulos. O uso de <code>var</code> deve ser evitado completamente.</p>
+      <p>Além disso, é importante declarar variáveis no escopo mais restrito possível, para evitar conflitos de nomes e
+        facilitar a manutenção. Em projetos com TypeScript, recomenda-se tipar explicitamente variáveis exportadas,
+        parâmetros de função e objetos mais complexos, mesmo quando o compilador pode inferir os tipos automaticamente.
+      </p>
+      <p>O domínio desses conceitos é essencial para escrever código limpo, especialmente no contexto do desenvolvimento
+        mobile com React Native, onde a gestão do estado, a composição de componentes e a previsibilidade de escopo são
+        fundamentais. O uso consciente de <code>let</code>, <code>const</code> e da tipagem em TypeScript forma a base
+        sobre a qual construiremos aplicações móveis confiáveis e fáceis de manter. ✍️</p>
+      <hr>
+      <h2>1.2 Funções Anônimas e Arrow Functions</h2>
+      <p>Em JavaScript, funções podem ser declaradas de diversas formas. Duas delas merecem atenção especial:
+        <strong>funções anônimas</strong> e <strong>arrow functions</strong>. Ambas são muito utilizadas no
+        desenvolvimento com React e React Native, especialmente para definir manipuladores de eventos, funções
+        auxiliares dentro de componentes, ou parâmetros de métodos como <code>map</code>, <code>filter</code>,
+        <code>setTimeout</code>, entre outros.</p>
+      <h3>Funções anônimas: definição e uso</h3>
+      <p>Uma função anônima é simplesmente uma função <strong>sem nome</strong>, atribuída geralmente a uma variável ou
+        passada como argumento para outra função. Seu uso é comum em situações onde a função será usada apenas naquele
+        contexto específico.</p>
+      <pre><code class="language-javascript">const saudacao = function(nome) {
+      return `Olá, ${nome}!`;
+    };
+    
+    console.log(saudacao(&quot;Maria&quot;)); // &quot;Olá, Maria!&quot;
+    </code></pre>
+      <p>Essa sintaxe é perfeitamente válida e ainda bastante usada. Porém, com a chegada do ES6, foi introduzida uma
+        nova forma de declarar funções: as <strong>arrow functions</strong>, que se tornaram o padrão moderno,
+        principalmente em código React.</p>
+      <h3>Arrow functions: sintaxe e vantagens</h3>
+      <p>As <strong>arrow functions</strong> são uma forma mais concisa de escrever funções anônimas, utilizando a seta
+        <code>=&gt;</code> para indicar a relação entre os parâmetros e o corpo da função. Veja a reescrita da função
+        anterior como arrow function:</p>
+      <pre><code class="language-javascript">const saudacao = (nome) =&gt; {
+      return `Olá, ${nome}!`;
+    };
+    </code></pre>
+      <p>Quando a função tem apenas <strong>um parâmetro</strong> e <strong>retorna uma única expressão</strong>,
+        podemos omitir os parênteses e a palavra <code>return</code>:</p>
+      <pre><code class="language-javascript">const saudacao = nome =&gt; `Olá, ${nome}!`;
+    </code></pre>
+      <p>Essa sintaxe compacta melhora a legibilidade, especialmente para funções curtas e sem lógica interna complexa.
+        Ela é muito comum em chamadas de métodos de array:</p>
+      <pre><code class="language-javascript">const nomes = [&quot;Ana&quot;, &quot;Carlos&quot;, &quot;João&quot;];
+    
+    const cumprimentos = nomes.map(nome =&gt; `Olá, ${nome}!`);
+    console.log(cumprimentos);
+    // [&quot;Olá, Ana!&quot;, &quot;Olá, Carlos!&quot;, &quot;Olá, João!&quot;]
+    </code></pre>
+      <h3>Diferença fundamental: o <code>this</code></h3>
+      <p>Apesar da sintaxe mais curta, há uma diferença semântica importante entre funções tradicionais e arrow
+        functions: <strong>o comportamento da palavra-chave <code>this</code></strong>.</p>
+      <p>Funções tradicionais definem seu <strong>próprio contexto de <code>this</code></strong> no momento em que são
+        chamadas. Já arrow functions <strong>não criam um novo <code>this</code></strong> — elas <strong>herdam o
+          <code>this</code> do escopo em que foram definidas</strong>. Isso é útil em muitos cenários, especialmente no
+        React, pois evita a necessidade de fazer <em>bind</em> manual do contexto.</p>
+      <p>Veja a diferença:</p>
+      <pre><code class="language-javascript">const obj = {
+      nome: &quot;Maria&quot;,
+      saudacaoTradicional: function() {
+        return `Olá, meu nome é ${this.nome}`;
+      },
+      saudacaoArrow: () =&gt; {
+        return `Olá, meu nome é ${this.nome}`;
+      }
+    };
+    
+    console.log(obj.saudacaoTradicional()); // &quot;Olá, meu nome é Maria&quot;
+    console.log(obj.saudacaoArrow());       // &quot;Olá, meu nome é undefined&quot;
+    </code></pre>
+      <p>No exemplo acima, <code>saudacaoTradicional</code> funciona corretamente porque o <code>this</code> se refere
+        ao objeto <code>obj</code>. Já <code>saudacaoArrow</code> falha porque a função flecha foi criada no escopo
+        global (ou de módulo) e, portanto, o <code>this</code> não aponta para <code>obj</code>, mas sim para o escopo
+        externo — onde <code>this.nome</code> é <code>undefined</code>.</p>
+      <p>Por outro lado, <strong>há situações em que essa herança de contexto é justamente o que queremos!</strong>. Em
+        callbacks assíncronos, como em <code>setTimeout</code>, <code>map</code>, ou manipuladores dentro de métodos de
+        classes, as arrow functions funcionam bem por manterem o <code>this</code> do contexto externo:</p>
+      <pre><code class="language-javascript">function Pessoa(nome) {
+      this.nome = nome;
+    
+      this.apresentar = function() {
+        setTimeout(() =&gt; {
+          console.log(`Olá, meu nome é ${this.nome}`);
+        }, 1000);
+      };
+    }
+    
+    const maria = new Pessoa(&quot;Maria&quot;);
+    maria.apresentar(); // Após 1 segundo: &quot;Olá, meu nome é Maria&quot;
+    </code></pre>
+      <p>Se usássemos uma função tradicional dentro de <code>setTimeout</code>, o <code>this</code> deixaria de apontar
+        para a instância <code>Pessoa</code>, e o código não funcionaria como esperado. Esse comportamento previsível do
+        <code>this</code> nas arrow functions é uma das razões pelas quais elas são muito utilizadas em componentes
+        funcionais e hooks no React. 👨‍🏭</p>
+      <h3><strong>Arrow functions com tipos explícitos</strong></h3>
+      <p>Em TypeScript, você pode (e deve) declarar os tipos de <strong>parâmetros</strong> e do <strong>valor de
+          retorno</strong> de funções arrow. Isso garante que a função seja usada corretamente em diferentes contextos.
+      </p>
+      <pre><code class="language-ts">const soma = (a: number, b: number): number =&gt; {
+      return a + b;
+    };
+    </code></pre>
+      <p>Se o retorno for inferido corretamente e for simples, o TypeScript permite omitir a anotação, mas em funções
+        reutilizáveis ou exportadas, é uma boa prática <strong>tipar explicitamente</strong> o retorno. ✍️</p>
+      <h3><strong>Arrow functions e genéricos</strong></h3>
+      <p>Arrow functions também podem ser genéricas — úteis, por exemplo, em funções utilitárias:</p>
+      <pre><code class="language-ts">const primeiroElemento = &lt;T&gt;(lista: T[]): T =&gt; lista[0];
+    
+    const nomes = [&quot;Ana&quot;, &quot;Carlos&quot;];
+    const primeiro = primeiroElemento(nomes); // tipo inferido: string
+    </code></pre>
+      <p>Isso mostra a <strong>versatilidade de funções flecha em código tipado</strong>, e ajuda a conectar conceitos
+        que serão aprofundados em tópicos posteriores da aula. </p>
+      <h3>Aplicações práticas no React Native</h3>
+      <p>Em componentes funcionais com React Native, o uso de arrow functions é muito frequente. Elas são utilizadas
+        tanto na definição de handlers como em callbacks passados para componentes filhos:</p>
+      <pre><code class="language-tsx">const MeuBotao = () =&gt; {
+      const handlePress = () =&gt; {
+        console.log(&quot;Botão pressionado&quot;);
+      };
+    
+      return &lt;Button title=&quot;Clique&quot; onPress={handlePress} /&gt;;
+    };
+    </code></pre>
+      <p>Como alternativa, podemos usar a arrow function diretamente no JSX — o que é útil para casos simples, mas deve
+        ser feito com cautela para não gerar funções novas a cada renderização:</p>
+      <pre><code class="language-tsx">&lt;Button title=&quot;Clique&quot; onPress={() =&gt; console.log(&quot;Botão pressionado&quot;)} /&gt;
+    </code></pre>
+      <h3>Ou seja...</h3>
+      <p>Arrow functions são uma evolução das funções anônimas tradicionais. Elas oferecem uma sintaxe mais curta e uma
+        semântica de <code>this</code> mais previsível no contexto de componentes e funções de ordem superior. Entender
+        suas diferenças é importante para escrever código limpo, legível e compatível com os padrões modernos do
+        JavaScript e do ecossistema React. 🤓</p>
+      <hr>
+      <h2>1.3 Template Literals: interpolação e multilinha com crases</h2>
+      <p>Até o ES6, a única forma de compor strings em JavaScript era utilizando aspas simples ou duplas, combinadas com
+        o operador de concatenação (<code>+</code>). Embora funcional, essa abordagem rapidamente se tornava incômoda e
+        difícil de ler, especialmente ao lidar com múltiplas variáveis ou quebras de linha.</p>
+      <p>Com a introdução dos <strong>template literals</strong> (ou <strong>template strings</strong>) no ECMAScript
+        2015, tornou-se possível construir strings <strong>de forma mais clara e expressiva</strong>, utilizando a crase
+        (```) no lugar das aspas.</p>
+      <h3>Interpolação de variáveis</h3>
+      <p>Uma das principais vantagens dos template literals é a <strong>interpolação de expressões</strong>, que permite
+        inserir valores diretamente dentro da string usando <code>${...}</code>.</p>
+      <p>Antes do ES6:</p>
+      <pre><code class="language-javascript">const nome = &quot;João&quot;;
+    const idade = 30;
+    const mensagem = &quot;Olá, meu nome é &quot; + nome + &quot; e eu tenho &quot; + idade + &quot; anos.&quot;;
+    </code></pre>
+      <p>Com template literals:</p>
+      <pre><code class="language-javascript">const nome = &quot;João&quot;;
+    const idade = 30;
+    const mensagem = `Olá, meu nome é ${nome} e eu tenho ${idade} anos.`;
+    </code></pre>
+      <p>Além de mais legível, essa forma é menos propensa a erros de concatenação e facilita a leitura do código — algo
+        especialmente importante em interfaces com textos dinâmicos, como labels, notificações ou mensagens formatadas
+        em aplicativos React Native.</p>
+      <h3>Avaliação de expressões</h3>
+      <p>É possível interpolar não apenas variáveis, mas <strong>qualquer expressão válida em JavaScript</strong>, como
+        chamadas de função, operadores ternários, operações matemáticas, entre outras.</p>
+      <pre><code class="language-javascript">const a = 5;
+    const b = 3;
+    const resultado = `A soma de ${a} + ${b} é ${a + b}`;
+    // &quot;A soma de 5 + 3 é 8&quot;
+    </code></pre>
+      <p>Ou, em casos mais elaborados:</p>
+      <pre><code class="language-javascript">const nome = &quot;Lucas&quot;;
+    const status = true;
+    const saudacao = `Bem-vindo, ${nome}. Status: ${status ? &quot;ativo&quot; : &quot;inativo&quot;}.`;
+    // &quot;Bem-vindo, Lucas. Status: ativo.&quot;
+    </code></pre>
+      <p>Esse recurso reduz a necessidade de criar variáveis intermediárias apenas para compor mensagens, tornando o
+        código mais direto e funcional. 🤩</p>
+      <h3>Strings multilinha</h3>
+      <p>Outro benefício importante é a possibilidade de escrever <strong>strings com múltiplas linhas</strong> sem a
+        necessidade de caracteres especiais (<code>\n</code>) ou concatenação entre linhas.</p>
+      <p>Antes do ES6:</p>
+      <pre><code class="language-javascript">const mensagem = &quot;Linha 1\n&quot; +
+                     &quot;Linha 2\n&quot; +
+                     &quot;Linha 3&quot;;
+    </code></pre>
+      <p>Com template literals:</p>
+      <pre><code class="language-javascript">const mensagem = `Linha 1
+    Linha 2
+    Linha 3`;
+    </code></pre>
+      <p>Esse recurso é útil para exibir mensagens com quebras de linha, gerar trechos de código, construir templates
+        HTML ou armazenar textos longos que precisam manter a formatação original — tudo de forma nativa e sem
+        necessidade de escapes.</p>
+      <h3>Aplicações no React Native</h3>
+      <p>No desenvolvimento de interfaces móveis com React Native, o uso de template literals aparece frequentemente em:
+      </p>
+      <ul>
+        <li>Mensagens dinâmicas (<code>Toast</code>, <code>Alert</code>, <code>Text</code>)</li>
+        <li>Formatação de dados (como unidades, valores ou nomes)</li>
+        <li>Logs e depuração</li>
+        <li>Construção de strings de requisição para APIs</li>
+      </ul>
+      <p>Exemplo:</p>
+      <pre><code class="language-tsx">const usuario = &quot;Camila&quot;;
+    const saldo = 25.5;
+    
+    &lt;Text&gt;{`Olá, ${usuario}. Seu saldo atual é R$ ${saldo.toFixed(2)}`}&lt;/Text&gt;
+    </code></pre>
+      <p>Neste caso, o uso de template literals evita concatenação manual e garante melhor leitura, além de manter o JSX
+        limpo e expressivo! 😊</p>
+      <h3>Template Literals em TypeScript</h3>
+      <p>A partir do TypeScript 4.1, é possível criar <strong>tipos compostos dinamicamente</strong> com base em strings
+        — algo especialmente útil para representar <strong>valores formatados, nomes compostos ou chaves de
+          objetos</strong>.</p>
+      <pre><code class="language-ts">type Status = &quot;ativo&quot; | &quot;inativo&quot;;
+    type Mensagem = `Usuário está ${Status}`;
+    
+    const m1: Mensagem = &quot;Usuário está ativo&quot;;   // ✅ válido
+    const m2: Mensagem = &quot;Usuário está ocupado&quot;; // ❌ erro: não é um Status conhecido
+    </code></pre>
+      <h3><strong>Aplicação prática: composição de nomes ou chaves</strong></h3>
+      <pre><code class="language-ts">type NomeCampo = &quot;nome&quot; | &quot;email&quot; | &quot;idade&quot;;
+    type EventoCampo = `onChange${Capitalize&lt;NomeCampo&gt;}`;
+    
+    const evento: EventoCampo = &quot;onChangeEmail&quot;; // válido
+    </code></pre>
+      <p>Esse recurso se conecta diretamente com padrões usados em formulários, eventos, mensagens e APIs que seguem
+        convenções de nomenclatura. Ele mostra como <strong>o uso de template literals pode ser levado para o sistema de
+          tipos</strong>, oferecendo segurança adicional e <strong>evitando erros de strings “mágicas”</strong>
+        espalhadas pelo código.</p>
+      <h3>Em suma!</h3>
+      <p>Template literals representam uma evolução significativa na forma de lidar com strings em JavaScript. Eles
+        tornam o código mais legível, expressivo e menos sujeito a erros, além de oferecer suporte nativo para
+        interpolação de valores e strings multilinha. Seu uso é amplamente adotado no desenvolvimento moderno,
+        especialmente quando se trabalha com interfaces dinâmicas e comunicação textual em aplicações React Native.</p>
+      <hr>
+      <h2>1.4 Desestruturação de Arrays</h2>
+      <p>A <strong>desestruturação</strong> (ou <em>destructuring</em>) é um recurso introduzido no ES6 que permite
+        extrair valores de arrays ou propriedades de objetos diretamente em variáveis, usando uma sintaxe concisa e
+        legível. No caso dos <strong>arrays</strong>, a desestruturação é útil quando queremos extrair <strong>valores
+          por posição</strong>, sem precisar acessar manualmente cada índice.</p>
+      <p>Antes do ES6, extrair valores de um array envolvia chamadas explícitas:</p>
+      <pre><code class="language-javascript">const coordenadas = [10, 20];
+    const x = coordenadas[0];
+    const y = coordenadas[1];
+    </code></pre>
+      <p>Com a desestruturação de arrays, o código se torna mais direto:</p>
+      <pre><code class="language-javascript">const coordenadas = [10, 20];
+    const [x, y] = coordenadas;
+    
+    console.log(x); // 10
+    console.log(y); // 20
+    </code></pre>
+      <p>O lado esquerdo da atribuição define <strong>variáveis posicionais</strong> e o lado direito deve ser um array
+        (ou valor iterável compatível). A ordem importa: o primeiro item do array será atribuído à primeira variável, o
+        segundo à segunda, e assim por diante.</p>
+      <h3>Pulos de elementos</h3>
+      <p>É possível “pular” elementos do array deixando espaços vazios entre as vírgulas:</p>
+      <pre><code class="language-javascript">const cores = [&quot;vermelho&quot;, &quot;verde&quot;, &quot;azul&quot;];
+    const [, , terceira] = cores;
+    
+    console.log(terceira); // &quot;azul&quot;
+    </code></pre>
+      <p>Nesse exemplo, apenas o terceiro elemento foi extraído — os dois primeiros foram ignorados.</p>
+      <h3>Desestruturação com valores padrão</h3>
+      <p>Em JavaScript, ao fazer desestruturação de arrays, podemos atribuir <strong>valores padrão</strong> às
+        variáveis. Isso significa que, <strong>caso o valor correspondente esteja ausente ou
+          <code>undefined</code></strong>, o valor padrão será utilizado no lugar.</p>
+      <p>A sintaxe é simples: basta adicionar o sinal de igual (<code>=</code>) após o nome da variável, dentro do
+        padrão de desestruturação.</p>
+      <pre><code class="language-javascript">const dados = [42];
+    const [numero, outro = 0] = dados;
+    
+    console.log(numero); // 42
+    console.log(outro);  // 0 (valor padrão)
+    </code></pre>
+      <p>Neste exemplo:</p>
+      <ul>
+        <li><code>dados</code> é um array com apenas um elemento: o número <code>42</code>;</li>
+        <li><code>numero</code> recebe o primeiro valor do array, ou seja, <code>42</code>;</li>
+        <li><code>outro</code> tenta receber o <strong>segundo valor</strong> do array — mas como ele não existe (está
+          <code>undefined</code>), assume o <strong>valor padrão <code>0</code></strong>.</li>
+      </ul>
+      <p>A sintaxe <code>[numero, outro = 0]</code> indica: <em>&quot;pegue o segundo valor do array; se ele estiver
+          ausente ou for <code>undefined</code>, use <code>0</code> como valor alternativo&quot;</em>.</p>
+      <p>Esse padrão é muito útil em situações como:</p>
+      <ul>
+        <li>Valores opcionais retornados por uma função;</li>
+        <li>Arrays que vêm de fontes externas (ex: APIs);</li>
+        <li>Parâmetros de função que usam desestruturação de arrays.</li>
+      </ul>
+      <p>Outro exemplo com mais elementos:</p>
+      <pre><code class="language-javascript">const resposta = [undefined, 200];
+    const [mensagem = &quot;Erro desconhecido&quot;, codigo] = resposta;
+    
+    console.log(mensagem); // &quot;Erro desconhecido&quot;
+    console.log(codigo);   // 200
+    </code></pre>
+      <p>Nesse caso, a variável <code>mensagem</code> recebe o valor <code>&quot;Erro desconhecido&quot;</code> porque o
+        primeiro elemento do array é <code>undefined</code>.</p>
+      <p>Esse recurso evita a necessidade de condicionais adicionais (<code>if</code> ou <code>?:</code>) para verificar
+        valores ausentes, tornando o código mais limpo e simples de escrevermos. 😁</p>
+      <h3>Uso em funções</h3>
+      <p>A desestruturação pode ser usada diretamente nos <strong>parâmetros de uma função</strong> — algo bastante
+        comum em React Native, especialmente em hooks ou componentes funcionais.</p>
+      <pre><code class="language-javascript">function imprimirCoordenadas([x, y]) {
+      console.log(`X: ${x}, Y: ${y}`);
+    }
+    
+    imprimirCoordenadas([12, 8]); // &quot;X: 12, Y: 8&quot;
+    </code></pre>
+      <p>Com essa sintaxe, evitamos a criação de variáveis intermediárias dentro da função.</p>
+      <h3>Aplicações práticas no React Native</h3>
+      <p>A desestruturação de arrays aparece com frequência no uso de hooks. O exemplo mais comum é o
+        <code>useState</code>:</p>
+      <pre><code class="language-tsx">const [contador, setContador] = useState(0);
+    </code></pre>
+      <p>Nesse caso, <code>useState</code> retorna um array com dois elementos: o valor atual e a função que o atualiza.
+        A desestruturação permite nomeá-los diretamente, o que melhora a clareza e evita o uso de índices numéricos
+        (<code>[0]</code>, <code>[1]</code>).</p>
+      <p>Outro uso comum é em <strong>retornos múltiplos</strong> de funções utilitárias:</p>
+      <pre><code class="language-ts">function useData(): [boolean, string] {
+      return [true, &quot;dados carregados&quot;];
+    }
+    
+    const [carregando, mensagem] = useData();
+    </code></pre>
+      <p>Nesse exemplo, usamos TypeScript para tipar os elementos do array retornado. A desestruturação continua
+        funcionando normalmente e, com os tipos definidos, o editor pode fornecer autocompletar e alertar sobre
+        possíveis erros.</p>
+      <h3>Considerações sobre TypeScript na desestruturação de arrays</h3>
+      <h4><strong>TypeScript infere os tipos dos elementos desestruturados</strong></h4>
+      <p>Se uma função retorna um array com tipos conhecidos, o TypeScript consegue inferir os tipos corretos ao fazer a
+        desestruturação — e isso vale tanto para arrays simples quanto para retornos de hooks ou utilitários
+        personalizados.</p>
+      <pre><code class="language-ts">function useStatus(): [boolean, string] {
+      return [true, &quot;Carregando&quot;];
+    }
+    
+    const [ativo, mensagem] = useStatus();
+    // ativo: boolean
+    // mensagem: string
+    </code></pre>
+      <p>Mesmo que você não escreva os tipos explicitamente durante a desestruturação, o TypeScript entende o tipo de
+        cada posição com base na assinatura da função.</p>
+      <h4><strong>Você também pode tipar os itens desestruturados manualmente!</strong></h4>
+      <p>Caso esteja lidando com dados de origem externa (como uma API) ou queira ser explícito, é possível declarar os
+        tipos das variáveis desestruturadas individualmente:</p>
+      <pre><code class="language-ts">const dados: [number, string, boolean] = [1, &quot;ok&quot;, true];
+    const [id, status, visivel]: [number, string, boolean] = dados;
+    </code></pre>
+      <p>Essa forma é útil quando a fonte de dados não tem tipos confiáveis ou quando se quer reforçar o contrato com
+        outras partes do sistema.</p>
+      <h4><strong>Desestruturação como parâmetro de função também pode ser tipada!</strong></h4>
+      <p>Você pode tipar os elementos desestruturados diretamente nos parâmetros de uma função:</p>
+      <pre><code class="language-ts">function logCoordenadas([x, y]: [number, number]): void {
+      console.log(`X: ${x}, Y: ${y}`);
+    }
+    </code></pre>
+      <p>Esse formato é claro, direto e evita a criação de tipos intermediários quando a estrutura de dados é simples.
+      </p>
+      <h4><strong>Cuidados com arrays heterogêneos‼️</strong></h4>
+      <p>Ao desestruturar arrays com múltiplos tipos (ex: <code>[string, number]</code>), evite tratar o resultado como
+        <code>any[]</code> ou <code>Array&lt;any&gt;</code>. Sempre prefira <strong>tuplas tipadas</strong>
+        (<code>[string, number]</code>), para que o TypeScript possa <strong>validar a ordem e o tipo de cada item
+          individualmente</strong>.</p>
+      <pre><code class="language-ts">const tupla: [string, number] = [&quot;idade&quot;, 30];
+    const [rotulo, valor] = tupla;
+    
+    // rotulo: string, valor: number
+    </code></pre>
+      <p>Isso previne erros como acessar <code>valor.toUpperCase()</code> ou somar <code>rotulo + 1</code>, que
+        passariam despercebidos se os itens fossem inferidos apenas como <code>any</code>.</p>
+      <h4>Tá bom, mas por que preciso saber disso?</h4>
+      <p>Esses conceitos tornam-se relevantes quando consideramos o papel da desestruturação no desenvolvimento com
+        React Native e TypeScript. A capacidade do TypeScript de <strong>inferir automaticamente os tipos</strong> dos
+        elementos desestruturados contribui para uma experiência de desenvolvimento mais fluida: o editor fornece
+        autocompletar, verifica tipos em tempo real e evita que erros comuns passem despercebidos. Ao mesmo tempo, a
+        possibilidade de <strong>tipar manualmente os elementos desestruturados</strong> — seja por clareza, por
+        segurança ao lidar com dados externos, ou por necessidade de documentação — permite explicitar contratos entre
+        diferentes partes do sistema e reforçar a previsibilidade do código.</p>
+      <p>Tipar diretamente os parâmetros em funções que utilizam desestruturação também ajuda a evitar redundâncias e
+        torna o código mais direto, especialmente em funções auxiliares ou callbacks simples. Além disso, quando lidamos
+        com <strong>arrays heterogêneos</strong>, o uso de <strong>tuplas tipadas</strong> em vez de <code>any[]</code>
+        é uma prática fundamental para garantir a verificação precisa da ordem e do tipo de cada posição — prevenindo
+        erros sutis e promovendo uma maior robustez na manipulação dos dados.</p>
+      <p>Entender como o TypeScript lida com desestruturação em diferentes contextos é importante para escrever código
+        expressivo e seguro. Esses recursos não apenas melhoram a legibilidade e a manutenção do código, mas também se
+        alinham aos princípios da programação funcional e da tipagem estática — fundamentos que sustentam aplicações
+        modernas. </p>
+      <h3>✅ Conclusão prática</h3>
+      <p>Em contextos como o React Native, onde muitos hooks e funções retornam arrays com múltiplos valores, esse
+        recurso é não apenas útil, mas basilar para uma escrita fluida e moderna. A desestruturação continua funcionando
+        em TypeScript exatamente como em JavaScript, mas ganha mais poder com a tipagem estática.</p>
+      <p>Seja em hooks, funções utilitárias ou dados externos, combinar desestruturação com tuplas tipadas é uma forma
+        de manter o código claro, seguro e fácil de manter. 🤓</p>
+      <hr>
+      <h2>1.5 Desestruturação de Objetos</h2>
+      <p>A <strong>desestruturação de objetos</strong> é um recurso introduzido no ES6 que permite extrair valores
+        diretamente de propriedades de objetos em variáveis locais, com uma sintaxe declarativa e mais concisa.
+        Diferentemente da desestruturação de arrays, que usa a <strong>posição</strong> dos elementos, a desestruturação
+        de objetos se baseia em <strong>nomes de propriedades</strong>.</p>
+      <p>Essa técnica é amplamente usada em código moderno, especialmente em bibliotecas como React, onde props e
+        objetos de estado são frequentemente passados entre funções e componentes.</p>
+      <h3>Extração direta de propriedades</h3>
+      <p>Antes do ES6, acessar propriedades de um objeto exigia declarações separadas:</p>
+      <pre><code class="language-javascript">const usuario = { nome: &quot;Lucas&quot;, idade: 28 };
+    
+    const nome = usuario.nome;
+    const idade = usuario.idade;
+    </code></pre>
+      <p>Com desestruturação, podemos escrever de forma mais enxuta:</p>
+      <pre><code class="language-javascript">const usuario = { nome: &quot;Lucas&quot;, idade: 28 };
+    const { nome, idade } = usuario;
+    
+    console.log(nome);  // &quot;Lucas&quot;
+    console.log(idade); // 28
+    </code></pre>
+      <p>As variáveis <code>nome</code> e <code>idade</code> são criadas automaticamente com os valores correspondentes
+        do objeto. Essa forma é especialmente útil quando se trabalha com objetos grandes, mas apenas algumas
+        propriedades são relevantes para um determinado trecho de código.</p>
+      <h3>Renomeando variáveis</h3>
+      <p>Às vezes é necessário extrair uma propriedade, mas atribuí-la a uma variável com outro nome. Isso é feito com a
+        sintaxe <code>propriedade: novoNome</code>.</p>
+      <pre><code class="language-javascript">const produto = { id: 42, preco: 99.9 };
+    const { preco: valorUnitario } = produto;
+    
+    console.log(valorUnitario); // 99.9
+    </code></pre>
+      <p>Isso é comum quando o nome da propriedade entra em conflito com outra variável local ou quando desejamos um
+        nome mais expressivo.</p>
+      <h3>Valores padrão</h3>
+      <p>Também é possível definir <strong>valores padrão</strong> na desestruturação, caso a propriedade não exista no
+        objeto ou esteja <code>undefined</code>.</p>
+      <pre><code class="language-javascript">const config = { modo: &quot;escuro&quot; };
+    const { modo, idioma = &quot;pt-BR&quot; } = config;
+    
+    console.log(modo);   // &quot;escuro&quot;
+    console.log(idioma); // &quot;pt-BR&quot; (valor padrão)
+    </code></pre>
+      <p>Essa estratégia é muito útil para garantir valores seguros ao trabalhar com dados opcionais, como configurações
+        ou parâmetros de funções.</p>
+      <h3>Uso em parâmetros de função</h3>
+      <p>Uma das aplicações mais frequentes da desestruturação de objetos é diretamente nos <strong>parâmetros de
+          funções</strong>. Isso permite acessar os dados de entrada já extraídos, sem precisar declarar uma variável
+        intermediária.</p>
+      <pre><code class="language-javascript">function mostrarUsuario({ nome, idade }) {
+      console.log(`${nome} tem ${idade} anos.`);
+    }
+    
+    mostrarUsuario({ nome: &quot;Bruna&quot;, idade: 34 });
+    // &quot;Bruna tem 34 anos.&quot;
+    </code></pre>
+      <p>Esse padrão é bastante comum em callbacks, componentes React, hooks e manipuladores de eventos, pois torna o
+        código mais direto e limpo.</p>
+      <h3>Aplicações em React Native</h3>
+      <p>No contexto do React Native, a desestruturação de objetos é onipresente. Ela aparece, por exemplo:</p>
+      <ul>
+        <li>Ao extrair props de componentes:</li>
+      </ul>
+      <pre><code class="language-tsx">const Saudacao = ({ nome }: { nome: string }) =&gt; {
+      return &lt;Text&gt;Olá, {nome}!&lt;/Text&gt;;
+    };
+    </code></pre>
+      <ul>
+        <li>Ao acessar dados de contextos ou hooks personalizados:</li>
+      </ul>
+      <pre><code class="language-tsx">const { usuario, sair } = useAuth();
+    </code></pre>
+      <ul>
+        <li>Ou ao lidar com eventos:</li>
+      </ul>
+      <pre><code class="language-tsx">const handlePress = ({ nativeEvent }: GestureResponderEvent) =&gt; {
+      console.log(nativeEvent);
+    };
+    </code></pre>
+      <p>A clareza e concisão da desestruturação ajudam a reduzir código repetitivo, aumentar a legibilidade e deixar
+        explícito o que está sendo utilizado.</p>
+      <h3>Considerações sobre TypeScript</h3>
+      <p>A desestruturação de objetos funciona exatamente da mesma forma em TypeScript, mas é possível (e recomendado)
+        <strong>tipar os dados desestruturados</strong>, seja dentro da função ou no momento da atribuição. Vejamos
+        abaixo.</p>
+      <h4>1. Tipagem direta na função</h4>
+      <pre><code class="language-ts">type Usuario = {
+      nome: string;
+      idade: number;
+    };
+    
+    function apresentar({ nome, idade }: Usuario): string {
+      return `${nome} tem ${idade} anos.`;
+    }
+    </code></pre>
+      <p>Aqui, o objeto passado como argumento é desestruturado, e suas propriedades já são validadas segundo o tipo
+        <code>Usuario</code>.</p>
+      <h4>2. Tipagem ao desestruturar</h4>
+      <pre><code class="language-ts">const resposta: { ok: boolean; status: number } = { ok: true, status: 200 };
+    const { ok, status }: { ok: boolean; status: number } = resposta;
+    </code></pre>
+      <p>Essa abordagem é útil em casos pontuais ou quando se deseja tipar inline, mas em estruturas maiores, o ideal é
+        criar interfaces nomeadas.</p>
+      <h3>Conclusão</h3>
+      <p>A desestruturação de objetos melhora a legibilidade e reduz a verbosidade ao acessar propriedades específicas.
+        É um recurso central no estilo moderno de escrita JavaScript e uma prática amplamente adotada em aplicações
+        React Native com TypeScript, tanto em componentes quanto em funções utilitárias. A capacidade de combinar
+        desestruturação com tipagem explícita traz clareza, segurança e robustez ao desenvolvimento. 👩‍💻</p>
+      <hr>
+      <h2>1.6 Operador Spread e Rest (<code>...</code>)</h2>
+      <p>O operador <code>...</code>, introduzido no ES6, serve para dois propósitos distintos, dependendo do contexto:
+      </p>
+      <ul>
+        <li>Como <strong>spread</strong> (espalhamento), ele <strong>expande</strong> elementos de arrays ou
+          propriedades de objetos.</li>
+        <li>Como <strong>rest</strong> (resto), ele <strong>coleta</strong> múltiplos valores em uma única variável.
+        </li>
+      </ul>
+      <p>Apesar de compartilharem a mesma sintaxe, esses dois usos têm comportamentos opostos, mas extremamente úteis —
+        especialmente em operações de composição, cópia e passagem de parâmetros. Seu uso é cotidiano em projetos React
+        Native, desde a manipulação de arrays até a composição de props em componentes.</p>
+      <h3>Spread: expandindo arrays ou objetos</h3>
+      <p>O uso como <strong>spread</strong> permite <strong>copiar ou combinar estruturas</strong> (arrays ou objetos),
+        espalhando seus elementos onde múltiplos valores são esperados.</p>
+      <h4>Arrays</h4>
+      <pre><code class="language-javascript">const numeros = [1, 2, 3];
+    const maisNumeros = [...numeros, 4, 5];
+    
+    console.log(maisNumeros); // [1, 2, 3, 4, 5]
+    </code></pre>
+      <p>Nesse exemplo, <code>...numeros</code> insere os elementos do array original dentro de um novo array. Isso é
+        útil para <strong>copiar</strong> arrays (sem referência) ou para <strong>adicionar elementos</strong> em novas
+        estruturas sem mutar o original.</p>
+      <h4>Objetos</h4>
+      <pre><code class="language-javascript">const usuario = { nome: &quot;Ana&quot;, idade: 25 };
+    const usuarioAtualizado = { ...usuario, idade: 26 };
+    
+    console.log(usuarioAtualizado); // { nome: &quot;Ana&quot;, idade: 26 }
+    </code></pre>
+      <p>No caso de objetos, o spread copia todas as propriedades existentes. Se alguma chave for repetida, a nova
+        sobrescreve a anterior — útil para atualizações parciais em estruturas imutáveis, como em <code>useState</code>.
+      </p>
+      <h3>Capturando o restante com o operador <code>...</code> (rest syntax)</h3>
+      <p>Além de ser usado para <strong>espalhar elementos</strong> em arrays ou objetos (spread), o operador
+        <code>...</code> também pode ser utilizado para <strong>capturar o restante dos elementos</strong> durante uma
+        desestruturação. Esse uso é conhecido como <strong>rest syntax</strong>, ou “sintaxe de captura do restante”.
+      </p>
+      <blockquote>
+        <p>⚠️ <strong>Atenção:</strong> aqui, o termo “rest” não tem nenhuma relação com o padrão arquitetural REST
+          usado em APIs. Trata-se apenas de uma forma abreviada para “restante” — ou seja, os valores que
+          <strong>sobram</strong> após uma desestruturação.</p>
+      </blockquote>
+      <p>Esse recurso é bastante útil quando queremos extrair apenas uma parte dos dados e armazenar o restante em uma
+        nova variável, tanto em arrays quanto em objetos.</p>
+      <h4>Rest em Arrays</h4>
+      <p>No exemplo abaixo, estamos desestruturando o primeiro valor do array e armazenando os demais em uma nova
+        variável chamada <code>restantes</code>.</p>
+      <pre><code class="language-javascript">const [primeiro, ...restantes] = [10, 20, 30, 40];
+    
+    console.log(primeiro);   // 10
+    console.log(restantes);  // [20, 30, 40]
+    </code></pre>
+      <p>Esse padrão é útil em funções que operam sobre listas variáveis ou que desejam processar o primeiro item
+        separadamente dos demais.</p>
+      <h4>Rest em Objetos</h4>
+      <p>A mesma ideia vale para objetos. Podemos extrair uma ou mais propriedades específicas e capturar o restante em
+        uma nova variável:</p>
+      <pre><code class="language-javascript">const { nome, ...outrosDados } = { nome: &quot;Carlos&quot;, idade: 33, ativo: true };
+    
+    console.log(nome);        // &quot;Carlos&quot;
+    console.log(outrosDados); // { idade: 33, ativo: true }
+    </code></pre>
+      <p>Esse padrão é comum em manipulação de dados dinâmicos, onde queremos manter algumas informações intactas e
+        trabalhar apenas com o restante.</p>
+      <h4>Exemplo em Componentes React Native</h4>
+      <p>No desenvolvimento com React Native, o uso da sintaxe rest é frequente em componentes que recebem múltiplas
+        props:</p>
+      <pre><code class="language-tsx">const MeuBotao = ({ titulo, ...props }) =&gt; {
+      return &lt;Button title={titulo} {...props} /&gt;;
+    };
+    </code></pre>
+      <p>Nesse caso, extraímos apenas a prop <code>titulo</code> e repassamos todas as demais para o componente
+        <code>&lt;Button /&gt;</code>. Isso torna o componente mais flexível e reutilizável, especialmente quando não
+        sabemos todas as props que podem ser recebidas.</p>
+      <h3>Funções com argumentos variáveis</h3>
+      <p>O operador <code>...</code> também é utilizado para declarar funções que aceitam <strong>um número variável de
+          argumentos</strong>. Esse uso é especialmente comum em utilitários matemáticos, construção de logs ou funções
+        que recebem múltiplos parâmetros sem nome fixo.</p>
+      <pre><code class="language-javascript">function somar(...numeros) {
+      return numeros.reduce((total, n) =&gt; total + n, 0);
+    }
+    
+    console.log(somar(1, 2, 3, 4)); // 10
+    </code></pre>
+      <p>Nesse caso, <code>numeros</code> é um array com todos os argumentos passados. Essa abordagem substitui o uso do
+        objeto <code>arguments</code>, oferecendo maior clareza e segurança.</p>
+      <hr>
+      <h3>Considerações sobre TypeScript</h3>
+      <p>No TypeScript, a sintaxe rest continua funcionando da mesma forma, mas requer atenção à <strong>tipagem
+          explícita</strong>, principalmente quando há múltiplos tipos envolvidos.</p>
+      <h4>Tipagem de arrays com rest</h4>
+      <p>Ao utilizar parâmetros variáveis em funções, podemos indicar o tipo dos elementos com a notação
+        <code>: tipo[]</code>:</p>
+      <pre><code class="language-ts">function somar(...numeros: number[]): number {
+      return numeros.reduce((total, n) =&gt; total + n, 0);
+    }
+    </code></pre>
+      <h4>Tipagem em objetos com rest</h4>
+      <p>Ao desestruturar objetos, o TypeScript consegue inferir o tipo do restante. Mesmo assim, podemos indicar
+        explicitamente:</p>
+      <pre><code class="language-ts">type Usuario = {
+      nome: string;
+      idade: number;
+      ativo: boolean;
+    };
+    
+    const { nome, ...resto }: Usuario = {
+      nome: &quot;João&quot;,
+      idade: 30,
+      ativo: true,
+    };
+    </code></pre>
+      <p>Nesse caso, o TypeScript reconhece que <code>resto</code> tem tipo
+        <code>{ idade: number; ativo: boolean }</code>.</p>
+      <h4>Tipos genéricos com rest</h4>
+      <p>É possível usar rest parameters com tipos genéricos para funções reutilizáveis:</p>
+      <pre><code class="language-ts">function logarTudo&lt;T extends any[]&gt;(...args: T): void {
+      console.log(...args);
+    }
+    
+    logarTudo(&quot;texto&quot;, 42, true); // OK
+    </code></pre>
+      <p>Essa abordagem é útil em funções auxiliares que recebem argumentos variados, mantendo a tipagem precisa e
+        reutilizável.</p>
+      <h3>Resumindo...</h3>
+      <p>O operador <code>...</code> é uma das ferramentas mais versáteis do JavaScript moderno. Seja expandindo
+        estruturas com <strong>spread</strong> ou coletando múltiplos valores quando usado como <strong>rest
+          syntax</strong>, seu uso reduz boilerplate, melhora a legibilidade e permite compor objetos e arrays de forma
+        declarativa. Em aplicações com React Native e TypeScript, seu domínio é importante para manipular props,
+        estados, listas e dados dinâmicos.</p>
+      <hr>
+      <h2>1.7 Métodos de Array: <code>map</code>, <code>filter</code>, <code>reduce</code>, <code>find</code></h2>
+      <p>No desenvolvimento moderno com JavaScript — especialmente em frameworks como React e React Native — há uma
+        forte valorização de princípios da <strong>programação funcional</strong>. Esse paradigma promove o uso de
+        <strong>funções puras</strong>, <strong>imutabilidade</strong>, <strong>composição</strong> e <strong>ausência
+          de efeitos colaterais</strong>, resultando em código mais previsível, legível e fácil de testar.</p>
+      <p>Os arrays em JavaScript oferecem suporte direto a esse estilo por meio de métodos nativos como
+        <code>map</code>, <code>filter</code>, <code>find</code> e <code>reduce</code>. Essas funções de ordem superior
+        permitem transformar, filtrar, localizar ou acumular dados de forma <strong>declarativa</strong>, sem alterar o
+        array original.</p>
+      <p>Esses métodos são amplamente utilizados em aplicações React Native para:</p>
+      <ul>
+        <li>Renderizar listas de forma dinâmica;</li>
+        <li>Processar dados recebidos de APIs;</li>
+        <li>Construir estados derivados com lógica pura;</li>
+        <li>Realizar operações como buscas, filtragens e somatórios com clareza e segurança.</li>
+      </ul>
+      <p>Vamos explorar cada um desses métodos, mostrando tanto seu funcionamento quanto sua aplicação prática — sempre
+        com foco no estilo funcional de codificação e nos benefícios que ele traz ao dia a dia do desenvolvimento
+        mobile. 🤠</p>
+      <h3><code>map()</code> – Transformação de elementos</h3>
+      <p>O método <code>map()</code> percorre todos os elementos do array e <strong>retorna um novo array</strong>, onde
+        cada item é o resultado da aplicação de uma função sobre o item original. O tamanho do array resultante é sempre
+        o mesmo que o original.</p>
+      <pre><code class="language-javascript">const numeros = [1, 2, 3];
+    const dobrados = numeros.map(n =&gt; n * 2);
+    
+    console.log(dobrados); // [2, 4, 6]
+    </code></pre>
+      <p>Aqui, cada número foi multiplicado por 2. O array original (<code>numeros</code>) permanece inalterado.</p>
+      <h4>Exemplo prático: exibindo nomes</h4>
+      <pre><code class="language-javascript">const usuarios = [
+      { nome: &quot;Ana&quot;, idade: 25 },
+      { nome: &quot;Carlos&quot;, idade: 30 }
+    ];
+    
+    const nomes = usuarios.map(usuario =&gt; usuario.nome);
+    console.log(nomes); // [&quot;Ana&quot;, &quot;Carlos&quot;]
+    </code></pre>
+      <p>Essa técnica é comum ao renderizar listas no React:</p>
+      <pre><code class="language-tsx">{usuarios.map(usuario =&gt; (
+      &lt;Text key={usuario.nome}&gt;{usuario.nome}&lt;/Text&gt;
+    ))}
+    </code></pre>
+      <h3><code>filter()</code> – Filtragem de elementos</h3>
+      <p>O método <code>filter()</code> retorna um novo array com os elementos que <strong>passam em um teste
+          lógico</strong> (retornam <code>true</code>). Os elementos que não satisfazem a condição são ignorados.</p>
+      <pre><code class="language-javascript">const numeros = [1, 2, 3, 4, 5];
+    const pares = numeros.filter(n =&gt; n % 2 === 0);
+    
+    console.log(pares); // [2, 4]
+    </code></pre>
+      <h4>Exemplo prático: usuários ativos</h4>
+      <pre><code class="language-javascript">const usuarios = [
+      { nome: &quot;Ana&quot;, ativo: true },
+      { nome: &quot;Carlos&quot;, ativo: false },
+      { nome: &quot;João&quot;, ativo: true }
+    ];
+    
+    const ativos = usuarios.filter(u =&gt; u.ativo);
+    console.log(ativos);
+    // [
+    //   { nome: &quot;Ana&quot;, ativo: true },
+    //   { nome: &quot;João&quot;, ativo: true }
+    // ]
+    </code></pre>
+      <p>Essa abordagem é útil, por exemplo, para exibir apenas tarefas incompletas, produtos disponíveis ou itens
+        favoritos.</p>
+      <h3><code>reduce()</code> – Acumulação de valores</h3>
+      <p>O método <code>reduce()</code> executa uma função redutora sobre todos os elementos do array,
+        <strong>acumulando um único valor final</strong>. Ele pode ser usado para somar números, combinar objetos ou
+        compor strings.</p>
+      <pre><code class="language-javascript">const numeros = [1, 2, 3, 4];
+    const soma = numeros.reduce((acumulador, atual) =&gt; acumulador + atual, 0);
+    
+    console.log(soma); // 10
+    </code></pre>
+      <p>A função recebe dois argumentos principais:</p>
+      <ul>
+        <li><code>acumulador</code>: valor que vai sendo carregado entre iterações</li>
+        <li><code>atual</code>: o elemento atual do array</li>
+      </ul>
+      <p>O segundo argumento (<code>0</code>) é o valor inicial do acumulador.</p>
+      <h4>Exemplo prático: somando totais</h4>
+      <pre><code class="language-javascript">const compras = [
+      { item: &quot;Livro&quot;, preco: 30 },
+      { item: &quot;Caneta&quot;, preco: 5 },
+      { item: &quot;Caderno&quot;, preco: 15 }
+    ];
+    
+    const total = compras.reduce((soma, compra) =&gt; soma + compra.preco, 0);
+    console.log(total); // 50
+    </code></pre>
+      <p>Esse padrão é muito usado para <strong>calcular totais</strong> em carrinhos de compras, pontuação de usuários
+        ou estatísticas acumuladas.</p>
+      <h3><code>find()</code> – Encontrando o primeiro que satisfaz a condição</h3>
+      <p>O método <code>find()</code> retorna o <strong>primeiro elemento</strong> do array que satisfaz uma condição.
+        Se nenhum for encontrado, retorna <code>undefined</code>. Diferente de <code>filter()</code>, que retorna
+        vários, <code>find()</code> retorna apenas um item — o primeiro que bater com a lógica.</p>
+      <pre><code class="language-javascript">const numeros = [1, 2, 3, 4];
+    const encontrado = numeros.find(n =&gt; n &gt; 2);
+    
+    console.log(encontrado); // 3
+    </code></pre>
+      <h4>Exemplo prático: buscar usuário pelo nome</h4>
+      <pre><code class="language-javascript">const usuarios = [
+      { nome: &quot;Ana&quot;, id: 1 },
+      { nome: &quot;Carlos&quot;, id: 2 }
+    ];
+    
+    const resultado = usuarios.find(u =&gt; u.nome === &quot;Carlos&quot;);
+    console.log(resultado); // { nome: &quot;Carlos&quot;, id: 2 }
+    </code></pre>
+      <p>Essa técnica é útil para buscar rapidamente um item específico de uma lista — por exemplo, o usuário logado, o
+        produto clicado, ou um item marcado como favorito.</p>
+      <h3>Relação com Programação Funcional</h3>
+      <p>Como já mencionamos na introdução dessa seção, é importante destacar que os métodos <code>map</code>,
+        <code>filter</code>, <code>reduce</code> e <code>find</code> são pilares da <strong>programação
+          funcional</strong> aplicada ao JavaScript. Esse paradigma se baseia em <strong>funções puras, imutabilidade,
+          composição e ausência de efeitos colaterais</strong>. A ideia central é transformar dados por meio de funções,
+        ao invés de modificar estruturas diretamente.</p>
+      <p>Vimos os exemplos dos métodos acima, mas de qualquer forma vamos aproveitar para entender como eles se
+        relacionam com esses pilares.</p>
+      <h4><strong>Funções puras</strong></h4>
+      <p>Cada método recebe uma <strong>função de callback</strong> que não deve alterar o estado externo. Em vez disso,
+        ela transforma ou extrai dados com base apenas em seus parâmetros de entrada.</p>
+      <pre><code class="language-javascript">const dobrar = n =&gt; n * 2;
+    const resultado = [1, 2, 3].map(dobrar); // [2, 4, 6]
+    </code></pre>
+      <p>A função <code>dobrar</code> é pura: dado o mesmo <code>n</code>, sempre retorna o mesmo resultado, sem acessar
+        ou modificar nada além de seus argumentos.</p>
+      <h4><strong>Imutabilidade</strong></h4>
+      <p>Todos esses métodos <strong>não alteram o array original</strong>. Em vez disso, eles produzem <strong>novas
+          estruturas</strong> com base na lógica definida:</p>
+      <pre><code class="language-javascript">const numeros = [1, 2, 3];
+    const pares = numeros.filter(n =&gt; n % 2 === 0);
+    
+    console.log(numeros); // [1, 2, 3] — permanece intacto
+    console.log(pares);   // [2]
+    </code></pre>
+      <p>Essa característica é essencial em aplicações React e React Native, onde trabalhar com dados imutáveis evita
+        comportamentos inesperados e melhora a previsibilidade da interface.</p>
+      <h4><strong>Composição de funções</strong></h4>
+      <p>A programação funcional valoriza a <strong>composição</strong> — isto é, o encadeamento de pequenas funções que
+        fazem transformações simples e legíveis:</p>
+      <pre><code class="language-javascript">const dados = [1, 2, 3, 4, 5];
+    
+    const resultado = dados
+      .filter(n =&gt; n % 2 === 0)      // mantém apenas pares
+      .map(n =&gt; n * 10)              // multiplica por 10
+      .reduce((soma, n) =&gt; soma + n, 0); // soma os resultados
+    
+    console.log(resultado); // 60
+    </code></pre>
+      <p>Esse padrão torna o código mais declarativo e fácil de testar, já que cada etapa é isolada e previsível.</p>
+      <h4><strong>Abstração e reutilização</strong></h4>
+      <p>As funções passadas a esses métodos são <strong>valores de primeira classe</strong> — ou seja, podem ser
+        armazenadas em variáveis, passadas como parâmetros ou retornadas de outras funções. Isso facilita a
+        reutilização:</p>
+      <pre><code class="language-javascript">const isPar = (n: number) =&gt; n % 2 === 0;
+    const emReais = (valor: number) =&gt; `R$ ${valor.toFixed(2)}`;
+    
+    const valores = [10, 15, 22, 7];
+    
+    const resultado = valores
+      .filter(isPar)
+      .map(emReais);
+    
+    console.log(resultado); // [&quot;R$ 10.00&quot;, &quot;R$ 22.00&quot;]
+    </code></pre>
+      <p>Essa abordagem segue o princípio da <strong>separação de preocupações</strong>: cada função faz uma coisa
+        apenas, e o sistema final emerge da combinação delas.</p>
+      <h3>Programação funcional em React Native</h3>
+      <p>Esses princípios são especialmente úteis no desenvolvimento com React Native, por diversos motivos:</p>
+      <ul>
+        <li><strong>Componentes funcionais</strong> são o padrão atual — e foram projetados com a ideia de pureza e
+          imutabilidade.</li>
+        <li><strong>Hooks como <code>useState</code> e <code>useReducer</code></strong> exigem que os dados sejam
+          transformados sem mutações diretas.</li>
+        <li>A <strong>renderização declarativa</strong> do React favorece operações como <code>.map()</code> para
+          listas, evitando laços imperativos e mutações.</li>
+      </ul>
+      <p>Exemplo típico:</p>
+      <pre><code class="language-tsx">const ListaProdutos = ({ produtos }) =&gt; {
+      return (
+        &lt;FlatList
+          data={produtos.filter(p =&gt; p.ativo)}
+          renderItem={({ item }) =&gt; &lt;Text&gt;{item.nome}&lt;/Text&gt;}
+          keyExtractor={item =&gt; item.id.toString()}
+        /&gt;
+      );
+    };
+    </code></pre>
+      <p>A função <code>filter</code> evita lógica de controle manual com <code>for</code>, e o código se mantém claro,
+        reutilizável e de fácil manutenção.</p>
+      <h3>Considerações sobre TypeScript</h3>
+      <p>Além de tudo que mencionamos acima, todos esses métodos funcionam normalmente em TypeScript, mas você pode
+        <strong>aproveitar os tipos genéricos</strong> para obter ainda mais segurança:</p>
+      <h4>Inferência automática</h4>
+      <pre><code class="language-ts">const nomes = [&quot;Ana&quot;, &quot;Carlos&quot;];
+    const maiusculos = nomes.map(n =&gt; n.toUpperCase()); // string[]
+    </code></pre>
+      <h4>Tipagem explícita em callbacks</h4>
+      <pre><code class="language-ts">type Usuario = { nome: string; idade: number };
+    
+    const usuarios: Usuario[] = [...];
+    
+    const maiores = usuarios.filter((u: Usuario) =&gt; u.idade &gt;= 18);
+    </code></pre>
+      <h4>Tipagem no <code>reduce</code></h4>
+      <pre><code class="language-ts">type Item = { valor: number };
+    
+    const itens: Item[] = [{ valor: 10 }, { valor: 20 }];
+    
+    const total = itens.reduce((soma: number, item) =&gt; soma + item.valor, 0);
+    </code></pre>
+      <p>Se você não tipar o acumulador, o TypeScript pode inferir incorretamente o tipo, especialmente se o valor
+        inicial for omitido.</p>
+      <h3><em>Costurando</em> tudo 🪢</h3>
+      <p>Os métodos <code>map</code>, <code>filter</code>, <code>reduce</code> e <code>find</code> são ferramentas
+        poderosas e expressivas para transformar e manipular arrays de forma funcional, declarativa e segura. Dominar
+        essas funções permite escrever código mais conciso, evitar laços imperativos (<code>for</code>,
+        <code>while</code>) e se alinhar ao estilo moderno de desenvolvimento JavaScript — algo especialmente útil no
+        React Native, onde a manipulação de listas e estados derivados é rotina.</p>
+      <p>A utilização de métodos como <code>map</code>, <code>filter</code>, <code>reduce</code> e <code>find</code> não
+        é apenas uma conveniência sintática — ela representa uma <strong>mudança de estilo</strong>: do imperativo para
+        o funcional. Essa mudança torna o código mais legível, modular e confiável, além de estar perfeitamente alinhada
+        aos princípios do React e do TypeScript moderno. Compreender e adotar essas práticas é um passo essencial para
+        escrever software mais limpo, previsível e escalável.</p>
+      <hr>
+      <h2>1.8 Resumão sobre os Fundamentos Modernos de JavaScript</h2>
+      <p>Nesta primeira parte da aula, revisamos os principais recursos do JavaScript moderno que moldam a forma como
+        escrevemos código atualmente — especialmente no contexto do desenvolvimento com React e React Native.</p>
+      <p>Recursos como <code>let</code> e <code>const</code>, desestruturação, template literals e arrow functions nos
+        permitem <strong>expressar intenções de forma mais clara e segura</strong>, enquanto operadores como spread/rest
+        e métodos como <code>map</code>, <code>filter</code> e <code>reduce</code> nos colocam em sintonia com os
+        princípios da <strong>programação funcional</strong>, favorecendo <strong>imutabilidade, composição e
+          previsibilidade</strong>.</p>
+      <p>Além disso, vimos como essas construções estão presentes o tempo todo na prática cotidiana: em funções de
+        manipulação de estado, passagem de props, renderização de listas, configuração de objetos, e até na maneira como
+        modelamos dados vindos de APIs ou transformamos entradas do usuário.</p>
+      <p>A familiaridade com essas ferramentas é fundamental — elas formam o vocabulário básico da programação
+        JavaScript moderna e, consequentemente, da base sobre a qual construiremos nossas aplicações móveis com React
+        Native.</p>
+      <p>Agora que revisitamos os fundamentos modernos do JavaScript, é hora de dar um passo adiante e conhecer o que o
+        <strong>TypeScript</strong> adiciona a essa base. Como dissemos inicialmente, TypeScript não substitui
+        JavaScript — ele <strong>estende</strong> sua sintaxe e funcionalidades, permitindo que possamos <strong>tipar
+          dados, funções e objetos de forma explícita</strong>. Isso nos ajuda a detectar erros antes da execução,
+        documentar melhor nossas intenções e tornar o código mais previsível e confiável.</p>
+      <p>Na próxima seção, vamos explorar de forma prática os principais recursos da linguagem, como tipos primitivos,
+        interfaces, generics e inferência, sempre com foco em como isso melhora a qualidade do código no desenvolvimento
+        mobile. 🚀</p>
+      <hr>
+      <h2>2. TypeScript</h2>
+      <h2>2.1 Tipos Primitivos e Anotação de Tipos</h2>
+      <p>O TypeScript é um superconjunto do JavaScript que adiciona <strong>tipagem estática opcional</strong> à
+        linguagem. Isso significa que podemos <strong>declarar explicitamente o tipo de cada variável, parâmetro de
+          função, retorno e estrutura de dados</strong> — e o compilador verifica se os usos estão coerentes com os
+        tipos declarados.</p>
+      <p>Essa validação ocorre <strong>em tempo de desenvolvimento</strong>, ajudando a capturar erros antes mesmo de
+        executar o código.</p>
+      <h3>Tipos primitivos em TypeScript</h3>
+      <p>Os <strong>tipos primitivos</strong> disponíveis em TypeScript são os mesmos do JavaScript, mas com a vantagem
+        de que agora podemos expressá-los de forma clara e explícita:</p>
+      <ul>
+        <li><code>string</code> — sequência de caracteres</li>
+        <li><code>number</code> — números inteiros e decimais (não há distinção entre int e float)</li>
+        <li><code>boolean</code> — verdadeiro ou falso</li>
+        <li><code>null</code> e <code>undefined</code> — valores especiais para ausência</li>
+        <li><code>bigint</code> — números inteiros muito grandes (pouco usado em aplicações mobile)</li>
+        <li><code>symbol</code> — usado para identificadores únicos (mais avançado)</li>
+      </ul>
+      <h4>Exemplo básico:</h4>
+      <pre><code class="language-ts">let nome: string = &quot;Camila&quot;;
+    let idade: number = 28;
+    let ativo: boolean = true;
+    </code></pre>
+      <p>A sintaxe <code>nome: string</code> indica ao TypeScript que a variável <code>nome</code> deve conter apenas
+        valores do tipo string. Se tentarmos atribuir outro tipo, o compilador acusará erro:</p>
+      <pre><code class="language-ts">nome = 42; // ❌ Erro: number não é atribuível a string
+    </code></pre>
+      <h3>Inferência de tipos</h3>
+      <p>Você <strong>não é obrigado a declarar tipos o tempo todo</strong>. O TypeScript é inteligente o suficiente
+        para <strong>inferir o tipo com base no valor inicial</strong>, e só exige declaração explícita quando não
+        consegue determinar o tipo com segurança.</p>
+      <pre><code class="language-ts">let cidade = &quot;São Paulo&quot;; // inferido como string
+    let pontos = 100;         // inferido como number
+    </code></pre>
+      <p>No entanto, sempre que quiser <strong>documentar a intenção</strong> ou <strong>evitar ambiguidade</strong>, é
+        recomendável declarar os tipos explicitamente — especialmente em variáveis exportadas, parâmetros de função e
+        dados de entrada externos.</p>
+      <h3>Funções com tipos</h3>
+      <p>Também é possível (e altamente recomendável) <strong>tipar os parâmetros e o valor de retorno das
+          funções</strong>. Isso ajuda o TypeScript a garantir que a função seja usada corretamente em qualquer lugar.
+      </p>
+      <pre><code class="language-ts">function saudar(nome: string): string {
+      return `Olá, ${nome}`;
+    }
+    </code></pre>
+      <p>Neste caso:</p>
+      <ul>
+        <li><code>nome: string</code> define o tipo do parâmetro.</li>
+        <li><code>: string</code> após os parênteses indica que a função <strong>retorna uma string</strong>.</li>
+      </ul>
+      <p>Se alguém tentar chamar <code>saudar(123)</code>, o TypeScript apontará um erro imediato.</p>
+      <h3>Tipos <code>undefined</code> e <code>null</code></h3>
+      <p>Por padrão, o TypeScript considera que uma variável tipada como <code>string</code> ou <code>number</code>
+        <strong>não pode receber <code>undefined</code> ou <code>null</code></strong>, a menos que seja explicitamente
+        permitido.</p>
+      <pre><code class="language-ts">let email: string = &quot;a@b.com&quot;;
+    email = undefined; // ❌ Erro
+    
+    let telefone: string | undefined;
+    telefone = undefined; // ✅ permitido por causa da união de tipos
+    </code></pre>
+      <p>Essa distinção é importante para evitar acessos indevidos a variáveis não inicializadas ou ausentes — um
+        problema comum em JavaScript puro.</p>
+      <h3>Observação sobre <code>any</code></h3>
+      <p>O tipo especial <code>any</code> representa <strong>qualquer tipo de dado</strong>, desativando temporariamente
+        a verificação de tipo do TypeScript. Ele deve ser usado com cautela, apenas quando o tipo do dado é realmente
+        desconhecido (ex: dados vindos de APIs sem contrato definido).</p>
+      <pre><code class="language-ts">let dado: any = &quot;texto&quot;;
+    dado = 42; // permitido
+    </code></pre>
+      <p>Embora <code>any</code> possa parecer prático, seu uso em excesso <strong>anula os benefícios do
+          TypeScript</strong>, e deve ser evitado em código bem estruturado. 👆🏻🤓</p>
+      <h3>Aplicações práticas em React Native</h3>
+      <p>A tipagem de variáveis é extremamente útil ao desenvolver componentes ou usar hooks:</p>
+      <pre><code class="language-tsx">const [contador, setContador] = useState&lt;number&gt;(0);
+    
+    function incrementar(valor: number): void {
+      setContador(prev =&gt; prev + valor);
+    }
+    </code></pre>
+      <p>Ao declarar <code>useState&lt;number&gt;</code>, garantimos que o contador será sempre um número, e evitamos
+        erros como:</p>
+      <pre><code class="language-ts">setContador(&quot;um&quot;); // ❌ Erro: string não é atribuível a number
+    </code></pre>
+      <p>Esse tipo de segurança é particularmente importante quando trabalhamos com <strong>eventos, dados externos e
+          interações com o usuário</strong>.</p>
+      <h3>Conclusões</h3>
+      <p>Com a tipagem básica do TypeScript, ganhamos <strong>clareza, segurança e confiabilidade</strong>. Ao
+        explicitar os tipos de variáveis e funções, conseguimos capturar erros logo na escrita do código, além de
+        melhorar o autocompletar das IDEs, facilitar refatorações e documentar de forma implícita as regras de negócio.
+      </p>
+      <p>Essa base é necessária para explorarmos, nas próximas seções, tipos compostos, interfaces, enums, generics e
+        validação estrutural.</p>
+      <hr>
+      <h2>2.2 Tipos Compostos: Arrays, Tuplas e União de Tipos</h2>
+      <p>Após dominar os <strong>tipos primitivos</strong>, é natural expandirmos para <strong>estruturas
+          compostas</strong>, que representam <strong>coleções de dados</strong> ou <strong>valores alternativos
+          possíveis</strong>. No TypeScript, isso é feito com os tipos de <strong>arrays</strong>,
+        <strong>tuplas</strong> e <strong>uniões</strong>.</p>
+      <p>Esses recursos são essenciais em qualquer aplicação real — inclusive no desenvolvimento mobile com React Native
+        — pois nos permitem modelar listas de dados, respostas de APIs, props opcionais e muito mais.</p>
+      <h3>Arrays</h3>
+      <p>Arrays em TypeScript podem ser tipados de duas formas equivalentes:</p>
+      <ol>
+        <li>
+          <p><strong>Notação com colchetes</strong>:</p>
+          <pre><code class="language-ts">let numeros: number[] = [1, 2, 3];
+    </code></pre>
+        </li>
+        <li>
+          <p><strong>Notação genérica</strong>:</p>
+          <pre><code class="language-ts">let nomes: Array&lt;string&gt; = [&quot;Ana&quot;, &quot;Carlos&quot;];
+    </code></pre>
+        </li>
+      </ol>
+      <p>Ambas são aceitas, e a escolha entre elas é uma questão de preferência. A notação com colchetes é mais comum e
+        mais legível no contexto do React Native.</p>
+      <h4>Acessos e validações</h4>
+      <p>O TypeScript garante que apenas elementos do tipo especificado podem ser inseridos:</p>
+      <pre><code class="language-ts">numeros.push(4);      // OK
+    numeros.push(&quot;cinco&quot;); // ❌ Erro: string não é atribuível a number
+    </code></pre>
+      <p>Ao acessar um índice, o TypeScript sabe o tipo esperado:</p>
+      <pre><code class="language-ts">const primeiro = nomes[0]; // string
+    </code></pre>
+      <h3>Arrays de objetos</h3>
+      <p>Ao tipar arrays de objetos, usamos o mesmo raciocínio, definindo o tipo dos itens:</p>
+      <pre><code class="language-ts">type Produto = { nome: string; preco: number };
+    
+    const lista: Produto[] = [
+      { nome: &quot;Caderno&quot;, preco: 10 },
+      { nome: &quot;Caneta&quot;, preco: 2 }
+    ];
+    </code></pre>
+      <p>Isso permite acessar e manipular dados com autocompletar, validação e segurança — muito útil em listas
+        renderizadas com <code>FlatList</code>, por exemplo:</p>
+      <pre><code class="language-tsx">&lt;FlatList
+      data={lista}
+      renderItem={({ item }) =&gt; &lt;Text&gt;{item.nome} - R$ {item.preco}&lt;/Text&gt;}
+    /&gt;
+    </code></pre>
+      <h3>Tuplas</h3>
+      <p>Uma <strong>tupla</strong> é um array de tamanho fixo e com tipos diferentes em posições específicas. Ela é
+        útil quando a <strong>ordem e o tipo de cada elemento importam</strong> — por exemplo, quando uma função retorna
+        múltiplos valores com significados distintos.</p>
+      <pre><code class="language-ts">const coordenadas: [number, number] = [10.5, 20.3];
+    </code></pre>
+      <p>A variável <code>coordenadas</code> só aceita dois números, nessa ordem. Qualquer valor a mais ou tipos errados
+        geram erro:</p>
+      <pre><code class="language-ts">coordenadas[0] = 99;       // OK
+    coordenadas[1] = &quot;alto&quot;;   // ❌ Erro
+    coordenadas[2] = 42;       // ❌ Erro: índice fora do comprimento
+    </code></pre>
+      <p>Tuplas são muito utilizadas em <strong>hooks do React</strong>, como <code>useState</code>:</p>
+      <pre><code class="language-ts">const [contador, setContador]: [number, (valor: number) =&gt; void] = useState(0);
+    </code></pre>
+      <h3>União de Tipos (<code>|</code>)</h3>
+      <p>A <strong>união de tipos</strong> permite que uma variável aceite <strong>dois ou mais tipos
+          diferentes</strong>. Esse recurso é especialmente útil para representar situações em que há múltiplas formas
+        válidas de um dado aparecer — por exemplo, resposta de API que pode ser <code>string</code> ou
+        <code>null</code>, props opcionais ou tipos discriminados.</p>
+      <pre><code class="language-ts">let status: &quot;carregando&quot; | &quot;sucesso&quot; | &quot;erro&quot;;
+    
+    status = &quot;carregando&quot;; // OK
+    status = &quot;falha&quot;;      // ❌ Erro: &quot;falha&quot; não é um dos valores permitidos
+    </code></pre>
+      <p>Essa união também pode ser usada entre tipos básicos:</p>
+      <pre><code class="language-ts">let valor: number | string;
+    
+    valor = 42;        // OK
+    valor = &quot;quarenta&quot;; // OK
+    valor = true;      // ❌ Erro
+    </code></pre>
+      <p>E em combinações com arrays ou objetos:</p>
+      <pre><code class="language-ts">type Resultado = { sucesso: true; dados: string[] } | { sucesso: false; erro: string };
+    
+    const resposta: Resultado = {
+      sucesso: false,
+      erro: &quot;Conexão perdida&quot;
+    };
+    </code></pre>
+      <p>Esse padrão é extremamente útil em TypeScript moderno, e muito comum em <strong>validações, parsing de JSON e
+          controle de fluxo condicional</strong>.</p>
+      <h3>Conclusões</h3>
+      <p>Os <strong>tipos compostos</strong> são ferramentas poderosas para modelar dados reais com precisão. Arrays
+        permitem representar listas homogêneas, tuplas permitem combinar valores heterogêneos com significado
+        posicional, e uniões trazem flexibilidade com segurança, permitindo expressar alternativas válidas sem perder o
+        controle do tipo.</p>
+      <p>Esses recursos são a ponte entre a simplicidade dos tipos primitivos e a expressividade de estruturas
+        complexas. Nas próximas seções, vamos expandir ainda mais esse vocabulário com <strong>objetos, interfaces,
+          enums e tipos literais</strong>, que permitem modelar domínios de forma mais clara e robusta.</p>
+      <hr>
+      <h2>2.3 Objetos e Interfaces</h2>
+      <p>Em TypeScript, além de tipar valores primitivos, arrays e tuplas, é essencial saber <strong>como declarar e
+          estruturar objetos</strong> com segurança. Objetos estão no centro de praticamente toda aplicação: representam
+        entidades, props, respostas de APIs, estados de componentes e muito mais.</p>
+      <p>Nesta seção, veremos como <strong>tipar objetos diretamente</strong>, como <strong>criar interfaces
+          reutilizáveis</strong>, e por que isso é fundamental para organização, clareza e manutenção de projetos em
+        React Native.</p>
+      <h3>Tipagem direta de objetos</h3>
+      <p>Você pode declarar objetos com tipos diretamente, utilizando anotações inline:</p>
+      <pre><code class="language-ts">const usuario: { nome: string; idade: number } = {
+      nome: &quot;Camila&quot;,
+      idade: 28
+    };
+    </code></pre>
+      <p>Essa sintaxe funciona bem para objetos simples e usos pontuais. Porém, à medida que os objetos crescem ou são
+        reutilizados em múltiplos lugares, o código se torna repetitivo. É aí que entram as interfaces.</p>
+      <h3>Interfaces</h3>
+      <p>Uma <strong>interface</strong> é uma forma de <strong>declarar a estrutura de um objeto com nome</strong>. Ela
+        descreve quais propriedades o objeto deve ter e quais os tipos de cada uma.</p>
+      <pre><code class="language-ts">interface Usuario {
+      nome: string;
+      idade: number;
+    }
+    
+    const user: Usuario = {
+      nome: &quot;Carlos&quot;,
+      idade: 30
+    };
+    </code></pre>
+      <p>Interfaces facilitam a leitura, promovem o reuso e servem como <strong>contrato entre diferentes partes do
+          sistema</strong> — por exemplo, entre o componente que recebe uma prop e aquele que a envia.</p>
+      <h3>Interfaces em componentes React Native</h3>
+      <pre><code class="language-tsx">interface Props {
+      titulo: string;
+      ativo: boolean;
+    }
+    
+    const MeuBotao = ({ titulo, ativo }: Props) =&gt; {
+      return (
+        &lt;Button
+          title={ativo ? titulo : &quot;Desativado&quot;}
+          onPress={() =&gt; console.log(&quot;Clique&quot;)}
+        /&gt;
+      );
+    };
+    </code></pre>
+      <p>Aqui, <code>Props</code> define de forma clara o que o componente espera. Se alguém tentar passar uma prop
+        ausente ou com o tipo errado, o TypeScript acusará o erro imediatamente.</p>
+      <h3>Propriedades opcionais</h3>
+      <p>Você pode tornar propriedades <strong>opcionais</strong> com o operador <code>?</code>. Isso é útil quando uma
+        informação <strong>pode ou não estar presente</strong> — como valores default, flags ou dados carregados de
+        forma assíncrona.</p>
+      <pre><code class="language-ts">interface Produto {
+      nome: string;
+      preco: number;
+      descricao?: string;
+    }
+    
+    const item: Produto = {
+      nome: &quot;Caderno&quot;,
+      preco: 12.5
+      // descrição pode estar ausente
+    };
+    </code></pre>
+      <p>Ao acessar uma propriedade opcional, o TypeScript exige que você lide com a possibilidade de ela ser
+        <code>undefined</code>.</p>
+      <h3>Leitura e segurança</h3>
+      <p>Interfaces servem como documentação viva. IDEs como VSCode mostram os campos esperados, alertam sobre erros de
+        tipo e oferecem autocompletar com base na interface.</p>
+      <pre><code class="language-ts">function exibir(produto: Produto) {
+      console.log(produto.nome);
+      console.log(produto.descricao?.toUpperCase());
+    }
+    </code></pre>
+      <p>Aqui usamos o <strong>operador de encadeamento opcional (<code>?.</code>)</strong> para acessar
+        <code>descricao</code> apenas se ela existir, evitando erros em tempo de execução.</p>
+      <h3>Interface x Type Alias</h3>
+      <p>Você também pode usar a palavra-chave <code>type</code> para criar tipos nomeados. Para objetos simples,
+        <code>type</code> e <code>interface</code> são equivalentes:</p>
+      <pre><code class="language-ts">type Usuario = {
+      nome: string;
+      idade: number;
+    };
+    </code></pre>
+      <p>Em geral:</p>
+      <ul>
+        <li><strong><code>interface</code></strong> é mais apropriada para objetos e componentes, podendo ser
+          <strong>extendida</strong>.</li>
+        <li><strong><code>type</code></strong> é mais flexível e permite criar <strong>uniões, interseções, tipos
+            literais, etc.</strong></li>
+      </ul>
+      <p>Exemplo de extensão com interface:</p>
+      <pre><code class="language-ts">interface Pessoa {
+      nome: string;
+    }
+    
+    interface Funcionario extends Pessoa {
+      salario: number;
+    }
+    
+    const f: Funcionario = {
+      nome: &quot;Joana&quot;,
+      salario: 3000
+    };
+    </code></pre>
+      <h3>Exemplo integrado: lista de tarefas</h3>
+      <pre><code class="language-ts">interface Tarefa {
+      id: number;
+      titulo: string;
+      concluida: boolean;
+    }
+    
+    const tarefas: Tarefa[] = [
+      { id: 1, titulo: &quot;Estudar&quot;, concluida: false },
+      { id: 2, titulo: &quot;Exercício&quot;, concluida: true }
+    ];
+    
+    const pendentes = tarefas.filter(t =&gt; !t.concluida);
+    </code></pre>
+      <p>Esse padrão é comum em apps de produtividade, listas de compras, controle de hábitos, etc. Tipar as tarefas com
+        uma interface clara evita problemas como campos ausentes ou inconsistentes.</p>
+      <h3>Conclusões</h3>
+      <p>A tipagem de objetos com <strong>interfaces</strong> é uma das maiores forças do TypeScript. Ela melhora a
+        organização do código, previne erros, facilita a leitura e reduz retrabalho. Em aplicações React Native,
+        interfaces são indispensáveis para tipar props de componentes, estados de tela, dados externos e objetos de
+        negócio.</p>
+      <p>A seguir, veremos como trabalhar com <strong>enums, tipos literais e validação por valor</strong>, para tornar
+        nossas estruturas ainda mais expressivas e seguras.</p>
+      <hr>
+      <h2>2.4 Enums, Tipos Literais e Discriminação de Tipos</h2>
+      <p>À medida que nossas aplicações crescem, surgem casos em que precisamos <strong>restringir o valor de uma
+          variável a um conjunto específico de opções válidas</strong> — por exemplo, o status de uma tarefa, a
+        categoria de um produto ou o papel de um usuário no sistema.</p>
+      <p>Em TypeScript, isso pode ser feito de forma <strong>segura e clara</strong> por meio de três mecanismos
+        complementares:</p>
+      <ul>
+        <li><strong>Enums</strong> (enumeradores)</li>
+        <li><strong>Tipos literais</strong></li>
+        <li><strong>Discriminação de tipos</strong> (ou tipos “tagueados”)</li>
+      </ul>
+      <p>Esses recursos ajudam a representar regras de negócio, validar dados e garantir que nossos objetos sigam
+        formatos válidos — tudo com suporte de autocompletar e checagem em tempo de desenvolvimento.</p>
+      <h3>Enums (Enumeradores)</h3>
+      <p>Enums são estruturas que <strong>agrupam valores nomeados</strong> e podem ser usados para representar
+        conjuntos fechados, como estados ou categorias.</p>
+      <h4>Enum numérico</h4>
+      <pre><code class="language-ts">enum Status {
+      Pendente,
+      EmAndamento,
+      Concluida
+    }
+    
+    let estado: Status = Status.EmAndamento;
+    console.log(estado); // 1
+    </code></pre>
+      <p>Os valores atribuídos são numéricos por padrão (<code>0</code>, <code>1</code>, <code>2</code>…), mas podemos
+        definir valores literais se preferirmos mais legibilidade:</p>
+      <h4>Enum com strings</h4>
+      <pre><code class="language-ts">enum PapelUsuario {
+      Admin = &quot;ADMIN&quot;,
+      Editor = &quot;EDITOR&quot;,
+      Leitor = &quot;LEITOR&quot;
+    }
+    
+    const permissao: PapelUsuario = PapelUsuario.Editor;
+    </code></pre>
+      <p>Esse padrão é útil para tokens de permissão, rotas, filtros e campos que precisam ser persistidos como texto —
+        por exemplo, em um banco de dados ou localStorage.</p>
+      <h4>Uso com objetos e componentes</h4>
+      <pre><code class="language-tsx">interface Usuario {
+      nome: string;
+      papel: PapelUsuario;
+    }
+    
+    function podeEditar(usuario: Usuario): boolean {
+      return usuario.papel === PapelUsuario.Admin || usuario.papel === PapelUsuario.Editor;
+    }
+    </code></pre>
+      <h3>Tipos Literais</h3>
+      <p>Tipos literais restringem o valor de uma variável a <strong>valores exatos</strong>, usando <strong>strings,
+          números ou booleanos fixos</strong>.</p>
+      <pre><code class="language-ts">type Estado = &quot;pendente&quot; | &quot;em_andamento&quot; | &quot;concluida&quot;;
+    
+    let status: Estado = &quot;pendente&quot;;
+    
+    status = &quot;concluida&quot;; // ✅ OK
+    status = &quot;cancelada&quot;; // ❌ Erro
+    </code></pre>
+      <p>Esse recurso é especialmente útil quando o conjunto de valores válidos é pequeno e não há necessidade de um
+        enum separado. Ele é <strong>mais leve</strong>, <strong>mais fácil de combinar com tipos de união</strong> e
+        <strong>muito utilizado em APIs e tipos de props</strong>.</p>
+      <h3>Discriminação de Tipos (Tipos Tagueados)</h3>
+      <p>Quando usamos <strong>tipos literais como identificadores internos</strong> de objetos, podemos criar
+        estruturas que permitem ao TypeScript <strong>inferir automaticamente os campos disponíveis</strong> com base em
+        um valor.</p>
+      <p>Esse padrão é conhecido como <strong>discriminated union</strong> (união discriminada) ou <strong>tagged
+          union</strong>.</p>
+      <h4>Exemplo: respostas de API</h4>
+      <pre><code class="language-ts">type Sucesso = { tipo: &quot;sucesso&quot;; dados: string[] };
+    type Erro = { tipo: &quot;erro&quot;; mensagem: string };
+    
+    type Resultado = Sucesso | Erro;
+    
+    function processar(r: Resultado) {
+      if (r.tipo === &quot;sucesso&quot;) {
+        console.log(&quot;Dados:&quot;, r.dados);
+      } else {
+        console.log(&quot;Erro:&quot;, r.mensagem);
+      }
+    }
+    </code></pre>
+      <p>Esse padrão é muito poderoso porque permite que o TypeScript <strong>refine automaticamente os tipos
+          disponíveis</strong> de acordo com a verificação do valor de <code>tipo</code>.</p>
+      <h3>Comparando Enum e Tipo Literal</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Recurso</th>
+            <th>Quando usar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>enum</code></td>
+            <td>Quando há necessidade de valores nomeados reutilizáveis ou compatíveis com outras linguagens</td>
+          </tr>
+          <tr>
+            <td><code>type</code> com literal</td>
+            <td>Quando o conjunto de valores é simples e direto, sem lógica associada</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>Exemplo com enum:</p>
+      <pre><code class="language-ts">enum Tema {
+      Claro = &quot;claro&quot;,
+      Escuro = &quot;escuro&quot;
+    }
+    </code></pre>
+      <p>Exemplo com tipo literal:</p>
+      <pre><code class="language-ts">type Tema = &quot;claro&quot; | &quot;escuro&quot;;
+    </code></pre>
+      <p>No contexto do React Native, tipos literais costumam ser preferidos para props e estados locais, enquanto enums
+        são úteis para representar <strong>papéis de usuário, tipos de entidade, modos de operação ou configurações
+          globais</strong>.</p>
+      <h3>Conclusões</h3>
+      <p>O uso de <strong>enums, tipos literais e estruturas discriminadas</strong> permite que o TypeScript funcione
+        como uma <strong>camada de validação semântica</strong> sobre o JavaScript. Isso facilita a modelagem de regras
+        de negócio, evita valores inválidos, e fornece documentação automática por meio da própria definição dos tipos.
+      </p>
+      <p>Vamos, agora, aprofundar o uso de <strong>generics, utilitários de tipo e boas práticas de organização</strong>
+        para garantir que nossos tipos se mantenham reutilizáveis, consistentes e fáceis de evoluir ao longo do tempo.
+      </p>
+      <hr>
+      <h2>2.5 Generics: Reutilização com Segurança</h2>
+      <p><strong>Generics</strong> são um dos recursos mais poderosos do TypeScript, pois permitem escrever
+        <strong>código reutilizável e ao mesmo tempo fortemente tipado</strong>. Eles resolvem um problema clássico:
+        como criar <strong>funções, interfaces ou classes</strong> que funcionem com <strong>diferentes tipos de
+          dados</strong>, mas <strong>sem abrir mão da verificação estática</strong>?</p>
+      <p>Essa funcionalidade é especialmente útil em funções utilitárias, hooks personalizados, componentes que lidam
+        com dados genéricos e até na modelagem de estruturas como listas, formulários e respostas de API.</p>
+      <h3>Motivação: o problema do <code>any</code></h3>
+      <p>Suponha que você deseje criar uma função para retornar o primeiro item de um array:</p>
+      <pre><code class="language-ts">function primeiro(arr: any[]) {
+      return arr[0];
+    }
+    </code></pre>
+      <p>Essa função funciona — mas como usamos <code>any</code>, o TypeScript <strong>perde completamente a noção do
+          tipo</strong> dos dados. Isso anula os benefícios da tipagem estática:</p>
+      <pre><code class="language-ts">const nome = primeiro([&quot;Ana&quot;, &quot;Carlos&quot;]);
+    nome.toUpperCase(); // ❌ Erro só em tempo de execução
+    </code></pre>
+      <h3>Solução: uso de Generics</h3>
+      <p>Generics nos permitem <strong>declarar tipos como variáveis de tipo</strong>, e depois <strong>substituí-los de
+          forma automática</strong> com base no uso real da função.</p>
+      <pre><code class="language-ts">function primeiro&lt;T&gt;(arr: T[]): T {
+      return arr[0];
+    }
+    </code></pre>
+      <ul>
+        <li><code>T</code> é um <strong>parâmetro de tipo</strong>.</li>
+        <li><code>T[]</code> indica que a função recebe um array de elementos do tipo T.</li>
+        <li>A função retorna um valor do mesmo tipo T.</li>
+      </ul>
+      <p>Agora, ao usar a função, o TypeScript <strong>infere automaticamente</strong> o tipo com base nos argumentos:
+      </p>
+      <pre><code class="language-ts">const nome = primeiro([&quot;Ana&quot;, &quot;Carlos&quot;]); // T é string
+    const numero = primeiro([10, 20, 30]);     // T é number
+    
+    nome.toUpperCase(); // ✅ OK
+    numero.toFixed(2);  // ✅ OK
+    </code></pre>
+      <p>A função se tornou <strong>genérica</strong>, mas continua <strong>tipada com precisão</strong> — um equilíbrio
+        perfeito entre flexibilidade e segurança.</p>
+      <h3>Generics com Objetos</h3>
+      <p>Podemos aplicar generics para funções que manipulam objetos sem perder informação:</p>
+      <pre><code class="language-ts">function extrairChave&lt;T, K extends keyof T&gt;(obj: T, chave: K): T[K] {
+      return obj[chave];
+    }
+    
+    const usuario = { nome: &quot;Luana&quot;, idade: 30 };
+    
+    const valor = extrairChave(usuario, &quot;nome&quot;); // valor: string
+    </code></pre>
+      <ul>
+        <li><code>T</code> representa o tipo do objeto.</li>
+        <li><code>K</code> representa uma <strong>chave válida dentro de T</strong>.</li>
+        <li><code>T[K]</code> representa o tipo do valor correspondente à chave.</li>
+      </ul>
+      <p>Esse padrão é extremamente útil em bibliotecas, hooks e validações genéricas.</p>
+      <h3>Generics com React Hooks</h3>
+      <p>Ao criar hooks personalizados, usar generics permite que eles funcionem com qualquer tipo de dado:</p>
+      <pre><code class="language-ts">function useLista&lt;T&gt;(inicial: T[]) {
+      const [itens, setItens] = useState&lt;T[]&gt;(inicial);
+    
+      function adicionar(item: T) {
+        setItens(prev =&gt; [...prev, item]);
+      }
+    
+      return { itens, adicionar };
+    }
+    </code></pre>
+      <p>Uso:</p>
+      <pre><code class="language-tsx">const { itens, adicionar } = useLista&lt;string&gt;([&quot;Olá&quot;, &quot;Oi&quot;]);
+    adicionar(&quot;Bom dia&quot;); // ✅ OK
+    
+    const numeros = useLista&lt;number&gt;([1, 2, 3]);
+    numeros.adicionar(4);
+    </code></pre>
+      <p>O hook continua genérico, mas com <strong>tipagem total</strong> em cada uso.</p>
+      <h3>Generics em Interfaces</h3>
+      <p>Também é possível criar <strong>interfaces genéricas</strong>, que se adaptam ao tipo de dado fornecido:</p>
+      <pre><code class="language-ts">interface ApiResponse&lt;T&gt; {
+      sucesso: boolean;
+      dados: T;
+    }
+    
+    const resposta1: ApiResponse&lt;string[]&gt; = {
+      sucesso: true,
+      dados: [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
+    };
+    
+    const resposta2: ApiResponse&lt;{ id: number; nome: string }&gt; = {
+      sucesso: true,
+      dados: { id: 1, nome: &quot;Produto&quot; }
+    };
+    </code></pre>
+      <p>Esse padrão é especialmente útil para representar <strong>respostas de APIs REST</strong>, <strong>resultados
+          paginados</strong>, <strong>estados genéricos</strong>, entre outros.</p>
+      <h3>Conclusões</h3>
+      <p><strong>Generics</strong> permitem escrever código flexível <strong>sem sacrificar a segurança de
+          tipos</strong>. Eles são fundamentais para criar funções, hooks, interfaces e componentes
+        <strong>reutilizáveis e confiáveis</strong>, reduzindo repetição e erros. Em React Native com TypeScript, seu
+        uso é altamente recomendado — seja em listas de dados, estados compartilhados, componentes de formulário ou
+        APIs.</p>
+      <p>Nas próximas seções, vamos conhecer <strong>utilitários de tipos</strong> que tornam essas estruturas ainda
+        mais expressivas, como <code>Partial</code>, <code>Pick</code>, <code>Omit</code>, <code>Record</code> e
+        <code>Readonly</code>.</p>
+      <hr>
+      <h2>2.6 Utilitários de Tipo (Utility Types)</h2>
+      <p>O TypeScript fornece um conjunto de <strong>utilitários prontos</strong>, conhecidos como <strong>utility
+          types</strong>, que permitem <strong>transformar, adaptar ou derivar tipos existentes</strong> de maneira
+        segura e sem repetição.</p>
+      <p>Esses utilitários são especialmente úteis para <strong>refatorar código</strong>, <strong>criar variações
+          parciais ou restritas de objetos</strong>, e <strong>gerar estruturas auxiliares</strong> que mantenham a
+        consistência do sistema. Eles são amplamente usados em projetos React/React Native — seja para definir props
+        parciais, omitir campos sensíveis, lidar com formulários ou construir APIs tipadas.</p>
+      <p>A seguir, vamos ver os mais importantes e como usá-los na prática.</p>
+      <h3><code>Partial&lt;T&gt;</code></h3>
+      <p>Converte todas as propriedades de um tipo para <strong>opcionais</strong>.</p>
+      <pre><code class="language-ts">interface Usuario {
+      nome: string;
+      email: string;
+      idade: number;
+    }
+    
+    const atualizacao: Partial&lt;Usuario&gt; = {
+      email: &quot;novo@email.com&quot;
+    };
+    </code></pre>
+      <p>Esse padrão é comum ao <strong>atualizar dados</strong> parcialmente, como num formulário, num
+        <code>PATCH</code>, ou em um <code>setState</code>.</p>
+      <h3><code>Required&lt;T&gt;</code></h3>
+      <p>Converte todas as propriedades de um tipo para <strong>obrigatórias</strong> (oposto do <code>Partial</code>).
+      </p>
+      <pre><code class="language-ts">interface Config {
+      modo?: string;
+      verbose?: boolean;
+    }
+    
+    const c: Required&lt;Config&gt; = {
+      modo: &quot;escuro&quot;,
+      verbose: true
+    };
+    </code></pre>
+      <p>Útil quando queremos forçar o preenchimento de dados em contextos específicos, como em um componente que
+        depende de uma configuração completa.</p>
+      <h3><code>Readonly&lt;T&gt;</code></h3>
+      <p>Torna todas as propriedades de um tipo <strong>imutáveis</strong> (não podem ser reatribuídas).</p>
+      <pre><code class="language-ts">interface Produto {
+      nome: string;
+      preco: number;
+    }
+    
+    const p: Readonly&lt;Produto&gt; = {
+      nome: &quot;Caderno&quot;,
+      preco: 10
+    };
+    
+    p.preco = 15; // ❌ Erro: não é possível modificar um campo readonly
+    </code></pre>
+      <p>Esse utilitário é útil para evitar mutações acidentais — por exemplo, ao trabalhar com objetos que representam
+        dados fixos ou retornos de funções puras.</p>
+      <h3><code>Pick&lt;T, K&gt;</code></h3>
+      <p>Cria um tipo que <strong>extrai um subconjunto de propriedades</strong> de outro tipo.</p>
+      <pre><code class="language-ts">interface Usuario {
+      id: number;
+      nome: string;
+      senha: string;
+    }
+    
+    type UsuarioPublico = Pick&lt;Usuario, &quot;id&quot; | &quot;nome&quot;&gt;;
+    
+    const u: UsuarioPublico = {
+      id: 1,
+      nome: &quot;Camila&quot;
+    };
+    </code></pre>
+      <p>Muito útil para <strong>filtrar campos seguros</strong> que podem ser exibidos ou enviados ao front-end.</p>
+      <h3><code>Omit&lt;T, K&gt;</code></h3>
+      <p>Faz o oposto de <code>Pick</code>: <strong>remove</strong> propriedades do tipo original.</p>
+      <pre><code class="language-ts">type UsuarioSemSenha = Omit&lt;Usuario, &quot;senha&quot;&gt;;
+    </code></pre>
+      <p>Esse padrão é ideal quando você quer <strong>reaproveitar uma estrutura</strong>, mas excluir informações
+        sensíveis ou desnecessárias.</p>
+      <h3><code>Record&lt;K, T&gt;</code></h3>
+      <p>Cria um tipo de <strong>objeto indexado</strong>, em que todas as chaves <code>K</code> mapeiam para o tipo
+        <code>T</code>.</p>
+      <pre><code class="language-ts">type Dias = &quot;seg&quot; | &quot;ter&quot; | &quot;qua&quot;;
+    
+    const agenda: Record&lt;Dias, string&gt; = {
+      seg: &quot;reunião&quot;,
+      ter: &quot;aula&quot;,
+      qua: &quot;livre&quot;
+    };
+    </code></pre>
+      <p>Muito útil para tabelas de lookup, dicionários de mensagens, mapeamento de ícones ou rotas de navegação.</p>
+      <h3>Exemplo prático em React Native</h3>
+      <p>Imagine um hook que recebe uma função de atualização de perfil parcial:</p>
+      <pre><code class="language-ts">interface Perfil {
+      nome: string;
+      bio: string;
+      avatar: string;
+    }
+    
+    function atualizarPerfil(dados: Partial&lt;Perfil&gt;) {
+      // envia apenas os campos alterados para a API
+    }
+    </code></pre>
+      <p>E em um componente de listagem, você pode esconder campos sensíveis com <code>Omit</code>:</p>
+      <pre><code class="language-ts">type UsuarioSemAvatar = Omit&lt;Perfil, &quot;avatar&quot;&gt;;
+    </code></pre>
+      <p>Ou gerar uma estrutura de estado com <code>Readonly</code> para garantir que os dados não sejam reatribuídos
+        acidentalmente.</p>
+      <h3>Conclusões</h3>
+      <p>Os <strong>utility types</strong> do TypeScript economizam tempo e evitam duplicação, permitindo criar
+        <strong>tipos derivados com segurança</strong>. Eles se tornam ainda mais poderosos quando combinados com
+        generics e interfaces — e são ferramentas indispensáveis para aplicações profissionais com React Native.</p>
+      <p>Combinados, esses recursos nos permitem modelar dados com precisão, adaptar estruturas conforme o contexto e
+        manter a consistência do sistema mesmo à medida que ele cresce.</p>
+      <hr>
+      <h2>3. Resolução dos Exercícios da Aula 01</h2>
+      <p>Para consolidar o entendimento dos conceitos abordados até aqui — como desestruturação, arrow functions,
+        operadores spread/rest, métodos de array e fundamentos do TypeScript — vamos agora retomar os exercícios
+        propostos ao final da Aula 01. A ideia é analisar passo a passo suas resoluções, destacando como as práticas de
+        JavaScript e os recursos de tipagem do TypeScript contribuem para um código mais alinhado com o estilo adotado
+        no desenvolvimento com React Native. 😊</p>
+      <h3>✅ Exercício 01 – <code>arrayUtils.js</code></h3>
+      <p>Este exercício propôs a análise de três funções utilitárias para manipulação de arrays: <code>unique</code>,
+        <code>groupBy</code> e <code>sumBy</code>. Vamos agora revisá-las e entendê-las, relacionando sua lógica com os
+        conceitos trabalhados nesta segunda aula.</p>
+      <h4>📌 Função <code>unique</code></h4>
+      <pre><code class="language-js">export const unique = arr =&gt; [...new Set(arr)];
+    </code></pre>
+      <p>A função <code>unique</code> recebe um array e retorna um novo array contendo apenas os valores únicos. Isso é
+        feito com o uso da estrutura de dados <code>Set</code>, que elimina automaticamente os elementos duplicados, e
+        do operador <strong>spread (<code>...</code>)</strong>, que expande os valores do <code>Set</code> de volta em
+        um array. Trata-se de uma abordagem declarativa e imutável para filtragem de duplicatas.</p>
+      <p>Agora imagine, por exemplo, que você tem uma lista de nomes que podem conter repetições:</p>
+      <pre><code class="language-js">const nomes = [&quot;Ana&quot;, &quot;Carlos&quot;, &quot;Ana&quot;, &quot;João&quot;, &quot;Carlos&quot;];
+    const nomesUnicos = unique(nomes);
+    
+    console.log(nomesUnicos);
+    // Saída: [&quot;Ana&quot;, &quot;Carlos&quot;, &quot;João&quot;]
+    </code></pre>
+      <p>Ao usarmos a função <code>unique</code>, a estrutura <code>Set</code> elimina automaticamente os elementos
+        duplicados, e o operador spread <code>...</code> cria um novo array com os valores únicos. Esse padrão é útil
+        para garantir que elementos repetidos sejam removidos de forma simples.</p>
+      <h4>📌 Função <code>groupBy</code></h4>
+      <pre><code class="language-js">export const groupBy = (arr, key) =&gt;
+      arr.reduce((acc, obj) =&gt; {
+        (acc[obj[key]] = acc[obj[key]] || []).push(obj);
+        return acc;
+      }, {});
+    </code></pre>
+      <p>A função <code>groupBy</code> agrupa os elementos do array de acordo com uma propriedade informada. Isso é
+        feito com o método <code>reduce</code>, que constrói um novo objeto onde cada chave representa um grupo e os
+        valores são arrays de objetos correspondentes. A construção condicional
+        <code>acc[obj[key]] = acc[obj[key]] || []</code> assegura que a chave exista antes de fazer o <code>push</code>.
+        Essa é uma aplicação típica do <code>reduce</code> para transformação de dados estruturados.</p>
+      <p>Para entender o funcionamento de forma mais concreta, suponha que temos um array de objetos representando
+        produtos, e queremos agrupá-los por categoria:</p>
+      <pre><code class="language-js">const produtos = [
+      { nome: &quot;Banana&quot;, categoria: &quot;Frutas&quot; },
+      { nome: &quot;Maçã&quot;, categoria: &quot;Frutas&quot; },
+      { nome: &quot;Cenoura&quot;, categoria: &quot;Legumes&quot; },
+      { nome: &quot;Alface&quot;, categoria: &quot;Verduras&quot; },
+      { nome: &quot;Brócolis&quot;, categoria: &quot;Verduras&quot; }
+    ];
+    </code></pre>
+      <p>Se aplicarmos a função <code>groupBy</code> passando o array <code>produtos</code> e a chave
+        <code>&quot;categoria&quot;</code>:</p>
+      <pre><code class="language-js">const agrupados = groupBy(produtos, &quot;categoria&quot;);
+    console.log(agrupados);
+    </code></pre>
+      <p>O resultado será:</p>
+      <pre><code class="language-js">{
+      Frutas: [
+        { nome: &quot;Banana&quot;, categoria: &quot;Frutas&quot; },
+        { nome: &quot;Maçã&quot;, categoria: &quot;Frutas&quot; }
+      ],
+      Legumes: [
+        { nome: &quot;Cenoura&quot;, categoria: &quot;Legumes&quot; }
+      ],
+      Verduras: [
+        { nome: &quot;Alface&quot;, categoria: &quot;Verduras&quot; },
+        { nome: &quot;Brócolis&quot;, categoria: &quot;Verduras&quot; }
+      ]
+    }
+    </code></pre>
+      <p>Assim, o passo a passo da função será:</p>
+      <ol>
+        <li>Começa com um objeto vazio <code>{}</code>.</li>
+        <li>Para cada item do array, verifica o valor da chave <code>categoria</code>.</li>
+        <li>Se esse valor ainda não existir como chave no acumulador <code>acc</code>, cria uma nova entrada com array
+          vazio.</li>
+        <li>Adiciona o objeto atual ao array correspondente.</li>
+      </ol>
+      <p>A linha crítica é esta:</p>
+      <pre><code class="language-js">acc[obj[key]] = acc[obj[key]] || [];
+    </code></pre>
+      <p>Ela garante que, se <code>acc[obj[key]]</code> for <code>undefined</code>, ele será inicializado como
+        <code>[]</code> antes de receber <code>.push(obj)</code>. </p>
+      <h4>📌 Função <code>sumBy</code></h4>
+      <pre><code class="language-js">export const sumBy = (arr, key) =&gt;
+      arr.reduce((total, obj) =&gt; total + (obj[key] ?? 0), 0);
+    </code></pre>
+      <p>A função <code>sumBy</code> soma os valores de uma determinada propriedade em um array de objetos. Utiliza o
+        <code>reduce</code> para acumular o total e o operador de <strong>coalescência nula (<code>??</code>)</strong>
+        para lidar com casos em que o valor da propriedade pode ser <code>undefined</code> ou <code>null</code>,
+        evitando falhas silenciosas e garantindo que a soma seja precisa.</p>
+      <p>Imagine uma lista de produtos e você quer somar todos os preços:</p>
+      <pre><code class="language-js">const produtos = [
+      { nome: &quot;Caneta&quot;, preco: 2.5 },
+      { nome: &quot;Caderno&quot;, preco: 15 },
+      { nome: &quot;Borracha&quot; } // preço ausente
+    ];
+    
+    const total = sumBy(produtos, &quot;preco&quot;);
+    
+    console.log(total);
+    // Saída: 17.5
+    </code></pre>
+      <p>A função percorre os objetos com <code>reduce</code>, somando os valores da chave <code>preco</code>. Caso a
+        chave esteja ausente, o operador de coalescência nula <code>??</code> garante que o valor somado será
+        <code>0</code>. </p>
+      <h4>✅ Em síntese</h4>
+      <p>A resolução deste exercício aplica alguns dos conceitos centrais do JavaScript que foram revisados nesta aula:
+        o <strong>operador spread</strong>, o uso de <strong>funções arrow</strong>, a <strong>imutabilidade</strong> na
+        transformação de dados, o poder expressivo do método <strong>reduce</strong>, além da <strong>acessibilidade
+          dinâmica de propriedades</strong> com <code>obj[key]</code>. Além disso, vimos a aplicação da
+        <strong>coalescência nula (<code>??</code>)</strong> como forma de garantir segurança na leitura de
+        propriedades.</p>
+      <p>Essas três funções também exemplificam o paradigma da <strong>programação funcional</strong>, pois operam sobre
+        dados de forma pura e previsível, retornando novos valores sem modificar os originais. </p>
+      <p>Sim, eu sei que não havíamos visto nada disso quando pedi os exercícios a vocês — mas, agora, com a explicação,
+        fica mais fácil entender e relacionar as ideias, né? Essa é justamente a proposta: apresentar desafios e, em
+        seguida, esclarecer os fundamentos. 🤩</p>
+      <hr>
+      <h3>✅ Exercício 02 – Migração para <code>arrayUtils.ts</code></h3>
+      <p>Neste exercício, o desafio foi migrar as funções utilitárias do JavaScript puro para uma versão <strong>tipada
+          com TypeScript</strong>, utilizando recursos como generics, inferência de tipos e validação estática. Vamos
+        revisar as versões finais de cada função, relacionando-as com os conceitos apresentados nesta segunda aula.</p>
+      <h4>📌 Função <code>unique</code></h4>
+      <pre><code class="language-ts">export const unique = &lt;T&gt;(arr: T[]): T[] =&gt; [...new Set(arr)];
+    </code></pre>
+      <p>A função <code>unique</code> tipada com TypeScript segue a mesma lógica da versão anterior, mas agora utiliza o
+        tipo genérico <code>&lt;T&gt;</code> para garantir que o array recebido e o array retornado mantenham o mesmo
+        tipo. Isso permite que a função seja reutilizável com qualquer tipo de dado — seja <code>string</code>,
+        <code>number</code>, ou até mesmo objetos complexos.</p>
+      <p>Exemplo com strings:</p>
+      <pre><code class="language-ts">const nomes = [&quot;Ana&quot;, &quot;Carlos&quot;, &quot;Ana&quot;, &quot;João&quot;];
+    const nomesUnicos = unique(nomes);
+    
+    console.log(nomesUnicos);
+    // Saída: [&quot;Ana&quot;, &quot;Carlos&quot;, &quot;João&quot;]
+    </code></pre>
+      <p>Aqui, o TypeScript infere corretamente que <code>nomesUnicos</code> é um <code>string[]</code>, e fornece
+        autocompletar e validação de tipos.</p>
+      <h4>📌 Função <code>groupBy</code></h4>
+      <pre><code class="language-ts">export const groupBy = &lt;T, K extends keyof T&gt;(
+      arr: T[],
+      key: K
+    ): Record&lt;string, T[]&gt; =&gt;
+      arr.reduce((acc, obj) =&gt; {
+        const k = String(obj[key]);
+        acc[k] = acc[k] || [];
+        acc[k].push(obj);
+        return acc;
+      }, {} as Record&lt;string, T[]&gt;);
+    </code></pre>
+      <p>A função <code>groupBy</code> agora está tipada com dois parâmetros genéricos: <code>T</code>, representando o
+        tipo dos objetos do array, e <code>K</code>, que representa a chave usada para agrupar. O uso de
+        <code>K extends keyof T</code> garante que apenas chaves válidas do tipo <code>T</code> possam ser utilizadas,
+        evitando erros comuns.</p>
+      <p>Suponha que temos um array de produtos e queremos agrupá-los por categoria:</p>
+      <pre><code class="language-ts">type Produto = { nome: string; categoria: string };
+    
+    const produtos: Produto[] = [
+      { nome: &quot;Banana&quot;, categoria: &quot;Frutas&quot; },
+      { nome: &quot;Maçã&quot;, categoria: &quot;Frutas&quot; },
+      { nome: &quot;Cenoura&quot;, categoria: &quot;Legumes&quot; }
+    ];
+    
+    const agrupados = groupBy(produtos, &quot;categoria&quot;);
+    
+    console.log(agrupados);
+    </code></pre>
+      <p>Saída esperada:</p>
+      <pre><code class="language-ts">{
+      Frutas: [
+        { nome: &quot;Banana&quot;, categoria: &quot;Frutas&quot; },
+        { nome: &quot;Maçã&quot;, categoria: &quot;Frutas&quot; }
+      ],
+      Legumes: [
+        { nome: &quot;Cenoura&quot;, categoria: &quot;Legumes&quot; }
+      ]
+    }
+    </code></pre>
+      <p>A tipagem com <code>Record&lt;string, T[]&gt;</code> informa ao compilador e ao desenvolvedor que o retorno
+        será um objeto onde as chaves são strings e os valores são arrays de elementos do tipo <code>T</code>.</p>
+      <h4>📌 Função <code>sumBy</code></h4>
+      <pre><code class="language-ts">export const sumBy = &lt;T&gt;(arr: T[], key: keyof T): number =&gt;
+      arr.reduce((total, obj) =&gt; total + (Number(obj[key]) || 0), 0);
+    </code></pre>
+      <p>A função <code>sumBy</code> foi tipada para aceitar qualquer tipo de objeto <code>T</code>, mas exige que a
+        <code>key</code> seja uma propriedade válida (<code>keyof T</code>). A conversão explícita com
+        <code>Number()</code> garante que o retorno sempre seja numérico, mesmo que a propriedade contenha
+        <code>string</code> ou <code>undefined</code>.</p>
+      <p>Suponha que temos um array de despesas:</p>
+      <pre><code class="language-ts">type Despesa = { item: string; valor?: number };
+    
+    const despesas: Despesa[] = [
+      { item: &quot;Transporte&quot;, valor: 20 },
+      { item: &quot;Almoço&quot;, valor: 35 },
+      { item: &quot;Café&quot; }
+    ];
+    
+    const total = sumBy(despesas, &quot;valor&quot;);
+    
+    console.log(total);
+    // Saída: 55
+    </code></pre>
+      <p>Mesmo com uma propriedade ausente (<code>valor</code>), a função continua funcionando com segurança graças ao
+        uso de <code>Number(obj[key]) || 0</code>.</p>
+      <h4>✅ Em síntese</h4>
+      <p>A migração para TypeScript reforça os conceitos de <strong>tipagem genérica</strong>, <strong>uso de
+          <code>keyof</code> e <code>extends</code> para validação de chaves</strong>, e o emprego de <strong>utility
+          types</strong> como <code>Record</code>. Além disso, os exemplos mostraram como o TypeScript melhora a
+        experiência do desenvolvedor, fornecendo validação estática, sugestões automáticas e proteção contra erros
+        comuns.</p>
+      <p>Com isso, não apenas reforçamos os recursos da linguagem, mas também mantivemos o compromisso com
+        <strong>funções puras, reutilizáveis e previsíveis</strong> — um dos pilares da programação funcional que
+        estamos adotando com React Native.</p>
+      <p>E sim, como aconteceu no exercício anterior, talvez no momento da proposta as tipagens parecessem desafiadoras
+        — mas agora que revisitamos os fundamentos, começa a fazer mais sentido, né? </p>
+      <hr>
+      <h2>✅ Exercício 03 – <code>pokedex.ts</code>: Consulta à PokéAPI via CLI</h2>
+      <p>Neste terceiro exercício, desenvolvemos uma pequena aplicação de linha de comando (CLI) em TypeScript para
+        consultar dados de um Pokémon usando a <a href="https://pokeapi.co/">PokéAPI</a>. A proposta serviu para aplicar
+        diversos conceitos de JavaScript moderno e TypeScript em um contexto prático e mais próximo do &quot;mundo
+        real&quot;: leitura de argumentos via terminal, chamadas assíncronas com <code>fetch</code>, tratamento de
+        exceções, manipulação de dados com <code>.map()</code> e <code>.join()</code>, além da organização do código em
+        funções puras e tipadas.</p>
+      <h4>📌 Etapa 1 – Captura do argumento via terminal</h4>
+      <pre><code class="language-ts">const entrada = process.argv[2];
+    
+    if (!entrada) {
+      console.log(&quot;❌ Informe um nome ou ID de Pokémon.&quot;);
+      process.exit(1);
+    }
+    </code></pre>
+      <p>Utilizamos o array <code>process.argv</code> para capturar o valor passado na linha de comando (por exemplo:
+        <code>pikachu</code>). A verificação <code>if (!entrada)</code> garante que o programa só continue se o usuário
+        fornecer um argumento válido.</p>
+      <h4>📌 Etapa 2 – Função principal com <code>async/await</code></h4>
+      <pre><code class="language-ts">async function buscarPokemon(idOuNome: string): Promise&lt;void&gt; {
+      const url = `https://pokeapi.co/api/v2/pokemon/${idOuNome.toLowerCase()}`;
+    
+      try {
+        const resposta = await fetch(url);
+    
+        if (!resposta.ok) {
+          if (resposta.status === 404) {
+            console.log(&quot;❌ Pokémon não encontrado!&quot;);
+          } else {
+            console.log(&quot;⚠️ Erro na API. Código:&quot;, resposta.status);
+          }
+          return;
+        }
+    
+        const dados = await resposta.json();
+    
+        const nome: string = dados.name;
+        const altura: number = dados.height / 10; // em metros
+        const peso: number = dados.weight / 10;   // em kg
+        const tipos: string = dados.types
+          .map((tipo: any) =&gt; tipo.type.name)
+          .join(&quot; / &quot;);
+    
+        console.log(`${capitalize(nome)} – ${altura} m – ${peso} kg – ${tipos}`);
+      } catch {
+        console.log(&quot;⚠️ Erro de rede. Tente novamente.&quot;);
+      }
+    }
+    </code></pre>
+      <p>A função <code>buscarPokemon</code> é assíncrona (<code>async</code>) e retorna <code>void</code>. Ela faz a
+        chamada à API usando <code>fetch</code>, trata erros com <code>try/catch</code>, e formata os dados para
+        exibição. É importante notar que em JavaScript, operações assíncronas — como chamadas de API, leitura de
+        arquivos ou interações com banco de dados — <strong>não retornam imediatamente um valor</strong>, mas sim uma
+        <strong>Promise</strong>, que representa um valor que <em>ainda não está disponível</em>, mas será resolvido no
+        futuro.</p>
+      <p>Assim, a palavra-chave <code>async</code> transforma a função <code>buscarPokemon</code> em uma função
+        assíncrona que sempre retorna uma <code>Promise</code>. O tipo <code>Promise&lt;void&gt;</code> indica que a
+        função <strong>não retorna um valor útil</strong> (como <code>string</code> ou <code>number</code>), mas apenas
+        finaliza seu trabalho de forma assíncrona.</p>
+      <p>A grande vantagem de usar <code>async/await</code> é a <strong>clareza do código</strong>: podemos escrever
+        chamadas assíncronas como se fossem síncronas, evitando encadeamentos confusos com <code>.then()</code> e
+        <code>.catch()</code>. O uso de <code>await</code> <strong>pausa a execução da função até que a Promise seja
+          resolvida</strong>, permitindo trabalhar com os dados como se já estivessem disponíveis — o que é muito útil
+        em funções como <code>buscarPokemon</code>, onde cada etapa depende da anterior.</p>
+      <p>Já a linha seguinte, com <code>.map(...).join(&quot; / &quot;)</code>, demonstra a aplicação de métodos de
+        array em um contexto real para construir uma string de tipos do Pokémon (ex: <code>&quot;electric&quot;</code>
+        ou <code>&quot;fire / flying&quot;</code>).</p>
+      <h4>📌 Função auxiliar <code>capitalize</code></h4>
+      <pre><code class="language-ts">function capitalize(texto: string): string {
+      return texto.charAt(0).toUpperCase() + texto.slice(1);
+    }
+    </code></pre>
+      <p>Essa função transforma a primeira letra da string em maiúscula — exemplo de função pura, reaproveitável e
+        tipada.</p>
+      <h4>📌 Etapa 3 – Execução</h4>
+      <pre><code class="language-ts">buscarPokemon(entrada);
+    </code></pre>
+      <p>Com isso, iniciamos o programa passando o argumento capturado no terminal.</p>
+      <h4>🧪 Exemplo de uso</h4>
+      <pre><code class="language-bash">npx ts-node pokedex.ts pikachu
+    </code></pre>
+      <p>Saída esperada:</p>
+      <pre><code>Pikachu – 0.4 m – 6 kg – electric
+    </code></pre>
+      <h3>🧾 Código completo – <code>pokedex.ts</code></h3>
+      <pre><code class="language-ts">const entrada = process.argv[2];
+    
+    if (!entrada) {
+      console.log(&quot;❌ Informe um nome ou ID de Pokémon.&quot;);
+      process.exit(1);
+    }
+    
+    function capitalize(texto: string): string {
+      return texto.charAt(0).toUpperCase() + texto.slice(1);
+    }
+    
+    async function buscarPokemon(idOuNome: string): Promise&lt;void&gt; {
+      const url = `https://pokeapi.co/api/v2/pokemon/${idOuNome.toLowerCase()}`;
+    
+      try {
+        const resposta = await fetch(url);
+    
+        if (!resposta.ok) {
+          if (resposta.status === 404) {
+            console.log(&quot;❌ Pokémon não encontrado!&quot;);
+          } else {
+            console.log(&quot;⚠️ Erro na API. Código:&quot;, resposta.status);
+          }
+          return;
+        }
+    
+        const dados = await resposta.json();
+    
+        const nome: string = dados.name;
+        const altura: number = dados.height / 10;
+        const peso: number = dados.weight / 10;
+        const tipos: string = dados.types
+          .map((tipo: any) =&gt; tipo.type.name)
+          .join(&quot; / &quot;);
+    
+        console.log(`${capitalize(nome)} – ${altura} m – ${peso} kg – ${tipos}`);
+      } catch {
+        console.log(&quot;⚠️ Erro de rede. Tente novamente.&quot;);
+      }
+    }
+    
+    buscarPokemon(entrada);
+    </code></pre>
+      <h4>✅ Em síntese</h4>
+      <p>Este exercício reuniu vários aspectos centrais da programação moderna com TypeScript:</p>
+      <ul>
+        <li>Uso de <strong>funções assíncronas (<code>async/await</code>)</strong></li>
+        <li>Manipulação de dados com <code>.map()</code> e <code>.join()</code> — reforçando o paradigma funcional
+          abordado na Seção 1.7</li>
+        <li>Tratamento de erros com <code>try/catch</code>, promovendo resiliência do código</li>
+        <li>Tipagem explícita de variáveis, parâmetros e retorno de funções</li>
+        <li>Funções auxiliares puras (<code>capitalize</code>) para promover clareza e reutilização</li>
+      </ul>
+      <p>Além disso, introduzimos o uso de APIs públicas e da interface de linha de comando (CLI) — temas muito
+        presentes em projetos reais, inclusive para ferramentas internas ou utilitários de integração.</p>
+      <p>A essa altura, pode parecer que o desafio era grande para o momento em que ele foi proposto... e talvez fosse
+        mesmo! 😅 Mas acredito na capacidade de vocês, e a elaboração de tarefas desafiadoras é importante. Essa
+        abordagem — propondo antes e explicando depois — ajuda a transformar a experiência prática (o famosos
+        <em>quebrar a cabeça</em>) em aprendizado consolidado.</p>
+      <p>&quot;Ah, professor, mas eu não consigo...&quot;</p>
+      <p><strong>CONSEGUE SIM‼️</strong> 🗣️📢</p>
+      <hr>
+      <h3>✅ 4. Conclusão</h3>
+      <p>Nesta aula, fizemos mais do que uma revisão de JavaScript moderno e uma introdução técnica ao TypeScript —
+        <strong>preparamos o terreno para o desenvolvimento de aplicações reais em React Native com segurança, clareza e
+          produtividade</strong>.</p>
+      <p>Cada recurso abordado tem um papel direto na prática que teremos a seguir:</p>
+      <ul>
+        <li><strong>O uso de <code>let</code> e <code>const</code></strong>, com escopo de bloco e previsibilidade, é
+          essencial para evitar efeitos colaterais indesejados na manipulação de estado;</li>
+        <li><strong>A desestruturação de arrays e objetos</strong> será onipresente na interação com props, hooks e
+          retornos de APIs;</li>
+        <li><strong>Arrow functions</strong> são padrão em handlers, callbacks e componentes funcionais — e seu
+          comportamento com <code>this</code> evita muitos erros silenciosos;</li>
+        <li><strong>Template literals</strong> permitem compor strings dinâmicas para interfaces, mensagens e URLs de
+          requisição de forma legível e expressiva;</li>
+        <li><strong>Métodos como <code>map</code>, <code>filter</code> e <code>reduce</code></strong> serão a base da
+          renderização de listas, filtragem de dados e construção de estados derivados;</li>
+        <li><strong>A tipagem com TypeScript</strong>, incluindo tipos primitivos, interfaces, generics e utility types,
+          <strong>não é um luxo, mas uma necessidade prática</strong> para prevenir erros e melhorar a comunicação entre
+          as partes do sistema;</li>
+        <li>Finalmente, os exercícios propostos e resolvidos <strong>mostraram que podemos aplicar tudo isso em
+            problemas reais</strong>, como criar utilitários reutilizáveis, validar dados, e integrar com APIs.</li>
+      </ul>
+      <p>Em resumo: <strong>toda essa base teórica e prática é o alicerce do desenvolvimento com React Native</strong>.
+        A partir da próxima aula, começaremos a abordar o desenvolvimento mobile <em>de fato</em>. E faremos tudo isso
+        de forma tipada, modular e segura — exatamente porque dominamos os fundamentos revistos aqui.</p>
+      <p>Se você achava que essa aula era só “revisão”... agora dá pra ver que <strong>ela é o pilar da nossa fluência
+          no ecossistema mobile moderno</strong>. 🚀</p>
+      <p>Antes da próxima Aula, entretanto, sabem o que é interessante para consolidar todo esse conhecimento?</p>
+      <p>Sim, é isso mesmo: exercícios!</p>
+      <hr>
+      <h2>5. Exercícios Propostos (TypeScript)</h2>
+      <p>Os exercícios a seguir visam solidificar os principais conceitos de TypeScript abordados nesta aula:
+        <strong>tipagem explícita</strong>, <strong>interfaces</strong>, <strong>tipos literais</strong>,
+        <strong>uniões</strong>, <strong>generics</strong> e <strong>utility types</strong>. Vamos reforçar o que vimos
+        pois utilizaremos posteriormente.</p>
+      <p>Cada exercício pode ser resolvido em um arquivo <code>.ts</code> próprio, e verificado com
+        <code>npx tsc --noEmit</code> para validação sem geração de arquivos <code>.js</code>.</p>
+      <p>Para entrega, envie um .ZIP ou link do repositório no Moodle.</p>
+      <h3>🔧 Exercício 1 – Tipos, interfaces e métodos de array</h3>
+      <p><strong>Objetivo:</strong> Tipar corretamente dados e funções que operam sobre listas.</p>
+      <ol>
+        <li>
+          <p>Crie uma interface <code>Livro</code> com os campos:</p>
+          <ul>
+            <li><code>titulo</code> (string)</li>
+            <li><code>autor</code> (string)</li>
+            <li><code>ano</code> (number)</li>
+            <li><code>disponivel</code> (boolean)</li>
+          </ul>
+        </li>
+        <li>
+          <p>Crie um array <code>biblioteca: Livro[]</code> com ao menos 3 livros.</p>
+        </li>
+        <li>
+          <p>Implemente a função <code>listarTitulosDisponiveis(livros: Livro[]): string[]</code>
+            que retorne apenas os títulos dos livros com <code>disponivel = true</code>.</p>
+        </li>
+        <li>
+          <p>Use <code>filter</code> e <code>map</code> com tipagem apropriada.</p>
+        </li>
+      </ol>
+      <h3>🔧 Exercício 2 – Tipos literais e união de tipos</h3>
+      <p><strong>Objetivo:</strong> Representar múltiplos formatos possíveis para um mesmo tipo de dado.</p>
+      <ol>
+        <li>Crie dois tipos:</li>
+      </ol>
+      <pre><code class="language-ts">type Sucesso = { tipo: &quot;sucesso&quot;; dados: string[] };
+    type Erro = { tipo: &quot;erro&quot;; mensagem: string };
+    type Resultado = Sucesso | Erro;
+    </code></pre>
+      <ol start="2">
+        <li>Crie a função <code>exibirResultado(r: Resultado): void</code> que:</li>
+      </ol>
+      <ul>
+        <li>Mostra os dados se <code>r.tipo === &quot;sucesso&quot;</code></li>
+        <li>Mostra a mensagem de erro se <code>r.tipo === &quot;erro&quot;</code></li>
+      </ul>
+      <ol start="3">
+        <li>Use <code>if</code> com refinamento de tipo (type narrowing).</li>
+      </ol>
+      <h3>🔧 Exercício 3 – Utility Types (<code>Omit</code>, <code>Partial</code>, <code>Readonly</code>)</h3>
+      <p><strong>Objetivo:</strong> Criar variações seguras de tipos com base em estruturas existentes.</p>
+      <ol>
+        <li>
+          <p>Crie uma interface <code>Usuario</code> com os campos:</p>
+          <ul>
+            <li><code>id: number</code></li>
+            <li><code>nome: string</code></li>
+            <li><code>email: string</code></li>
+            <li><code>senha: string</code></li>
+          </ul>
+        </li>
+        <li>
+          <p>Crie dois novos tipos:</p>
+        </li>
+      </ol>
+      <pre><code class="language-ts">type UsuarioSemSenha = Omit&lt;Usuario, &quot;senha&quot;&gt;;
+    type UsuarioAtualizacao = Partial&lt;Usuario&gt;;
+    </code></pre>
+      <ol start="3">
+        <li>Implemente duas funções:</li>
+      </ol>
+      <pre><code class="language-ts">function exibirPerfil(u: UsuarioSemSenha): void;
+    function atualizarUsuario(id: number, dados: UsuarioAtualizacao): void;
+    </code></pre>
+      <p>Use <code>console.log()</code> para simular os efeitos.</p>
+      <h3>🔧 Exercício 4 – Funções genéricas</h3>
+      <p><strong>Objetivo:</strong> Criar funções reutilizáveis fortemente tipadas.</p>
+      <ol>
+        <li>
+          <p>Implemente a função <code>obterPrimeiro&lt;T&gt;(lista: T[]): T</code> que retorna o primeiro item da
+            lista.</p>
+        </li>
+        <li>
+          <p>Use a função com uma lista de <code>string[]</code>, depois com <code>number[]</code>, e com um tipo
+            personalizado:</p>
+        </li>
+      </ol>
+      <pre><code class="language-ts">interface Produto {
+      nome: string;
+      preco: number;
+    }
+    </code></pre>
+      <ol start="3">
+        <li>Demonstre o uso correto da inferência de tipos.</li>
+      </ol>
+      <h3>🔧 Exercício 5 – Tipagem em componentes e props</h3>
+      <p><strong>Objetivo:</strong> Simular props de componentes com TypeScript.</p>
+      <ol>
+        <li>
+          <p>Crie uma interface <code>PropsBotao</code> com:</p>
+          <ul>
+            <li><code>titulo: string</code></li>
+            <li><code>ativo?: boolean</code></li>
+          </ul>
+        </li>
+        <li>
+          <p>Implemente a função:</p>
+        </li>
+      </ol>
+      <pre><code class="language-ts">function renderizarBotao({ titulo, ativo = true }: PropsBotao): string {
+      return ativo ? `[ ${titulo} ]` : `( ${titulo} )`;
+    }
+    </code></pre>
+      <ol start="3">
+        <li>Teste com diferentes valores.</li>
+      </ol>
+      <h3>✅ Dica: validação com o TypeScript</h3>
+      <p>Use o comando abaixo para validar os exercícios sem gerar arquivos <code>.js</code>:</p>
+      <pre><code class="language-bash">npx tsc --noEmit
+    </code></pre>
+
+    </div>
+
+  </div>
+
+
+  <footer class="footer mt-auto py-3">
+    <div class="container-fluid">
+      <span>
+        <p class="text-center text-light">Instituto Federal de Educação, Ciência e Tecnologia de São Paulo,
+          Câmpus Guarulhos. Desenvolvimento Mobile - Prof. Giovani.</p>
+      </span>
+    </div>
+  </footer>
+
+
+  <script src="js/prism.js"></script>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/popper.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+
+</html>
