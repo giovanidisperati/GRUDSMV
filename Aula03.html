@@ -1,0 +1,2314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/estilo.css">
+    <link rel="stylesheet" href="css/prism.css">
+
+    <title>Desenvolvimento Mobile - Apresentação da Disciplina</title>
+</head>
+
+<body>
+    <div class="wrapper d-flex align-items-stretch">
+        <nav id="sidebar">
+            <div class="custom-menu">
+                <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                    <i class="fa fa-bars"></i>
+                    <span class="sr-only">Toggle Menu</span>
+                </button>
+            </div>
+            <h1><a href="index.html" class="logo text-center">AULAS</a></h1>
+            <ul class="list-unstyled components mb-5">
+                <li>
+                    <a href="Aula01.html"><span class="mr-1"></span>01 - Introdução e Panorama Mobile</a>
+                </li>
+                <li>
+                    <a href="Aula02.html"><span class="mr-0"></span>02 - Revisão de JavaScript e TypeScript</a>
+                </li>
+                <li  class="active">
+                    <a href="Aula03.html"><span class="mr-0"></span>03 - Começando com React: Componentes, JSX e Hooks</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>04 - Estilização e Layout Responsivo</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>05 - Navegação com React Navigation</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>06 - Consumo de APIs REST</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>07 - Armazenamento e Estado Global</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>08 - Recursos Nativos (Câmera, Localização)</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>09 - Boas Práticas e Arquitetura</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>10 - Build, Publicação e Projeto Final</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div id="content" class="p-4 p-md-5 pt-5">
+            <h1>Aula 03 – Fundamentos de React com TypeScript</h1>
+            <p>O React é uma biblioteca JavaScript criada pelo Facebook (atualmente Meta) para construir interfaces de
+                usuário de maneira <strong>declarativa, eficiente e baseada em componentes</strong>. Desde seu
+                lançamento em 2013, o React se tornou uma das tecnologias mais populares no desenvolvimento front-end —
+                tanto para web quanto para dispositivos móveis, por meio do React Native.</p>
+            <p>Antes de começarmos a construir nossos primeiros aplicativos mobile com React Native, já vimos duas
+                etapas fundamentais:</p>
+            <ol>
+                <li><strong>Configuração do ambiente de desenvolvimento</strong>, com foco no uso do Expo para acelerar
+                    a criação e execução de apps móveis;</li>
+                <li><strong>Revisão de JavaScript moderno e introdução ao TypeScript</strong>, nossa linguagem
+                    principal, que adiciona tipagem estática e maior segurança ao código.</li>
+            </ol>
+            <p>Agora, nesta aula, vamos explorar os fundamentos do React, que servirão como base para compreendermos
+                como o React Native funciona.</p>
+            <p>E aí você pode se perguntar: mas por que estamos aprendendo React antes de mergulhar totalmente no React
+                Native?</p>
+            <p>A resposta está na <strong>arquitetura compartilhada</strong> entre as duas abordagens. React Native
+                <strong>não é uma linguagem separada</strong>, mas sim uma <strong>extensão do React
+                    tradicional</strong>, com componentes adaptados para dispositivos móveis. Isso significa que
+                <strong>o conhecimento adquirido aqui será reutilizado quase integralmente nas próximas aulas</strong>,
+                com poucas diferenças — principalmente relacionadas à renderização visual e aos componentes específicos
+                de interface.</p>
+            <p>Dominar os fundamentos do React (como JSX, componentes, props, estado e efeitos) nos permitirá evoluir
+                com confiança no desenvolvimento mobile, evitando erros conceituais e acelerando nossa curva de
+                aprendizado. 😊</p>
+            <h2><strong>1. Introdução ao React</strong></h2>
+            <h3>📱 <strong>1.1 React como base para o React Native</strong></h3>
+            <p>Apesar de React Native usar componentes visuais diferentes (como <code>View</code>, <code>Text</code>,
+                <code>Button</code>, em vez de <code>div</code>, <code>span</code>, <code>input</code>), <strong>a
+                    lógica que sustenta os dois é a mesma</strong>:</p>
+            <ul>
+                <li>Ambos usam <strong>JSX</strong> para descrever a interface de forma declarativa;</li>
+                <li>Ambos se estruturam em <strong>componentes reutilizáveis</strong>;</li>
+                <li>Ambos gerenciam dados com <strong>estado (<code>useState</code>)</strong> e respondem a mudanças com
+                    <strong>efeitos (<code>useEffect</code>)</strong>;</li>
+                <li>Ambos tratam a interface como uma <strong>função pura do estado atual</strong>.</li>
+            </ul>
+            <p>Portanto, <strong>dominar os fundamentos do React</strong> é um passo obrigatório para criar aplicações
+                robustas, escaláveis e compreensíveis com React Native.</p>
+            <h3>🧠 <strong>1.2 Pensando em interfaces como funções do estado</strong></h3>
+            <p>O React propõe uma forma diferente de construir interfaces: <strong>declarativa e orientada a
+                    dados</strong>.</p>
+            <p>Antes dele, a maior parte das interfaces era construída com <strong>manipulações diretas do DOM</strong>,
+                instrução por instrução, como em um algoritmo imperativo. Com React, dizemos <em>&quot;como a interface
+                    deve ser&quot;</em> com base em seus <strong>dados</strong>, e a biblioteca se encarrega de mantê-la
+                sincronizada com o estado do sistema.</p>
+            <p>Por exemplo:</p>
+            <pre><code class="language-js">&lt;p&gt;
+  {contador &gt; 0 ? &quot;Contador Ativo&quot; : &quot;Zerado&quot;}
+&lt;/p&gt;
+</code></pre>
+            <p>O React <strong>reavaliará essa expressão automaticamente sempre que <code>contador</code>
+                    mudar</strong>. Essa abordagem declarativa torna o código mais legível e previsível, especialmente à
+                medida que a interface cresce.</p>
+            <h5>🤯 <strong>1.3 Vamos comparar com jQuery</strong></h5>
+            <p>Imagine que você estivesse usando jQuery para fazer a mesma coisa:</p>
+            <pre><code class="language-html">&lt;p id=&quot;status&quot;&gt;&lt;/p&gt;
+</code></pre>
+            <pre><code class="language-js">let contador = 0;
+
+function atualizarStatus() {
+  if (contador &gt; 0) {
+    $(&quot;#status&quot;).text(&quot;Contador Ativo&quot;);
+  } else {
+    $(&quot;#status&quot;).text(&quot;Zerado&quot;);
+  }
+}
+
+// toda vez que o contador mudar, você precisa lembrar de chamar isso:
+contador++;
+atualizarStatus();
+</code></pre>
+            <p>Na abordagem com jQuery, <strong>você precisa lembrar de atualizar manualmente o DOM</strong> toda vez
+                que o valor mudar. Isso funciona, mas conforme a aplicação cresce, manter o DOM em sincronia com os
+                dados se torna <strong>uma tarefa difícil e sujeita a erros</strong>.</p>
+            <blockquote>
+                <p>🔍 <strong>1.4 O que é DOM?</strong>
+                    DOM é a sigla para <em>Document Object Model</em> — ou Modelo de Objeto de Documento. Ele representa
+                    a estrutura da página HTML como uma árvore de elementos que pode ser manipulada via JavaScript.
+                    Se quiser aproveitar para relembrar esse conceito, veja esta explicação da MDN:
+                    👉 <a
+                        href="https://developer.mozilla.org/pt-BR/docs/Web/API/Document_Object_Model">https://developer.mozilla.org/pt-BR/docs/Web/API/Document_Object_Model</a>
+                </p>
+            </blockquote>
+            <p>Com React, <strong>essa sincronização é automática</strong>. Você apenas define <em>como a interface deve
+                    parecer com base nos dados atuais</em>, e o React faz o trabalho pesado de atualização para você.
+                Isso é o que chamamos de <strong>programação declarativa</strong> — e é uma das maiores revoluções
+                trazidas por essa biblioteca.</p>
+            <h3>⚙️ <strong>1.5 Componentes, props e estado</strong></h3>
+            <p>Nas próximas seções vamos nos aprofundar nos três pilares do React:</p>
+            <ol>
+                <li><strong>Componentes</strong> – funções que retornam a interface.</li>
+                <li><strong>Props</strong> – parâmetros externos passados aos componentes.</li>
+                <li><strong>Estado (<code>useState</code>)</strong> – dados internos que controlam o que é exibido.</li>
+            </ol>
+            <p>Juntos, esses conceitos permitem criar aplicações que <strong>se atualizam automaticamente com base nos
+                    dados</strong>, sem precisar manipular a tela “na mão”.</p>
+            <p>É importante ter em mente que <strong>React é sobre composição</strong>.</p>
+            <p>Componentes em React são como <strong>blocos de Lego</strong>: pequenos, reutilizáveis e fáceis de
+                encaixar. Criamos componentes que representam partes da interface (como um botão, uma lista, um card), e
+                os <strong>combinamos</strong> para formar telas completas. Esse princípio de
+                <strong>composição</strong> é central no React e será <strong>amplamente utilizado no React
+                    Native</strong>, onde montaremos telas como <code>HomeScreen</code>, <code>LoginForm</code>, entre
+                outros, a partir de blocos menores.</p>
+            <p>E até aqui, exploramos JavaScript, TypeScript e até criamos uma pequena Pokedex via linha de comando.
+                Mas, para transformar essa lógica em <strong>interfaces visuais interativas em aplicativos
+                    mobile</strong>, precisamos entender:</p>
+            <ul>
+                <li>Como <strong>criar componentes reutilizáveis</strong>;</li>
+                <li>Como <strong>passar dados entre componentes</strong> (props);</li>
+                <li>Como <strong>manter a interface sincronizada com dados internos</strong> (estado);</li>
+                <li>Como <strong>reagir a eventos do ciclo de vida</strong> (efeitos colaterais).</li>
+            </ul>
+            <p>Esses são os fundamentos da programação em React e dominá-los é essencial antes de trabalhar com botões,
+                listas, imagens e chamadas a API no mundo mobile com React Native. 🧑‍💻</p>
+            <hr>
+            <h2><strong>2. JSX: JavaScript com aparência de HTML</strong></h2>
+            <p>Uma das primeiras coisas que chama atenção no React é a <strong>mistura entre código JavaScript e
+                    marcação visual</strong>, algo que à primeira vista pode parecer estranho, mas que se revela
+                extremamente poderoso. Essa sintaxe híbrida se chama <strong>JSX</strong> (JavaScript XML).</p>
+            <h3>🧬 <strong>2.1 O que é JSX e como ele se relaciona com Componentes?</strong></h3>
+            <p>JSX é uma extensão de sintaxe para JavaScript que nos permite escrever <strong>elementos da interface de
+                    forma semelhante ao HTML</strong>, diretamente dentro do código JavaScript (ou TypeScript). É
+                crucial entender que o JSX não é compreendido nativamente pelos navegadores; por isso, ele é
+                <strong>convertido (transpilado)</strong> para chamadas da função <code>React.createElement</code>
+                durante o processo de build.</p>
+            <p>Por exemplo, o seguinte código JSX:</p>
+            <pre><code class="language-jsx">const elemento = &lt;h1&gt;Olá, mundo!&lt;/h1&gt;;
+</code></pre>
+            <p>É transformado internamente em algo como:</p>
+            <pre><code class="language-js">const elemento = React.createElement(&quot;h1&quot;, null, &quot;Olá, mundo!&quot;);
+</code></pre>
+            <p>Esse comportamento permite que possamos <strong>escrever interfaces de forma declarativa</strong>. Em
+                essência, o JSX é &quot;açúcar sintático&quot; sobre <code>React.createElement</code>, tornando a
+                criação de <strong>componentes React</strong> mais intuitiva. Com ele, conseguimos expressar visualmente
+                a estrutura da interface dentro do código, facilitando o raciocínio visual (você &quot;vê&quot; a
+                interface no código) e reduzindo a distância entre lógica e apresentação.</p>
+            <p>É importante frisar: JSX <strong>não é HTML</strong>, mas <strong>parece com HTML</strong> e descreve a
+                interface. Entender que JSX é uma <strong>abstração convertida em código JavaScript</strong> ajuda a
+                evitar confusões comuns, como tentar usar atributos do HTML padrão (por exemplo, <code>class</code> em
+                vez de <code>className</code>) ou esquecer que por trás da sintaxe existe uma estrutura de componentes.
+                Toda interface construída com React será composta com JSX, onde cada tag é um componente React (ou um
+                elemento JSX simples), podendo ser <strong>combinada, personalizada e estilizada</strong> com
+                facilidade.</p>
+            <h3>🧠 <strong>2.2 JSX no React Native: Adaptando para o Mobile</strong></h3>
+            <p>A versatilidade do JSX se estende ao desenvolvimento mobile com React Native. No entanto, em aplicações
+                React Native, você não utilizará tags HTML como <code>div</code>, <code>span</code> ou <code>h1</code>.
+                Em vez disso, empregará <strong>componentes nativos adaptados</strong>, como:</p>
+            <ul>
+                <li><code>&lt;View&gt;</code> – equivalente a uma <code>div</code> ou <code>container</code></li>
+                <li><code>&lt;Text&gt;</code> – para exibir textos</li>
+                <li><code>&lt;Image&gt;</code> – para imagens</li>
+                <li><code>&lt;Button&gt;</code> – para botões (simples)</li>
+            </ul>
+            <p>Esses componentes são usados da mesma forma que usamos tags HTML com JSX, o que demonstra como o
+                aprendizado de JSX é <strong>facilmente aplicável ao desenvolvimento mobile</strong>. Veja um exemplo de
+                como esses componentes formam uma interface:</p>
+            <pre><code class="language-tsx">&lt;View&gt;
+  &lt;Text&gt;Bem-vindo à Pokédex&lt;/Text&gt;
+&lt;/View&gt;
+</code></pre>
+            <p>No dispositivo móvel, este trecho de código resultaria na exibição do texto &quot;Bem-vindo à
+                Pokédex&quot; na tela. O componente <code>&lt;View&gt;</code> atua como um contêiner (geralmente
+                invisível, a menos que estilos como cor de fundo ou bordas sejam aplicados) que organiza seus elementos
+                filhos. Dentro dele, o componente <code>&lt;Text&gt;</code> é responsável por renderizar a frase
+                especificada. É a combinação desses componentes nativos que constrói a interface visual do aplicativo!
+                Mais adiante, na próxima Aula, veremos isso com mais profundidade. 😊</p>
+            <h3>✅ <strong>2.3 Regras importantes do JSX</strong></h3>
+            <p>Para trabalhar efetivamente com JSX, algumas regras fundamentais devem ser seguidas:</p>
+            <h4>1. <strong>Apenas um elemento pai</strong></h4>
+            <p>Todo bloco JSX precisa estar envolvido por <strong>um único elemento pai</strong>. Isso ocorre porque o
+                JSX precisa ser convertido em uma única chamada de função.</p>
+            <pre><code class="language-jsx">// ❌ Erro
+return (
+  &lt;p&gt;Item 1&lt;/p&gt;
+  &lt;p&gt;Item 2&lt;/p&gt;
+);
+
+// ✅ Correto
+return (
+  &lt;div&gt;
+    &lt;p&gt;Item 1&lt;/p&gt;
+    &lt;p&gt;Item 2&lt;/p&gt;
+  &lt;/div&gt;
+);
+</code></pre>
+            <p>Alternativamente, podemos usar o <strong>fragmento vazio</strong> <code>&lt;&gt;...&lt;/&gt;</code>:</p>
+            <pre><code class="language-jsx">return (
+  &lt;&gt;
+    &lt;p&gt;Item 1&lt;/p&gt;
+    &lt;p&gt;Item 2&lt;/p&gt;
+  &lt;/&gt;
+);
+</code></pre>
+            <h4>2. <strong>Expressões JavaScript entre chaves <code>{}</code></strong></h4>
+            <p>Para usar variáveis, chamadas de função ou qualquer lógica JavaScript dentro do JSX, envolvemos a
+                expressão com <code>{}</code>:</p>
+            <pre><code class="language-jsx">const nome = &quot;Pikachu&quot;;
+
+return &lt;p&gt;Nome do Pokémon: {nome}&lt;/p&gt;;
+</code></pre>
+            <h4>3. <strong>Atributos são camelCase e sem aspas duplas para expressões</strong></h4>
+            <p>Em JSX, os atributos são definidos com camelCase (não com hífen, como em HTML), e seus valores devem ser
+                passados como expressões <code>{}</code>, exceto em strings literais:</p>
+            <pre><code class="language-jsx">&lt;div style={{ padding: 20 }} /&gt;
+&lt;img src={imagem} alt=&quot;Pokémon&quot; /&gt;
+&lt;button onClick={() =&gt; alert(&quot;Clicou!&quot;)}&gt;Buscar&lt;/button&gt;
+</code></pre>
+            <h4>4. <strong>Elementos precisam ser fechados corretamente</strong></h4>
+            <p>JSX exige <strong>elementos autocontidos</strong> (como <code>&lt;Image /&gt;</code>,
+                <code>&lt;Input /&gt;</code>) ou com abertura e fechamento explícitos:</p>
+            <pre><code class="language-jsx">// ✅ Corretos
+&lt;p&gt;Olá&lt;/p&gt;
+&lt;img src=&quot;...&quot; alt=&quot;Imagem&quot; /&gt;
+</code></pre>
+            <h3>💡 <strong>2.4 Exemplo prático com JSX</strong></h3>
+            <p>Vamos consolidar o que aprendemos com um exemplo prático em um componente React:</p>
+            <pre><code class="language-jsx">export default function App() {
+  const nome = &quot;Charmander&quot;;
+  const tipo = &quot;fogo&quot;;
+
+  return (
+    &lt;div style={{ padding: 20 }}&gt;
+      &lt;p style={{ fontSize: 18, fontWeight: &quot;bold&quot; }}&gt;
+        Pokémon: {nome}
+      &lt;/p&gt;
+      &lt;p&gt;Tipo: {tipo}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+            <p>Este é um componente funcional em React chamado App. Ele:</p>
+            <ol>
+                <li>
+                    <p>Declara duas variáveis com const: nome e tipo, contendo as strings &quot;Charmander&quot; e
+                        &quot;fogo&quot;.</p>
+                </li>
+                <li>
+                    <p>Retorna uma interface JSX com uma
+                    <div> contendo dois parágrafos:</p>
+                </li>
+            </ol>
+            <ul>
+                <li>
+                    <p>O primeiro exibe em negrito o nome do Pokémon, utilizando interpolação de variável: Pokémon:
+                        {nome}.</p>
+                </li>
+                <li>
+                    <p>O segundo mostra o tipo do Pokémon: Tipo: {tipo}.</p>
+                </li>
+            </ul>
+            <ol start="3">
+                <li>Aplica estilização inline diretamente no JSX com o atributo style, usando sintaxe de objeto
+                    JavaScript.</li>
+            </ol>
+            <p>💡 Isso demonstra como dados dinâmicos podem ser facilmente exibidos na interface, e como o JSX permite
+                misturar marcação HTML com lógica JavaScript de forma declarativa e legível.</p>
+            <h3><strong>2.5 Em resumo...</strong></h3>
+            <p>O JSX é a porta de entrada para a construção de interfaces em React e React Native. Ele combina a
+                expressividade do JavaScript com a clareza visual de uma linguagem de marcação. Entender suas regras e
+                saber como combiná-lo com lógica dinâmica é o primeiro passo para criar interfaces ricas e interativas.
+                Ah, e não se preocupe: <strong>no final do Aula vamos construir a PokéDex completa</strong> 🤩</p>
+            <hr>
+            <h2><strong>3. Componentes: a base de tudo no React</strong></h2>
+            <p>Como mencionamos anteriormente, em React, <strong>componentes são a unidade fundamental de construção da
+                    interface</strong>. Eles permitem dividir a UI em partes reutilizáveis, organizadas, independentes e
+                fáceis de manter.</p>
+            <h3>🧩 <strong>3.1 O que é um componente?</strong></h3>
+            <p>Um <strong>componente</strong> React é essencialmente uma função JavaScript (ou uma classe, em abordagens
+                mais antigas) que <strong>retorna JSX</strong> para descrever o que deve ser renderizado na tela. Cada
+                componente pode receber dados de entrada, chamados <strong>props</strong> (propriedades), e produzir uma
+                saída visual — geralmente um ou mais elementos de interface.</p>
+            <pre><code class="language-tsx">// Exemplo de um componente funcional simples em React
+function Saudacao() {
+  return &lt;p&gt;Olá, mundo!&lt;/p&gt;; 
+}
+</code></pre>
+            <p>Assim como funções comuns, componentes preferencialmente devem ser:</p>
+            <ul>
+                <li>Pequenos e focados (ex: um botão customizado, um campo de entrada estilizado).</li>
+                <li>Combinados para formar componentes maiores e mais complexos (ex: um card de produto, um formulário
+                    de login, uma tela completa).</li>
+                <li>Reutilizados em diversas partes da aplicação com diferentes dados.</li>
+            </ul>
+            <h3>🛠️ <strong>3.2 Criando e usando componentes</strong></h3>
+            <p>Podemos criar componentes em arquivos separados para melhor organização ou, para exemplos simples,
+                diretamente no arquivo principal da aplicação (como <code>App.tsx</code> ou <code>index.tsx</code>).</p>
+            <h4>Exemplo básico de um componente <code>PokemonCard</code>:</h4>
+            <pre><code class="language-tsx">// Componente PokemonCard
+function PokemonCard() {
+  return (
+    &lt;div style={{ border: &#39;1px solid #ccc&#39;, padding: &#39;10px&#39;, margin: &#39;10px&#39;, borderRadius: &#39;5px&#39; }}&gt;
+      &lt;p&gt;&lt;strong&gt;Nome:&lt;/strong&gt; Pikachu&lt;/p&gt;
+      &lt;p&gt;&lt;strong&gt;Tipo:&lt;/strong&gt; Elétrico&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+            <h4>E usá-lo dentro do componente principal:</h4>
+            <pre><code class="language-tsx">// Supondo que este seja o seu componente App principal
+export default function App() {
+  return (
+    &lt;div style={{ padding: &#39;20px&#39; }}&gt;
+      &lt;h1&gt;Minha Pokédex&lt;/h1&gt;
+      &lt;PokemonCard /&gt;
+      &lt;PokemonCard /&gt; {/* Podemos reutilizar o componente 😊 */}
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+            <p>🔁 Essa estrutura pode ser reutilizada para exibir diferentes Pokémon. Para isso, utilizamos
+                <strong>props</strong>, que nos permitem passar dados para os componentes, tornando-os dinâmicos.
+                Veremos como fazer isso em detalhes na próxima seção.</p>
+            <h3>📄 <strong>3.3 Estrutura recomendada de diretórios</strong></h3>
+            <p>Para organizar melhor projetos maiores, é uma prática comum criar componentes em seus próprios arquivos e
+                agrupá-los em um diretório específico, como <code>src/components</code>. Por exemplo, ao construir nossa
+                PokéDex teríamos algo como:</p>
+            <pre><code>pokedex/
+├── public/
+├── src/
+│   ├── components/
+│   │   └── PokemonCard.tsx
+│   ├── App.tsx
+│   └── index.tsx  // ou main.tsx, dependendo da configuração
+└── package.json
+</code></pre>
+            <p>No arquivo <code>src/components/PokemonCard.tsx</code> teríamos:</p>
+            <pre><code class="language-tsx">import React from &#39;react&#39;; 
+// Boa prática importar React, embora opcional em versões mais recentes com o novo JSX transform
+
+// Definimos e exportamos o componente PokemonCard
+export function PokemonCard() {
+  return (
+    &lt;div style={{ border: &#39;1px solid #ccc&#39;, padding: &#39;10px&#39;, margin: &#39;10px&#39;, borderRadius: &#39;5px&#39; }}&gt;
+      &lt;p&gt;&lt;strong&gt;Nome:&lt;/strong&gt; Pikachu&lt;/p&gt;
+      &lt;p&gt;&lt;strong&gt;Tipo:&lt;/strong&gt; Elétrico&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+            <p>Este arquivo define um componente React funcional chamado <code>PokemonCard</code>. Neste caso, o
+                componente PokemonCard retorna um elemento div com alguns estilos básicos para parecer um
+                &quot;card&quot;, contendo dois parágrafos (
+            <p>) que exibem informações fixas sobre um Pokémon (Nome e Tipo). A declaração export function torna este
+                componente disponível para ser usado em outros arquivos do nosso projeto!</p>
+            <p>E no <code>App.tsx</code> (ou onde você for usar o componente):</p>
+            <pre><code class="language-tsx">import React from &#39;react&#39;;
+import { PokemonCard } from &#39;./components/PokemonCard&#39;; // Importamos o componente
+
+export default function App() {
+  return (
+    &lt;div style={{ padding: &#39;20px&#39; }}&gt;
+      &lt;h1&gt;Minha Pokédex&lt;/h1&gt;
+      &lt;PokemonCard /&gt;
+      {/* Você pode adicionar mais instâncias de PokemonCard aqui */}
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+            <p>Já aqui temos o ponto de entrada ou um componente pai da nossa aplicação, e estamos integrando (ou
+                &quot;usando&quot;) o <code>PokemonCard</code>. Primeiro, importamos o componente
+                <code>PokemonCard</code> usando a sintaxe
+                <code>import { PokemonCard } from &#39;./components/PokemonCard&#39;;</code>. Isso diz ao nosso código
+                onde encontrar a definição do componente que criamos.</p>
+            <p>Em seguida, dentro do JSX retornado pelo componente App, simplesmente usamos o componente importado como
+                se fosse uma tag HTML personalizada: <code>&lt;PokemonCard /&gt;</code>. O React entende essa sintaxe e
+                renderiza o HTML/DOM que o componente PokemonCard retorna no local onde ele foi usado dentro do App.
+                Essa abordagem modular, onde criamos pequenas peças de UI (componentes como PokemonCard) e depois as
+                usamos para construir interfaces maiores (como o App), exemplifica a base do desenvolvimento com React,
+                promovendo reusabilidade e organização do código. 😉</p>
+            <h3>🧠 <strong>3.4 Por que componentes são importantes?</strong></h3>
+            <p>Como vimos, a componentização é um dos pilares do React e traz diversos benefícios:</p>
+            <ul>
+                <li><strong>Separação de responsabilidades (Separation of Concerns):</strong> Cada componente gerencia
+                    sua própria lógica e renderização, tornando o código mais fácil de entender e manter. Uma parte da
+                    interface pode ser construída e testada de forma isolada.</li>
+                <li><strong>Reutilização:</strong> Componentes podem ser usados múltiplas vezes na mesma aplicação ou
+                    até mesmo em projetos diferentes, economizando tempo e esforço. Por exemplo, um componente de
+                    <code>Botao</code> customizado pode ser usado em vários formulários e seções do site.</li>
+                <li><strong>Testabilidade e Manutenção:</strong> Isolar a funcionalidade em componentes menores facilita
+                    a escrita de testes unitários e a depuração. Alterações em um componente têm menos probabilidade de
+                    afetar outras partes da aplicação.</li>
+                <li><strong>Composição e Escalabilidade:</strong> Interfaces complexas podem ser construídas compondo
+                    componentes menores, como blocos de Lego. Isso torna a aplicação mais escalável e gerenciável à
+                    medida que cresce.</li>
+                <li><strong>Produtividade da Equipe:</strong> Diferentes desenvolvedores podem trabalhar em componentes
+                    distintos simultaneamente, melhorando a produtividade da equipe.</li>
+            </ul>
+            <h3><strong>✅ 3.5 Conclusão</strong></h3>
+            <p>Compreender o conceito de <strong>componentes</strong> é essencial para qualquer desenvolvimento com
+                React. Eles são mais do que blocos visuais — são estruturas lógicas reutilizáveis que tornam o código
+                modular, testável e escalável. A partir do próximo tópico, veremos como <strong>passar dados para os
+                    componentes</strong> usando <strong>props</strong>, o que nos permitirá criar componentes
+                verdadeiramente dinâmicos e reutilizáveis, como o nosso <code>PokemonCard</code> exibindo informações de
+                diferentes Pokémon. 🤠</p>
+            <hr>
+            <h2><strong>4. Props: passando dados entre componentes</strong></h2>
+            <p>Se os <strong>componentes</strong> são as peças reutilizáveis da interface, as <strong>props</strong>
+                (propriedades) são os <strong>dados que os tornam dinâmicos</strong> e personalizáveis.</p>
+            <h3>🎁 <strong>O que são props?</strong></h3>
+            <p><strong>Props</strong> são argumentos que você passa para os componentes — exatamente como parâmetros de
+                uma função. Elas permitem que o mesmo componente se comporte de formas diferentes dependendo dos valores
+                recebidos.</p>
+            <pre><code class="language-tsx">function Saudacao(props: { nome: string }) {
+  return &lt;p&gt;Olá, {props.nome}!&lt;/p&gt;;
+}
+</code></pre>
+            <p>Ao usar o componente:</p>
+            <pre><code class="language-tsx">&lt;Saudacao nome=&quot;Camila&quot; /&gt;
+&lt;Saudacao nome=&quot;Pedro&quot; /&gt;
+</code></pre>
+            <p>Teremos o resultado: </p>
+            <pre><code>Olá, Camila!
+Olá, Pedro!
+</code></pre>
+            <h3>🛠️ <strong>4.1 Refatorando o <code>PokemonCard</code> com props</strong></h3>
+            <p>Antes, nosso <code>PokemonCard</code> exibia sempre o mesmo Pokémon. Agora vamos torná-lo reutilizável,
+                permitindo exibir qualquer Pokémon:</p>
+            <h4><code>src/components/PokemonCard.tsx</code></h4>
+            <pre><code class="language-tsx">import React from &quot;react&quot;;
+
+type Props = {
+  nome: string;
+  tipo: string;
+};
+
+export function PokemonCard({ nome, tipo }: Props) {
+  return (
+    &lt;div className=&quot;pokemon-card&quot; style={{ 
+      marginBottom: &quot;16px&quot;, 
+      padding: &quot;12px&quot;, 
+      border: &quot;1px solid #ddd&quot;, 
+      borderRadius: &quot;8px&quot;,
+      backgroundColor: &quot;#f8f8f8&quot;
+    }}&gt;
+      &lt;h3&gt;{nome}&lt;/h3&gt;
+      &lt;p&gt;Tipo: {tipo}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+            <p>Esse código faz duas coisas importantes:</p>
+            <ol>
+                <li>
+                    <p><strong>Define um tipo chamado <code>Props</code></strong>, que representa o formato esperado das
+                        propriedades recebidas pelo componente <code>PokemonCard</code>. Nesse caso, ele exige duas
+                        <code>props</code>:</p>
+                    <ul>
+                        <li><code>nome</code>: do tipo <code>string</code></li>
+                        <li><code>tipo</code>: também do tipo <code>string</code></li>
+                    </ul>
+                </li>
+                <li>
+                    <p>Na declaração do componente, usamos a <strong>desestruturação</strong> de <code>props</code> e
+                        <strong>informamos o tipo esperado</strong> com <code>: Props</code>. Ou seja:</p>
+                </li>
+            </ol>
+            <pre><code class="language-tsx">{ nome, tipo }: Props
+</code></pre>
+            <p>significa que:</p>
+            <ul>
+                <li>O componente está recebendo um objeto com propriedades <code>nome</code> e <code>tipo</code></li>
+                <li>E esse objeto deve seguir o formato definido no tipo <code>Props</code>.</li>
+            </ul>
+            <p>💡 Isso é importante por três motivos:</p>
+            <ul>
+                <li>Garante <strong>verificação de tipo automática</strong> durante o desenvolvimento (menos erros!).
+                </li>
+                <li>Facilita o <strong>autocompletar</strong> em editores como VS Code.</li>
+                <li>Torna o código <strong>mais legível e documentado</strong>, pois deixa explícito o que o componente
+                    espera receber.</li>
+            </ul>
+            <p>&quot;Ah, mas eu preciso declarar esse <code>type Props</code>?&quot;. Assim, precisar PRECISAR você não
+                precisa, você pode fazer da <strong>Forma inline</strong>, que funciona, mas é menos organizada:</p>
+            <pre><code class="language-tsx">export function PokemonCard({ nome, tipo }: { nome: string; tipo: string }) {
+  // ...
+}
+</code></pre>
+            <p>A desvantagem é que fica mais verboso e difícil de ler, especialmente com mais props Além disso, não dá
+                para reutilizar o tipo facilmente e essa forma também não separa responsabilidades (temos o tipo
+                misturado com lógica do componente 😐).</p>
+            <p>Ou seja, o <code>type Props</code> não é tecnicamente obrigatório, mas é <strong>boa prática</strong>
+                porque:</p>
+            <ul>
+                <li>Separa responsabilidades.</li>
+                <li>Melhora a legibilidade.</li>
+                <li>Facilita a manutenção do código.</li>
+            </ul>
+            <p>Beleza, entendido isso, como fica nosso <code>App.tsx</code>?</p>
+            <h4>No <code>App.tsx</code>:</h4>
+            <pre><code class="language-tsx">import React from &quot;react&quot;;
+import { PokemonCard } from &quot;./components/PokemonCard&quot;;
+
+export default function App() {
+  return (
+    &lt;div className=&quot;container&quot; style={{ 
+      maxWidth: &quot;800px&quot;, 
+      margin: &quot;0 auto&quot;, 
+      padding: &quot;20px&quot; 
+    }}&gt;
+      &lt;h1&gt;Minha Pokedex&lt;/h1&gt;
+      &lt;div className=&quot;pokemon-list&quot;&gt;
+        &lt;PokemonCard nome=&quot;Pikachu&quot; tipo=&quot;Elétrico&quot; /&gt;
+        &lt;PokemonCard nome=&quot;Bulbasaur&quot; tipo=&quot;Grama/Veneno&quot; /&gt;
+        &lt;PokemonCard nome=&quot;Charmander&quot; tipo=&quot;Fogo&quot; /&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+            <p>Observe como o mesmo componente <code>PokemonCard</code> é reutilizado três vezes, cada um exibindo
+                informações diferentes.</p>
+            <h3>📦 <strong>4.2 Importante: Props são somente leitura</strong></h3>
+            <p>Um componente <strong>não pode modificar suas props diretamente</strong>. Elas são imutáveis — isso
+                garante previsibilidade no comportamento e respeita o modelo unidirecional de dados do React.</p>
+            <pre><code class="language-tsx">// ❌ Incorreto - Tentando modificar props
+function Contador(props: { valor: number }) {
+  props.valor = props.valor + 1; // Erro! Props são somente leitura
+  return &lt;p&gt;Contagem: {props.valor}&lt;/p&gt;;
+}
+
+// ✅ Correto - Usando props como somente leitura
+function Contador(props: { valor: number }) {
+  return &lt;p&gt;Contagem: {props.valor}&lt;/p&gt;;
+}
+</code></pre>
+            <p>Essa característica é fundamental para o funcionamento do React e será complementada pelo conceito de
+                estado, que veremos na próxima seção. 😉</p>
+            <h3>🧩 <strong>4.3 Desestruturação de props</strong></h3>
+            <p>Como vimos no exemplo do <code>PokemonCard</code>, uma prática comum em React é desestruturar as props
+                para facilitar o acesso e tornar o código mais limpo:</p>
+            <pre><code class="language-tsx">// Sem desestruturação
+function Perfil(props: { nome: string; idade: number }) {
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;{props.nome}&lt;/h2&gt;
+      &lt;p&gt;Idade: {props.idade} anos&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Com desestruturação (mais limpo)
+function Perfil({ nome, idade }: { nome: string; idade: number }) {
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;{nome}&lt;/h2&gt;
+      &lt;p&gt;Idade: {idade} anos&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+            <p>Lembre-se: vimos a sintaxe de desestruturação do JavaScript na Aula 02. 😊</p>
+            <h3>👶 <strong>4.4 Props padrão (default props)</strong></h3>
+            <p>Você pode definir valores padrão para props que não são obrigatórias:</p>
+            <pre><code class="language-tsx">type BotaoProps = {
+  texto: string;
+  cor?: string; // O &#39;?&#39; indica que é opcional
+};
+
+function Botao({ texto, cor = &quot;blue&quot; }: BotaoProps) {
+  return (
+    &lt;button style={{ 
+      backgroundColor: cor, 
+      color: &quot;white&quot;, 
+      padding: &quot;8px 16px&quot;, 
+      border: &quot;none&quot;, 
+      borderRadius: &quot;4px&quot; 
+    }}&gt;
+      {texto}
+    &lt;/button&gt;
+  );
+}
+
+// Uso:
+// &lt;Botao texto=&quot;Clique aqui&quot; /&gt; → Botão azul (valor padrão)
+// &lt;Botao texto=&quot;Enviar&quot; cor=&quot;green&quot; /&gt; → Botão verde
+</code></pre>
+            <p>Isso permite criar componentes flexíveis que funcionam bem mesmo quando o desenvolvedor não fornece todos
+                os valores.</p>
+            <h3>👨‍👩‍👧‍👦 <strong>4.5 A prop especial <code>children</code></strong></h3>
+            <p>React tem uma prop especial chamada <code>children</code> que permite compor componentes de forma mais
+                flexível, criando &quot;wrappers&quot; ou &quot;containers&quot;:</p>
+            <pre><code class="language-tsx">type CardProps = {
+  titulo: string;
+  children: React.ReactNode;
+};
+
+function Card({ titulo, children }: CardProps) {
+  return (
+    &lt;div style={{ 
+      border: &quot;1px solid #ddd&quot;, 
+      borderRadius: &quot;8px&quot;, 
+      padding: &quot;16px&quot;, 
+      marginBottom: &quot;16px&quot;,
+      boxShadow: &quot;0 2px 4px rgba(0,0,0,0.1)&quot;
+    }}&gt;
+      &lt;h2&gt;{titulo}&lt;/h2&gt;
+      &lt;div&gt;{children}&lt;/div&gt; 
+    &lt;/div&gt;
+  );
+}
+
+// Uso:
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;Card titulo=&quot;Bem-vindo!&quot;&gt;
+        &lt;p&gt;Este é um exemplo de conteúdo filho.&lt;/p&gt;
+        &lt;button&gt;Clique aqui&lt;/button&gt;
+      &lt;/Card&gt;
+      
+      &lt;Card titulo=&quot;Informações&quot;&gt;
+        &lt;p&gt;Você pode colocar qualquer conteúdo aqui.&lt;/p&gt;
+        &lt;ul&gt;
+          &lt;li&gt;Item 1&lt;/li&gt;
+          &lt;li&gt;Item 2&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/Card&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+            <p>O que ocorre aqui é que quando usamos um componente React como uma <strong>tag com abertura e
+                    fechamento</strong>, tudo que for colocado <strong>entre essas tags</strong> é automaticamente
+                atribuído à prop especial <code>children</code>.</p>
+            <p>No caso de <code>titulo=&quot;Informações&quot;</code> esse é um <strong>atributo comum</strong> passado
+                como uma prop chamada <code>titulo</code>. Ele será atribuído ao parâmetro <code>titulo</code> da função
+                <code>Card</code>:</p>
+            <pre><code class="language-tsx">&lt;h2&gt;{titulo}&lt;/h2&gt; // Vai renderizar: &lt;h2&gt;Informações&lt;/h2&gt;
+</code></pre>
+            <p>Já o <strong>O conteúdo entre as tags <code>&lt;Card&gt;...&lt;/Card&gt;</code></strong>, todo esse
+                bloco:</p>
+            <pre><code class="language-tsx">&lt;p&gt;Você pode colocar qualquer conteúdo aqui.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Item 1&lt;/li&gt;
+  &lt;li&gt;Item 2&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+            <p>Será atribuído à prop <strong><code>children</code></strong>! Ou seja, internamente ele será tratado como
+                um <strong>elemento JSX</strong> (ou múltiplos elementos agrupados) e passado como:</p>
+            <pre><code class="language-tsx">&lt;div&gt;
+  &lt;p&gt;Você pode colocar qualquer conteúdo aqui.&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Item 1&lt;/li&gt;
+    &lt;li&gt;Item 2&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+</code></pre>
+            <p>Esse conteúdo será então exibido na linha:</p>
+            <pre><code class="language-tsx">&lt;div&gt;{children}&lt;/div&gt; // Vai renderizar o parágrafo e a lista, que foram atribuídos à prop Children!
+</code></pre>
+            <p>Isso que dizer que o componente <code>Card</code> acabará sendo renderizado como algo assim no DOM final:
+            </p>
+            <pre><code class="language-html">&lt;div class=&quot;card&quot;&gt;
+  &lt;h2&gt;Informações&lt;/h2&gt;
+  &lt;div&gt;
+    &lt;p&gt;Você pode colocar qualquer conteúdo aqui.&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Item 1&lt;/li&gt;
+      &lt;li&gt;Item 2&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+            <p>Em suma:</p>
+            <ul>
+                <li><code>titulo=&quot;Informações&quot;</code> é uma <strong>prop explícita</strong>, como qualquer
+                    outra.</li>
+                <li>O conteúdo <strong>dentro das tags</strong> é atribuído automaticamente à prop
+                    <strong><code>children</code></strong>.</li>
+                <li>Essa é a base da <strong>composição de interfaces no React</strong>, permitindo criar componentes
+                    flexíveis que encapsulam tanto estrutura quanto conteúdo. 🤓</li>
+            </ul>
+            <p>Portanto, a prop <code>children</code> permite criar componentes de layout reutilizáveis que podem
+                envolver qualquer conteúdo.</p>
+            <h3>🧠 <strong>4.6 E por que props são importantes?</strong></h3>
+            <p>Como vimos, são importantes pois:</p>
+            <ul>
+                <li>Permitem <strong>reutilização de componentes com dados diferentes</strong></li>
+                <li>Estimulam o design de componentes <strong>puros e previsíveis</strong></li>
+                <li>Facilitam o uso de <strong>componentes compostos</strong>, que recebem filhos ou configurações por
+                    props</li>
+                <li>Estão na base de qualquer <strong>interface dinâmica</strong> com React</li>
+                <li>Promovem a <strong>separação de responsabilidades</strong> entre componentes</li>
+            </ul>
+            <h3>🔄 <strong>4.7 Passando props entre componentes</strong></h3>
+            <p>Além de tudo que vimos até aqui, as props podem ser passadas de um componente pai para um componente
+                filho, criando uma hierarquia de dados. Considere o código a seguir:</p>
+            <pre><code class="language-tsx">function Aplicativo() {
+  const usuario = {
+    nome: &quot;Ana&quot;,
+    cargo: &quot;Desenvolvedora&quot;
+  };
+  
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Dashboard&lt;/h1&gt;
+      &lt;Cabecalho 
+        nomeUsuario={usuario.nome} 
+        cargo={usuario.cargo} 
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+function Cabecalho({ nomeUsuario, cargo }: { nomeUsuario: string; cargo: string }) {
+  return (
+    &lt;header style={{ 
+      backgroundColor: &quot;#f0f0f0&quot;, 
+      padding: &quot;10px&quot;, 
+      marginBottom: &quot;20px&quot; 
+    }}&gt;
+      &lt;h2&gt;Olá, {nomeUsuario}&lt;/h2&gt;
+      &lt;p&gt;Cargo: {cargo}&lt;/p&gt;
+    &lt;/header&gt;
+  );
+}
+</code></pre>
+            <p>Aqui, a função <code>Aplicativo</code> representa o componente principal da aplicação. Dentro dela, é
+                criada uma constante <code>usuario</code>, que contém um <strong>objeto com dois dados</strong>:
+                <code>nome</code> e <code>cargo</code>.</p>
+            <p>Em seguida, dentro do <code>return</code>, a estrutura JSX define a interface que será renderizada: um
+                título (<code>&lt;h1&gt;Dashboard&lt;/h1&gt;</code>) e a <strong>inserção de um componente
+                    filho</strong>, chamado <code>Cabecalho</code>.</p>
+            <p>No momento em que o componente <code>Cabecalho</code> é chamado, são passadas duas
+                <strong>props</strong>:</p>
+            <pre><code class="language-tsx">&lt;Cabecalho 
+  nomeUsuario={usuario.nome} 
+  cargo={usuario.cargo} 
+/&gt;
+</code></pre>
+            <p>Aqui, o valor <code>&quot;Ana&quot;</code> é passado para a prop <code>nomeUsuario</code>, e
+                <code>&quot;Desenvolvedora&quot;</code> é passado para a prop <code>cargo</code>.</p>
+            <p>O <strong>resumo visual do fluxo</strong> é</p>
+            <pre><code>Componente Aplicativo (pai)
+  ├── Cria objeto &quot;usuario&quot;
+  └── Chama &lt;Cabecalho nomeUsuario=&quot;Ana&quot; cargo=&quot;Desenvolvedora&quot; /&gt;
+
+Componente Cabecalho (filho)
+  └── Recebe props { nomeUsuario, cargo }
+        ↓
+     Renderiza &lt;h2&gt; e &lt;p&gt; com os dados recebidos
+</code></pre>
+            <p>Essa abordagem permite que os dados fluam de cima para baixo na árvore de componentes. 😊</p>
+            <h3>✅ <strong>4.8 Conclusão!</strong></h3>
+            <p>Props são fundamentais para criar <strong>componentes reutilizáveis e personalizáveis</strong>. Em React,
+                quase tudo gira em torno da <strong>composição de componentes com dados variados</strong>.</p>
+            <p>Portanto, ao dominar o conceito de props, você consegue:</p>
+            <ul>
+                <li>Criar componentes genéricos que podem ser reutilizados em diferentes contextos</li>
+                <li>Passar dados de um componente pai para seus filhos</li>
+                <li>Construir interfaces modulares e bem organizadas</li>
+                <li>Implementar padrões de design que facilitam a manutenção do código</li>
+            </ul>
+            <p>Na próxima seção, exploraremos um tema central na construção de aplicativos interativos: o
+                <strong>gerenciamento de estado local com <code>useState</code></strong>.</p>
+            <hr>
+            <h2><strong>5. useState: armazenando e atualizando estados locais</strong></h2>
+            <p>Ao desenvolver aplicações interativas, uma necessidade logo se torna evidente: <strong>armazenar e
+                    atualizar valores que mudam ao longo do tempo</strong> — como inputs do usuário, itens de uma lista
+                ou contadores. Para conseguir gerenciar o estado das nossas aplicações, precisamos usar o <strong>hook
+                    <code>useState</code></strong>.</p>
+            <p>Um <strong>Hook</strong> é uma função especial que permite que componentes funcionais acessem recursos
+                internos do React, como o controle de estado, efeitos colaterais, contexto e muito mais. Antes da
+                introdução dos Hooks, esses recursos só estavam disponíveis em componentes baseados em classes, o que
+                tornava o código mais verboso e menos flexível. Com os Hooks, tornou-se possível escrever componentes
+                mais simples, organizados como funções, mas ainda assim capazes de lidar com comportamentos complexos e
+                dinâmicos.</p>
+            <p>O termo &quot;hook&quot; vem da ideia de que essas funções se conectam (“hook into”) aos mecanismos
+                internos do React. Por exemplo, ao utilizar o hook <code>useState</code>, o componente passa a “se
+                conectar” ao sistema de gerenciamento de estado da biblioteca. Isso permite que ele armazene e atualize
+                valores que podem mudar ao longo do tempo — como entradas do usuário, resultados de cálculos ou dados
+                recebidos de uma API — de forma reativa, ou seja, mantendo a interface sincronizada automaticamente com
+                os dados. </p>
+            <p>Portanto, vamos agora &quot;dissecar&quot; o <strong><code>useState</code></strong>, um dos recursos mais
+                fundamentais para criar interfaces dinâmicas.</p>
+            <h3>🧠 <strong>5.1 O que é &quot;estado&quot; em uma aplicação React?</strong></h3>
+            <p>O <strong>estado (state)</strong> é qualquer informação que <strong>pode mudar</strong> enquanto a
+                aplicação está em execução, e que precisa provocar uma <strong>atualização visual</strong> quando isso
+                acontece.</p>
+            <p>Por exemplo:</p>
+            <ul>
+                <li>O texto digitado em um campo de formulário</li>
+                <li>Uma lista de tarefas exibida na tela</li>
+                <li>A resposta de uma API</li>
+                <li>O tema claro/escuro selecionado pelo usuário</li>
+                <li>O botão clicado mais recentemente</li>
+            </ul>
+            <p>Sem estado, nossas interfaces seriam estáticas e não responderiam às ações do usuário. O estado é o que
+                torna nossas aplicações <strong>interativas e dinâmicas</strong>.</p>
+            <h3>🔧 <strong>5.2 Como usar o <code>useState</code></strong></h3>
+            <p>O hook <code>useState</code> permite criar uma <strong>variável de estado</strong> associada a um
+                componente. Ele retorna um par de valores: o <strong>estado atual</strong> e uma <strong>função para
+                    atualizá-lo</strong>.</p>
+            <h4>Exemplo: contador simples</h4>
+            <pre><code class="language-tsx">import React, { useState } from &quot;react&quot;;
+
+export default function Contador() {
+  // Declaramos uma variável de estado chamada &quot;contador&quot;
+  const [contador, setContador] = useState(0);
+
+  return (
+    &lt;div style={{ 
+      padding: &quot;20px&quot;, 
+      maxWidth: &quot;300px&quot;, 
+      margin: &quot;0 auto&quot;, 
+      textAlign: &quot;center&quot;,
+      border: &quot;1px solid #ddd&quot;,
+      borderRadius: &quot;8px&quot;
+    }}&gt;
+      &lt;h2&gt;Exemplo de Estado&lt;/h2&gt;
+      &lt;p style={{ fontSize: &quot;24px&quot; }}&gt;Contador: {contador}&lt;/p&gt;
+      &lt;button 
+        onClick={() =&gt; setContador(contador + 1)}
+        style={{
+          padding: &quot;8px 16px&quot;,
+          backgroundColor: &quot;#4CAF50&quot;,
+          color: &quot;white&quot;,
+          border: &quot;none&quot;,
+          borderRadius: &quot;4px&quot;,
+          cursor: &quot;pointer&quot;
+        }}
+      &gt;
+        Incrementar
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+            <p>Neste exemplo, cada vez que o botão é clicado, o valor do contador aumenta e a interface é atualizada
+                automaticamente.</p>
+            <p>No trecho <code>useState(0)</code>, o número <code>0</code> é o <strong>valor inicial</strong> do estado
+                <code>contador</code>. Isso significa que, quando o componente <code>Contador</code> for renderizado
+                pela primeira vez, o valor de <code>contador</code> começará em zero.</p>
+            <p>Esse valor inicial só é utilizado na <strong>primeira renderização</strong>. Depois disso, o valor de
+                <code>contador</code> será atualizado dinamicamente com base nas interações do usuário — como quando
+                clicamos no botão e executamos <code>setContador(contador + 1)</code> para incrementar.</p>
+            <p>Se <strong>não usássemos o <code>useState</code></strong>, o valor exibido na tela <strong>não seria
+                    atualizado automaticamente</strong> quando o botão fosse clicado. Em React, a única forma de fazer
+                com que a interface <em>reaja a mudanças de valor e se re-renderize</em> é por meio de
+                <strong>estado</strong> (<code>useState</code>) ou outros <strong>hooks de ciclo de vida</strong>.
+                Variáveis comuns (como <code>let contador = 0</code>) <strong>não fazem o React re-renderizar o
+                    componente</strong> quando mudam.</p>
+            <p>Por exemplo, se fizéssemos algo assim:</p>
+            <pre><code class="language-tsx">let contador = 0;
+
+function incrementar() {
+  contador++;
+  console.log(contador); // O valor mudaria, mas a interface não atualiza!
+}
+</code></pre>
+            <p>O valor de <code>contador</code> até aumentaria no console, mas <strong>a interface na tela continuaria
+                    exibindo o valor antigo</strong>, porque o React não sabe que algo mudou. O <code>useState</code> é
+                quem <strong>informa ao React que o componente precisa ser re-renderizado</strong>. Ao chamar
+                <code>setContador(...)</code>, o React atualiza o valor e redesenha o componente com base no novo
+                estado. Por isso, ele é essencial para criar <strong>interfaces reativas e dinâmicas</strong>.</p>
+            <p><strong>&quot;Éééééé... entendi não, desculpa aí prof 😑&quot;</strong>. Calma! Vamos por parte.</p>
+            <h3>✍️ <strong>5.3 Entendendo a parte mais importante</strong></h3>
+            <p>Vamos analisar a parte mais importante do código:</p>
+            <pre><code class="language-tsx">const [contador, setContador] = useState(0);
+</code></pre>
+            <ul>
+                <li><code>contador</code>: o <strong>valor atual</strong> do estado (inicialmente <code>0</code>)</li>
+                <li><code>setContador</code>: a <strong>função que atualiza</strong> esse estado</li>
+                <li><code>useState(0)</code>: define o <strong>valor inicial</strong> do estado como <code>0</code></li>
+            </ul>
+            <p>Esta sintaxe utiliza a <strong>desestruturação de arrays</strong> do JavaScript, que permite extrair
+                valores de um array para variáveis separadas.</p>
+            <p>A cada vez que <code>setContador</code> é chamada, o componente <strong>re-renderiza</strong> com o novo
+                valor. Este é o ciclo de vida básico do React:</p>
+            <ol>
+                <li>Estado muda → 2. Componente re-renderiza → 3. UI atualiza</li>
+            </ol>
+            <p>É basicamente isso!</p>
+            <h3>🧼 <strong>5.4 Imutabilidade importa</strong></h3>
+            <p>Como mencionamos acima ao falar sobre componentes, um conceito fundamental no React é que você
+                <strong>nunca deve alterar o estado diretamente</strong>:</p>
+            <pre><code class="language-tsx">// ❌ ERRADO: Modificando o estado diretamente
+contador++;           
+contador = contador + 1; 
+</code></pre>
+            <p>Use sempre a função de atualização fornecida pelo <code>useState</code>:</p>
+            <pre><code class="language-tsx">// ✅ CORRETO: Usando a função de atualização
+setContador(contador + 1); 
+</code></pre>
+            <p>Isso garante que o React:</p>
+            <ol>
+                <li>Saiba que houve uma mudança</li>
+                <li>Agende uma re-renderização do componente</li>
+                <li>Atualize corretamente a interface</li>
+            </ol>
+            <p>A imutabilidade é um princípio central no React e ajuda a evitar bugs difíceis de rastrear.</p>
+            <h3>🧪 <strong>5.5 Estados com diferentes tipos de dados</strong></h3>
+            <p>Um outro ponto importante é que <code>useState</code> pode trabalhar com qualquer tipo de dado do
+                JavaScript. Por exemplo:</p>
+            <h4>String:</h4>
+            <pre><code class="language-tsx">const [nome, setNome] = useState(&quot;Ash&quot;);
+
+// Em um formulário:
+&lt;input 
+  type=&quot;text&quot;
+  value={nome}
+  onChange={(e) =&gt; setNome(e.target.value)}
+  style={{ padding: &quot;8px&quot;, marginRight: &quot;8px&quot; }}
+/&gt;
+&lt;p&gt;Nome: {nome}&lt;/p&gt;
+</code></pre>
+            <p>Neste exemplo, <code>useState(&quot;Ash&quot;)</code> inicializa o estado com uma string:
+                <code>&quot;Ash&quot;</code>. A variável <code>nome</code> representa o valor atual, e
+                <code>setNome</code> é usada para atualizá-lo.</p>
+            <p>O campo <code>&lt;input&gt;</code> está &quot;controlado&quot; pelo React — ou seja, seu valor depende do
+                estado <code>nome</code>. Sempre que o usuário digita algo, o evento <code>onChange</code> é disparado e
+                a função <code>setNome</code> atualiza o estado com o novo valor vindo de <code>e.target.value</code>.
+                Assim, à medida que o usuário digita, o parágrafo <code>&lt;p&gt;</code> abaixo reflete automaticamente
+                o novo nome. Esse é o padrão para trabalhar com <strong>inputs controlados</strong> em React.</p>
+            <h4>Array:</h4>
+            <pre><code class="language-tsx">const [pokemons, setPokemons] = useState&lt;string[]&gt;([]);
+
+// Adicionando um item:
+&lt;div&gt;
+  &lt;button onClick={() =&gt; setPokemons([...pokemons, &quot;Pikachu&quot;])}&gt;
+    Adicionar Pikachu
+  &lt;/button&gt;
+  &lt;ul&gt;
+    {pokemons.map((pokemon, index) =&gt; (
+      &lt;li key={index}&gt;{pokemon}&lt;/li&gt;
+    ))}
+  &lt;/ul&gt;
+&lt;/div&gt;
+</code></pre>
+            <p>Neste caso, o estado <code>pokemons</code> é um <strong>array de strings</strong>, iniciado como vazio
+                (<code>[]</code>). O botão &quot;Adicionar Pikachu&quot; atualiza o array chamando
+                <code>setPokemons([...pokemons, &quot;Pikachu&quot;])</code>, o que cria uma <strong>nova cópia do array
+                    atual com &quot;Pikachu&quot; adicionado ao final</strong>.</p>
+            <p>Abaixo do botão, usamos <code>.map()</code> para percorrer e exibir cada Pokémon da lista em um item
+                <code>&lt;li&gt;</code>. O uso de <code>key={index}</code> garante uma chave única para cada item,
+                ajudando o React a renderizar de forma eficiente.</p>
+            <p>Este padrão é típico quando lidamos com <strong>listas dinâmicas</strong>.</p>
+            <h4>Objeto:</h4>
+            <pre><code class="language-tsx">const [pokemon, setPokemon] = useState({ nome: &quot;&quot;, tipo: &quot;&quot; });
+
+// Atualizando o objeto:
+&lt;div&gt;
+  &lt;button 
+    onClick={() =&gt; setPokemon({ nome: &quot;Bulbasaur&quot;, tipo: &quot;Grama/Veneno&quot; })}
+  &gt;
+    Selecionar Bulbasaur
+  &lt;/button&gt;
+  {pokemon.nome &amp;&amp; (
+    &lt;div&gt;
+      &lt;p&gt;Nome: {pokemon.nome}&lt;/p&gt;
+      &lt;p&gt;Tipo: {pokemon.tipo}&lt;/p&gt;
+    &lt;/div&gt;
+  )}
+&lt;/div&gt;
+</code></pre>
+            <p>Aqui, usamos <code>useState</code> para armazenar um <strong>objeto com duas propriedades</strong>:
+                <code>nome</code> e <code>tipo</code>. Inicialmente, ambas são strings vazias.</p>
+            <p>Ao clicar no botão, o objeto é atualizado com os dados de um Pokémon específico (<code>Bulbasaur</code>).
+                Em seguida, o componente renderiza essas informações, <strong>mas somente se o nome do Pokémon estiver
+                    preenchido</strong>, graças à verificação <code>pokemon.nome &amp;&amp; (...)</code>. Esse padrão é
+                comum quando armazenamos <strong>entidades com múltiplos atributos</strong>, como usuários, produtos ou
+                pokémons.</p>
+            <h3>💡 <strong>5.6 Atualizando arrays ou objetos</strong></h3>
+            <p>É importante reforçar que <code>useState</code> <strong>substitui completamente o valor antigo</strong>
+                pelo novo. Isso significa que, ao trabalhar com objetos e arrays, você precisa preservar os dados
+                existentes que deseja manter. É por isso que codificamos os exemplos acima como fizemos. Vamos ver isso
+                ponto a ponto.</p>
+            <h4>Adicionando um item a um array:</h4>
+            <pre><code class="language-tsx">// ❌ ERRADO: Isso modifica o array original
+const [itens, setItens] = useState&lt;string[]&gt;([]);
+itens.push(&quot;Novo item&quot;); // Mutação direta!
+
+// ✅ CORRETO: Cria um novo array com todos os itens anteriores + o novo
+setItens([...itens, &quot;Novo item&quot;]);
+
+// Alternativa usando o callback form:
+setItens(prev =&gt; [...prev, &quot;Novo item&quot;]);
+</code></pre>
+            <h4>Atualizando uma propriedade de um objeto:</h4>
+            <pre><code class="language-tsx">const [usuario, setUsuario] = useState({ nome: &quot;Ana&quot;, idade: 25 });
+
+// ❌ ERRADO: Modifica apenas uma propriedade, perdendo as outras
+setUsuario({ nome: &quot;Carlos&quot; }); // Perdemos a propriedade &#39;idade&#39;!
+
+// ✅ CORRETO: Cria um novo objeto preservando propriedades existentes
+setUsuario({ ...usuario, nome: &quot;Carlos&quot; });
+
+// Alternativa usando o callback form:
+setUsuario(prev =&gt; ({ ...prev, nome: &quot;Carlos&quot; }));
+</code></pre>
+            <p>O operador spread (<code>...</code>) é essencial para trabalhar com estados imutáveis no React.</p>
+            <h3>🔄 <strong>5.7 Forma de callback para atualizações</strong></h3>
+            <p>Quando a atualização do estado depende do valor anterior, é mais seguro usar a <strong>forma de
+                    callback</strong>:</p>
+            <pre><code class="language-tsx">// Pode causar problemas em certas situações
+setContador(contador + 1);
+
+// Mais seguro, sempre usa o valor mais recente
+setContador(valorAnterior =&gt; valorAnterior + 1);
+</code></pre>
+            <p>Isso é especialmente importante quando várias atualizações acontecem em sequência:</p>
+            <pre><code class="language-tsx">function incrementarTresVezes() {
+  // ❌ PROBLEMA: Todas as chamadas usam o mesmo valor inicial
+  setContador(contador + 1); // Se contador = 0, define para 1
+  setContador(contador + 1); // Se contador = 0, define para 1 novamente!
+  setContador(contador + 1); // Se contador = 0, define para 1 pela terceira vez!
+  
+  // Resultado: contador = 1 (não 3!)
+}
+
+function incrementarTresVezesCorretamente() {
+  // ✅ CORRETO: Cada chamada usa o resultado da anterior
+  setContador(prev =&gt; prev + 1); // 0 → 1
+  setContador(prev =&gt; prev + 1); // 1 → 2
+  setContador(prev =&gt; prev + 1); // 2 → 3
+  
+  // Resultado: contador = 3
+}
+</code></pre>
+            <h3>🧩 <strong>5.8 Aplicação prática: favoritar Pokémon</strong></h3>
+            <p>Vamos criar um componente que permite favoritar/desfavoritar um Pokémon:</p>
+            <pre><code class="language-tsx">import React, { useState } from &quot;react&quot;;
+
+function PokemonCard({ nome, tipo }: { nome: string; tipo: string }) {
+  const [favorito, setFavorito] = useState(false);
+
+  return (
+    &lt;div style={{ 
+      border: &quot;1px solid #ddd&quot;, 
+      borderRadius: &quot;8px&quot;, 
+      padding: &quot;16px&quot;,
+      margin: &quot;8px 0&quot;,
+      backgroundColor: favorito ? &quot;#fff9c4&quot; : &quot;white&quot;
+    }}&gt;
+      &lt;h3&gt;{nome} {favorito &amp;&amp; &quot;⭐&quot;}&lt;/h3&gt;
+      &lt;p&gt;Tipo: {tipo}&lt;/p&gt;
+      &lt;button
+        onClick={() =&gt; setFavorito(!favorito)}
+        style={{
+          backgroundColor: favorito ? &quot;#f44336&quot; : &quot;#4CAF50&quot;,
+          color: &quot;white&quot;,
+          border: &quot;none&quot;,
+          padding: &quot;8px 16px&quot;,
+          borderRadius: &quot;4px&quot;,
+          cursor: &quot;pointer&quot;
+        }}
+      &gt;
+        {favorito ? &quot;Remover dos favoritos&quot; : &quot;Adicionar aos favoritos&quot;}
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default function App() {
+  return (
+    &lt;div style={{ maxWidth: &quot;500px&quot;, margin: &quot;0 auto&quot;, padding: &quot;20px&quot; }}&gt;
+      &lt;h1&gt;Minha Pokedex&lt;/h1&gt;
+      &lt;PokemonCard nome=&quot;Pikachu&quot; tipo=&quot;Elétrico&quot; /&gt;
+      &lt;PokemonCard nome=&quot;Bulbasaur&quot; tipo=&quot;Grama/Veneno&quot; /&gt;
+      &lt;PokemonCard nome=&quot;Charmander&quot; tipo=&quot;Fogo&quot; /&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+            <p>Neste exemplo:</p>
+            <ol>
+                <li>Cada card tem seu próprio estado <code>favorito</code> independente</li>
+                <li>Clicar no botão alterna o valor entre <code>true</code> e <code>false</code></li>
+                <li>A aparência do card muda com base no estado (cor de fundo e texto do botão)</li>
+            </ol>
+            <p>Esse padrão de alternância (<code>true</code> ↔ <code>false</code>) é muito comum em interfaces
+                interativas.</p>
+            <blockquote>
+                <p>💡 <strong>Dica:</strong> você pode testar o código acima rapidamente no navegador usando o <a
+                        href="https://playcode.io/react">PlayCode.io</a>, uma IDE online que suporta React com hot
+                    reload.
+                    Basta copiar e colar os códigos dessa seção em <code>App.jsx</code> e depois importá-lo no
+                    <code>index.jsx</code>, garantindo que a importação do <code>App</code> no <code>index.jsx</code>
+                    seja feita corretamente:</p>
+                <pre><code class="language-js">import App from &#39;./App.jsx&#39;;
+</code></pre>
+                <p>Isso ajuda a visualizar o funcionamento desse componente React sem precisar configurar nada
+                    localmente.
+                    Ah! Não se esqueça que aqui estamos usando TypeScript e o PlayCode, por padrão, usa JavaScript.
+                    Basta remover a tipagem do cabeçalho do componente PokemonCard, deixando como mostrado abaixo, que o
+                    exemplo vai funcionar direitinho na IDE online 🤩</p>
+                <pre><code class="language-js">function PokemonCard({ nome, tipo }) {
+</code></pre>
+            </blockquote>
+            <p>Entendido isso, passemos à próxima seção!</p>
+            <h3>📝 <strong>5.9 Controlando formulários com useState</strong></h3>
+            <p>Um uso muito comum do <code>useState</code> é controlar campos de formulário:</p>
+            <pre><code class="language-tsx">import React, { useState } from &quot;react&quot;;
+
+function FormularioPokemon() {
+  const [nome, setNome] = useState(&quot;&quot;);
+  const [tipo, setTipo] = useState(&quot;&quot;);
+  const [enviado, setEnviado] = useState(false);
+  
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setEnviado(true);
+    // Aqui você poderia enviar os dados para um servidor
+  }
+  
+  return (
+    &lt;div style={{ maxWidth: &quot;400px&quot;, margin: &quot;0 auto&quot; }}&gt;
+      &lt;h2&gt;Cadastrar Novo Pokémon&lt;/h2&gt;
+      
+      {enviado ? (
+        &lt;div style={{ 
+          padding: &quot;16px&quot;, 
+          backgroundColor: &quot;#dff0d8&quot;, 
+          borderRadius: &quot;4px&quot; 
+        }}&gt;
+          &lt;p&gt;Pokémon cadastrado com sucesso!&lt;/p&gt;
+          &lt;p&gt;&lt;strong&gt;Nome:&lt;/strong&gt; {nome}&lt;/p&gt;
+          &lt;p&gt;&lt;strong&gt;Tipo:&lt;/strong&gt; {tipo}&lt;/p&gt;
+          &lt;button onClick={() =&gt; {
+            setNome(&quot;&quot;);
+            setTipo(&quot;&quot;);
+            setEnviado(false);
+          }}&gt;Cadastrar outro&lt;/button&gt;
+        &lt;/div&gt;
+      ) : (
+        &lt;form onSubmit={handleSubmit} style={{ display: &quot;flex&quot;, flexDirection: &quot;column&quot; }}&gt;
+          &lt;div style={{ marginBottom: &quot;16px&quot; }}&gt;
+            &lt;label htmlFor=&quot;nome&quot; style={{ display: &quot;block&quot;, marginBottom: &quot;8px&quot; }}&gt;
+              Nome:
+            &lt;/label&gt;
+            &lt;input
+              id=&quot;nome&quot;
+              type=&quot;text&quot;
+              value={nome}
+              onChange={(e) =&gt; setNome(e.target.value)}
+              required
+              style={{ width: &quot;100%&quot;, padding: &quot;8px&quot; }}
+            /&gt;
+          &lt;/div&gt;
+          
+          &lt;div style={{ marginBottom: &quot;16px&quot; }}&gt;
+            &lt;label htmlFor=&quot;tipo&quot; style={{ display: &quot;block&quot;, marginBottom: &quot;8px&quot; }}&gt;
+              Tipo:
+            &lt;/label&gt;
+            &lt;input
+              id=&quot;tipo&quot;
+              type=&quot;text&quot;
+              value={tipo}
+              onChange={(e) =&gt; setTipo(e.target.value)}
+              required
+              style={{ width: &quot;100%&quot;, padding: &quot;8px&quot; }}
+            /&gt;
+          &lt;/div&gt;
+          
+          &lt;button 
+            type=&quot;submit&quot;
+            style={{
+              padding: &quot;10px 16px&quot;,
+              backgroundColor: &quot;#007bff&quot;,
+              color: &quot;white&quot;,
+              border: &quot;none&quot;,
+              borderRadius: &quot;4px&quot;,
+              cursor: &quot;pointer&quot;
+            }}
+          &gt;
+            Cadastrar
+          &lt;/button&gt;
+        &lt;/form&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+            <p>No exemplo acima, os campos do formulário estão sendo <strong>controlados com
+                    <code>useState</code></strong> porque o React está sendo usado para <strong>manter o valor de cada
+                    campo sincronizado com o estado da aplicação</strong>. Esse padrão é conhecido como
+                <strong>componente controlado</strong>.</p>
+            <p>Logo no início do componente <code>FormularioPokemon</code>, são declaradas três variáveis de estado
+                usando <code>useState</code>: <code>nome</code>, <code>tipo</code> e <code>enviado</code>. As duas
+                primeiras armazenam os valores digitados pelo usuário nos campos do formulário, enquanto a terceira
+                indica se o formulário já foi enviado.</p>
+            <p>Cada <code>&lt;input&gt;</code> possui um atributo <code>value</code>, que está vinculado diretamente a
+                uma dessas variáveis de estado (<code>nome</code> ou <code>tipo</code>). Isso significa que o valor
+                exibido dentro do campo não é gerenciado pelo navegador, e sim <strong>controlado pelo React</strong>.
+                Sempre que o usuário digita algo, o evento <code>onChange</code> é disparado e executa a função
+                <code>setNome</code> ou <code>setTipo</code>, atualizando o estado correspondente com o novo valor
+                digitado. Essa atualização provoca uma nova renderização do componente com o valor atualizado —
+                garantindo que a interface esteja sempre sincronizada com o estado interno. 🧑‍💻</p>
+            <p>Por fim, o botão &quot;Cadastrar outro&quot; redefine o estado de <code>nome</code>, <code>tipo</code> e
+                <code>enviado</code>, permitindo que o formulário volte ao estado inicial. Isso é feito chamando as
+                funções <code>setNome(&quot;&quot;)</code>, <code>setTipo(&quot;&quot;)</code> e
+                <code>setEnviado(false)</code>, o que limpa os campos e reexibe o formulário, demonstrando novamente o
+                poder de manter tudo controlado via estado.</p>
+            <p>Esse controle fino traz diversas vantagens. Por exemplo, o código pode mostrar mensagens em tempo real,
+                limpar os campos após o envio, impedir o envio se os dados forem inválidos, e até mesmo aplicar
+                formatações automáticas (como converter o texto para maiúsculas). Além disso, como os dados do
+                formulário estão no estado da aplicação, eles podem ser facilmente reutilizados ou enviados para um
+                servidor no momento do envio, como indicado na função <code>handleSubmit</code>.</p>
+            <p>Ou seja, este padrão, conhecido como <strong>componentes controlados</strong>, permite:</p>
+            <ol>
+                <li>Acessar os valores dos campos a qualquer momento</li>
+                <li>Validar entradas em tempo real</li>
+                <li>Formatar dados automaticamente</li>
+                <li>Implementar lógica condicional baseada nos valores</li>
+            </ol>
+            <h3>✅ <strong>5.10 Conclusão da Seção</strong></h3>
+            <p>O <code>useState</code> é o <strong>hook mais básico e essencial do React</strong>. Ele permite que seus
+                componentes <strong>mantenham memória</strong> ao longo do tempo e <strong>respondam a interações do
+                    usuário</strong>.</p>
+            <p>Com ele, é possível:</p>
+            <ul>
+                <li>Criar componentes interativos e dinâmicos</li>
+                <li>Controlar campos de formulário</li>
+                <li>Gerenciar dados locais sem necessidade de bibliotecas externas</li>
+                <li>Implementar interfaces que respondem às ações do usuário</li>
+            </ul>
+            <p>Pontos importantes a lembrar:</p>
+            <ol>
+                <li>Nunca modifique o estado diretamente, sempre use a função de atualização</li>
+                <li>Ao atualizar objetos e arrays, crie novas cópias usando o operador spread (<code>...</code>)</li>
+                <li>Use a forma de callback quando a atualização depender do valor anterior</li>
+                <li>Cada componente pode ter múltiplos estados independentes</li>
+            </ol>
+            <p>Na próxima seção, veremos o próximo passo natural: como <strong>executar efeitos colaterais</strong> —
+                como chamadas de API — com o <code>useEffect</code>.</p>
+            <hr>
+            <h2><strong>6. useEffect: efeitos colaterais e ciclo de vida dos componentes</strong></h2>
+            <p>Até agora, aprendemos a criar componentes e gerenciar seu estado interno com <code>useState</code>. Mas e
+                quando precisamos <strong>interagir com o mundo exterior</strong> ao nosso componente? É aí que entra o
+                <strong>hook <code>useEffect</code></strong>.</p>
+            <h3>🔄 <strong>6.1 O que são &quot;efeitos colaterais&quot; no React?</strong></h3>
+            <p>Em programação funcional (princípio por trás do React), os componentes devem ser funções
+                <strong>puras</strong>: recebem props, usam estado e retornam elementos. Vimos um pouquinho disso na
+                aula anterior, lembra? Porém, aplicações reais, em muitos casos, fogem desse fluxo esperado.</p>
+            <p>Nesse caso, podemos considerar que <strong>efeitos colaterais</strong> são ações que acontecem
+                <strong>fora do fluxo normal de renderização</strong>, como:</p>
+            <ul>
+                <li>Buscar dados de uma API</li>
+                <li>Modificar o título da página</li>
+                <li>Configurar assinaturas de eventos</li>
+                <li>Interagir com o localStorage</li>
+                <li>Iniciar e limpar temporizadores</li>
+            </ul>
+            <p>O hook <code>useEffect</code> nos permite executar esses efeitos de forma <strong>controlada e
+                    previsível</strong>.</p>
+            <h3>🧪 <strong>6.2 Sintaxe básica do useEffect</strong></h3>
+            <p>O <code>useEffect</code> é uma função especial do React que permite rodar um trecho de código quando algo
+                acontece no ciclo de vida do componente — como quando ele aparece na tela ou quando alguma informação
+                muda. Ele recebe dois parâmetros:</p>
+            <ol>
+                <li>
+                    <p>Uma função com o código que queremos executar</p>
+                </li>
+                <li>
+                    <p>Um array com as variáveis que, ao mudarem, disparam o efeito</p>
+                </li>
+            </ol>
+            <pre><code class="language-tsx">import React, { useEffect } from &quot;react&quot;;
+
+function MeuComponente() {
+  useEffect(() =&gt; {
+    console.log(&quot;Olá! Estou na tela!&quot;);
+
+    return () =&gt; {
+      console.log(&quot;Tchau! Estou saindo da tela.&quot;);
+    };
+  }, []);
+
+  return &lt;div&gt;Olá mundo&lt;/div&gt;;
+}
+</code></pre>
+            <ul>
+                <li>A primeira parte <code>console.log(&quot;O componente apareceu na tela!&quot;)</code> vai rodar
+                    <strong>assim que o componente aparece</strong>.</li>
+                <li>A segunda parte (a que começa com <code>return</code>) vai rodar <strong>quando o componente sair da
+                        tela</strong>.</li>
+                <li>Os <code>[]</code> no final significam: <strong>&quot;só execute isso uma vez&quot;</strong>, quando
+                    o componente aparece.</li>
+            </ul>
+            <p>Ou seja, neste exemplo, o efeito será executado <strong>apenas uma vez</strong> quando o componente for
+                montado, e a função de limpeza será chamada quando o componente for removido da tela. Em suma:</p>
+            <ul>
+                <li><code>useEffect</code> é usado para <strong>fazer algo quando o componente aparece ou muda</strong>.
+                </li>
+                <li>O <code>[]</code> indica que o efeito só deve acontecer uma vez. Se colocássemos variáveis ali
+                    dentro, o efeito rodaria sempre que elas mudassem.</li>
+            </ul>
+            <h3>🕒 <strong>6.3 Controlando quando o efeito é executado</strong></h3>
+            <p>O <code>useEffect</code> é como uma <strong>função que fica esperando o momento certo para agir</strong>.
+                Mas... <strong>quando é esse momento?</strong></p>
+            <p>A resposta está em um detalhe importante: o <strong>array de dependências</strong> (<code>[]</code>) que
+                colocamos logo depois da função!</p>
+            <h3>📌 Existem três comportamentos diferentes, dependendo desse array:</h3>
+            <h4>✅ 1. Quando o array está vazio (<code>[]</code>):</h4>
+            <pre><code class="language-tsx">useEffect(() =&gt; {
+  console.log(&quot;O componente foi exibido na tela!&quot;);
+}, []);
+</code></pre>
+            <ul>
+                <li>Esse efeito <strong>só roda uma vez</strong>, assim que o componente <strong>aparece pela primeira
+                        vez</strong>.</li>
+                <li>É como dizer: “Faça isso <strong>só no começo</strong>.”</li>
+                <li>Muito usado para <strong>carregar dados</strong>, <strong>iniciar timers</strong>, ou
+                    <strong>conectar APIs</strong>.</li>
+            </ul>
+            <h4>🔁 2. Quando você coloca uma variável dentro do array (<code>[contador]</code>):</h4>
+            <pre><code class="language-tsx">useEffect(() =&gt; {
+  console.log(`O contador mudou para: ${contador}`);
+}, [contador]);
+</code></pre>
+            <ul>
+                <li>O efeito vai rodar <strong>no começo</strong> e depois <strong>toda vez que <code>contador</code>
+                        mudar</strong>.</li>
+                <li>É como dizer: “Faça isso <strong>sempre que essa informação mudar</strong>.”</li>
+                <li>Ideal para <strong>reagir a atualizações</strong> de dados específicos, como uma busca que depende
+                    de um filtro.</li>
+            </ul>
+            <h4>⚠️ 3. Quando você <strong>não coloca o array</strong>:</h4>
+            <pre><code class="language-tsx">useEffect(() =&gt; {
+  console.log(&quot;O componente foi renderizado!&quot;);
+});
+</code></pre>
+            <ul>
+                <li>O efeito vai rodar <strong>toda vez que o componente for atualizado</strong>, até por pequenos
+                    motivos.</li>
+                <li>Isso pode causar <strong>efeitos repetidos e desnecessários</strong> se você não tiver cuidado.</li>
+                <li>Só use esse formato quando <strong>você quiser que o efeito aconteça o tempo todo</strong>.</li>
+            </ul>
+            <h3>📈 Por que isso importa?</h3>
+            <p>Escolher corretamente <strong>quais variáveis vão no array de dependências</strong> evita:</p>
+            <ul>
+                <li><strong>Rodar efeitos sem necessidade</strong></li>
+                <li><strong>Repetir chamadas de API</strong></li>
+                <li><strong>Deixar a aplicação lenta</strong></li>
+                <li>Ou pior: <strong>entrar em loops infinitos de renderização</strong></li>
+            </ul>
+            <p>Entendido? Entendido, então vamos continuar! 🤠</p>
+            <h3>📦 <strong>6.4 Buscando dados de APIs</strong></h3>
+            <p>Um dos usos mais comuns do <code>useEffect</code> é buscar dados de APIs quando um componente é montado:
+            </p>
+            <pre><code class="language-tsx">import React, { useState, useEffect } from &quot;react&quot;;
+
+function PokemonInfo() {
+  const [pokemon, setPokemon] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() =&gt; {
+    // Indicamos que estamos carregando
+    setLoading(true);
+    
+    // Fazemos a requisição à API
+    fetch(&quot;https://pokeapi.co/api/v2/pokemon/pikachu&quot;)
+      .then(response =&gt; {
+        // Verificamos se a resposta está ok
+        if (!response.ok) {
+          throw new Error(&quot;Falha ao buscar dados do Pokémon&quot;);
+        }
+        return response.json();
+      })
+      .then(data =&gt; {
+        // Armazenamos os dados no estado
+        setPokemon(data);
+        setLoading(false);
+      })
+      .catch(err =&gt; {
+        // Tratamos possíveis erros
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []); // Array vazio = executa apenas uma vez na montagem
+
+  // Renderização condicional baseada no estado
+  return (
+    &lt;div className=&quot;pokemon-card&quot; style={{ 
+      padding: &quot;20px&quot;, 
+      border: &quot;1px solid #ddd&quot;,
+      borderRadius: &quot;8px&quot;,
+      maxWidth: &quot;400px&quot;,
+      margin: &quot;0 auto&quot;
+    }}&gt;
+      &lt;h2&gt;Informações do Pokémon&lt;/h2&gt;
+      
+      {loading ? (
+        &lt;div className=&quot;loading&quot; style={{ 
+          textAlign: &quot;center&quot;, 
+          padding: &quot;20px&quot; 
+        }}&gt;
+          &lt;div className=&quot;spinner&quot; style={{ 
+            display: &quot;inline-block&quot;,
+            width: &quot;30px&quot;,
+            height: &quot;30px&quot;,
+            border: &quot;3px solid #f3f3f3&quot;,
+            borderTop: &quot;3px solid #3498db&quot;,
+            borderRadius: &quot;50%&quot;,
+            animation: &quot;spin 1s linear infinite&quot;
+          }}&gt;&lt;/div&gt;
+          &lt;style&gt;{`
+            @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+          `}&lt;/style&gt;
+          &lt;p&gt;Carregando...&lt;/p&gt;
+        &lt;/div&gt;
+      ) : error ? (
+        &lt;div className=&quot;error&quot; style={{ 
+          color: &quot;red&quot;, 
+          padding: &quot;10px&quot;,
+          backgroundColor: &quot;#ffebee&quot;,
+          borderRadius: &quot;4px&quot; 
+        }}&gt;
+          &lt;p&gt;Erro: {error}&lt;/p&gt;
+        &lt;/div&gt;
+      ) : pokemon &amp;&amp; (
+        &lt;div className=&quot;pokemon-details&quot;&gt;
+          &lt;h3 style={{ textTransform: &quot;capitalize&quot; }}&gt;{pokemon.name}&lt;/h3&gt;
+          {pokemon.sprites?.front_default &amp;&amp; (
+            &lt;img 
+              src={pokemon.sprites.front_default} 
+              alt={pokemon.name}
+              style={{ display: &quot;block&quot;, margin: &quot;0 auto&quot; }}
+            /&gt;
+          )}
+          &lt;div style={{ marginTop: &quot;10px&quot; }}&gt;
+            &lt;p&gt;&lt;strong&gt;Altura:&lt;/strong&gt; {pokemon.height / 10}m&lt;/p&gt;
+            &lt;p&gt;&lt;strong&gt;Peso:&lt;/strong&gt; {pokemon.weight / 10}kg&lt;/p&gt;
+            &lt;p&gt;&lt;strong&gt;Tipos:&lt;/strong&gt; {
+              pokemon.types?.map(t =&gt; t.type.name).join(&quot;, &quot;)
+            }&lt;/p&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+            <p>No exemplo acima, fazemos uma requisição para buscar os dados do Pikachu. Para isso, usamos três
+                variáveis de estado:</p>
+            <ul>
+                <li><code>pokemon</code>: guarda os dados recebidos da API</li>
+                <li><code>loading</code>: indica se a requisição ainda está em andamento</li>
+                <li><code>error</code>: armazena uma mensagem de erro, se algo der errado</li>
+            </ul>
+            <p>Essas três variáveis controlam o que aparece na tela, dependendo do estado da requisição.</p>
+            <p>Já no <code>useEffect</code>, fazemos o seguinte:</p>
+            <ol>
+                <li>Colocamos <code>loading</code> como <code>true</code> para indicar que estamos buscando dados.</li>
+                <li>Usamos <code>fetch()</code> para acessar a API.</li>
+                <li>Se a resposta estiver ok, transformamos ela em JSON e salvamos no estado.</li>
+                <li>Se der erro (por exemplo, se a API estiver fora do ar), capturamos esse erro e guardamos a mensagem
+                    em <code>error</code>.</li>
+                <li>Em ambos os casos, desativamos o <code>loading</code>.</li>
+            </ol>
+            <p>Importante: como usamos um array de dependências vazio (<code>[]</code>), isso significa que o efeito
+                <strong>só será executado uma vez</strong>, quando o componente for exibido pela primeira vez. ☝️🤓</p>
+            <p>Já na tela, a interface será <strong>renderizada com base no estado atual</strong>:</p>
+            <ul>
+                <li>Se <code>loading</code> for verdadeiro, mostramos uma animação de carregamento.</li>
+                <li>Se <code>error</code> tiver uma mensagem, mostramos a mensagem de erro em destaque.</li>
+                <li>Se tudo der certo, mostramos os dados do Pokémon, como nome, imagem, altura, peso e tipos.</li>
+            </ul>
+            <p>Esse padrão é muito usado no desenvolvimento de aplicações reais com React, porque nos permite lidar com
+                diferentes situações de forma clara e controlada: <strong>carregando</strong>, <strong>erro</strong> ou
+                <strong>dados disponíveis</strong>.</p>
+            <p>Este exemplo demonstra um padrão comum:</p>
+            <ol>
+                <li>Definimos estados para os dados, carregamento e erros</li>
+                <li>Usamos <code>useEffect</code> para buscar dados quando o componente monta</li>
+                <li>Atualizamos os estados conforme a requisição progride</li>
+                <li>Renderizamos diferentes UIs baseadas no estado atual</li>
+            </ol>
+            <p>Legal, né?! Agora vemos claramente como as coisas vão se encaixando. 😊 </p>
+            <h3>⚠️ <strong>6.5 useEffect e async/await</strong></h3>
+            <p>Outro ponto importante a destacar é que o corpo da função passada para <code>useEffect</code> <strong>não
+                    pode ser assíncrono diretamente</strong>. Isso ocorre porque o React espera que a função retorne uma
+                função de limpeza ou nada, não uma Promise.</p>
+            <pre><code class="language-tsx">// ❌ ERRADO: useEffect não aceita funções async diretamente
+useEffect(async () =&gt; {
+  const response = await fetch(&quot;https://api.exemplo.com/dados&quot;);
+  const data = await response.json();
+  setDados(data);
+}, []);
+
+// ✅ CORRETO: Declare uma função async dentro do efeito
+useEffect(() =&gt; {
+  async function fetchData() {
+    try {
+      const response = await fetch(&quot;https://api.exemplo.com/dados&quot;);
+      const data = await response.json();
+      setDados(data);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+  
+  fetchData();
+}, []);
+</code></pre>
+            <p>Este padrão permite usar a sintaxe mais limpa do <code>async/await</code> enquanto respeita as regras do
+                <code>useEffect</code>.</p>
+            <h3>🧹 <strong>6.6 Limpando efeitos (cleanup)</strong></h3>
+            <p>Alguns efeitos precisam ser &quot;limpos&quot; quando o componente é desmontado ou antes de serem
+                executados novamente. Isso evita comportamentos indesejados, como múltiplos temporizadores ativos,
+                vazamento de memória ou escutas de eventos duplicadas.</p>
+            <p>Algumas situações típicas em que usamos essa limpeza incluem:</p>
+            <ul>
+                <li>Cancelar requisições em andamento</li>
+                <li>Remover event listeners (ouvinte de eventos)</li>
+                <li>Limpar <code>setInterval</code> ou <code>setTimeout</code></li>
+                <li>Cancelar assinaturas de WebSocket ou serviços externos</li>
+            </ul>
+            <p>Para isso, usamos um <strong>retorno dentro do <code>useEffect</code></strong>. Esse retorno é
+                <strong>uma função</strong> que será automaticamente chamada pelo React <strong>no momento
+                    certo</strong>:</p>
+            <ul>
+                <li>Antes de o efeito ser executado novamente (quando alguma dependência muda)</li>
+                <li>Ou quando o componente for removido da tela (desmontado)</li>
+            </ul>
+            <p>Sintaticamente, você pode identificar a função de limpeza por este padrão:</p>
+            <pre><code class="language-tsx">useEffect(() =&gt; {
+  // Efeito principal
+  ...
+
+  // Função de limpeza (return dentro do useEffect)
+  return () =&gt; {
+    // Código que desfaz o efeito
+  };
+}, [/* dependências */]);
+</code></pre>
+            <p>O <code>return () =&gt; { ... }</code> <strong>não é um return do componente</strong>, mas sim da função
+                passada ao <code>useEffect</code>. Ele diz ao React: “Quando for a hora de limpar, execute isso aqui”.
+            </p>
+            <p>Vejamos um exemplo abaixo:</p>
+            <pre><code class="language-tsx">function Cronometro() {
+  const [segundos, setSegundos] = useState(0);
+  
+  useEffect(() =&gt; {
+    console.log(&quot;⏱️ Iniciando cronômetro&quot;);
+    
+    // Configuramos o temporizador
+    const intervalo = setInterval(() =&gt; {
+      setSegundos(s =&gt; s + 1);
+    }, 1000);
+    
+    // Retornamos uma função de limpeza
+    return () =&gt; {
+      console.log(&quot;⏱️ Limpando cronômetro&quot;);
+      clearInterval(intervalo);
+    };
+  }, []);
+  
+  return (
+    &lt;div style={{ 
+      textAlign: &quot;center&quot;, 
+      padding: &quot;20px&quot;,
+      border: &quot;1px solid #ddd&quot;,
+      borderRadius: &quot;8px&quot;,
+      maxWidth: &quot;300px&quot;,
+      margin: &quot;20px auto&quot;
+    }}&gt;
+      &lt;h2&gt;Cronômetro&lt;/h2&gt;
+      &lt;p style={{ fontSize: &quot;2rem&quot;, fontWeight: &quot;bold&quot; }}&gt;
+        {segundos} segundos
+      &lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+            <p>Nesse caso a função de limpeza é chamada:</p>
+            <ol>
+                <li>Antes de executar o efeito novamente (se as dependências mudaram)</li>
+                <li>Quando o componente é desmontado (removido da UI)</li>
+            </ol>
+            <h3>🔍 <strong>6.7 Exemplo prático: Pesquisa com debounce</strong></h3>
+            <p>Vamos criar um componente de pesquisa que busca Pokémon à medida que o usuário digita, mas com um pequeno
+                atraso para evitar muitas requisições:</p>
+            <pre><code class="language-tsx">import React, { useState, useEffect } from &quot;react&quot;;
+
+function PokemonSearch() {
+  const [query, setQuery] = useState(&quot;&quot;);
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  
+  // Este efeito será executado quando &#39;query&#39; mudar
+  useEffect(() =&gt; {
+    // Não pesquisamos se a query estiver vazia
+    if (!query.trim()) {
+      setResults([]);
+      return;
+    }
+    
+    // Definimos loading como true
+    setLoading(true);
+    
+    // Criamos um timer para esperar que o usuário pare de digitar
+    const timer = setTimeout(() =&gt; {
+      fetch(`https://pokeapi.co/api/v2/pokemon?limit=100`)
+        .then(res =&gt; res.json())
+        .then(data =&gt; {
+          // Filtramos os resultados que contêm a query
+          const filteredResults = data.results.filter(
+            pokemon =&gt; pokemon.name.includes(query.toLowerCase())
+          ).slice(0, 5); // Limitamos a 5 resultados
+          
+          setResults(filteredResults);
+          setLoading(false);
+        })
+        .catch(err =&gt; {
+          console.error(&quot;Erro na busca:&quot;, err);
+          setLoading(false);
+        });
+    }, 500); // 500ms de debounce
+    
+    // Limpamos o timer se a query mudar antes do tempo
+    return () =&gt; clearTimeout(timer);
+  }, [query]);
+  
+  return (
+    &lt;div style={{ maxWidth: &quot;400px&quot;, margin: &quot;0 auto&quot;, padding: &quot;20px&quot; }}&gt;
+      &lt;h2&gt;Buscar Pokémon&lt;/h2&gt;
+      
+      &lt;input
+        type=&quot;text&quot;
+        value={query}
+        onChange={(e) =&gt; setQuery(e.target.value)}
+        placeholder=&quot;Digite o nome do Pokémon...&quot;
+        style={{
+          width: &quot;100%&quot;,
+          padding: &quot;10px&quot;,
+          fontSize: &quot;16px&quot;,
+          borderRadius: &quot;4px&quot;,
+          border: &quot;1px solid #ddd&quot;,
+          marginBottom: &quot;20px&quot;
+        }}
+      /&gt;
+      
+      {loading &amp;&amp; &lt;p&gt;Buscando...&lt;/p&gt;}
+      
+      {results.length &gt; 0 ? (
+        &lt;ul style={{ 
+          listStyle: &quot;none&quot;, 
+          padding: 0,
+          border: &quot;1px solid #eee&quot;,
+          borderRadius: &quot;4px&quot; 
+        }}&gt;
+          {results.map(pokemon =&gt; (
+            &lt;li 
+              key={pokemon.name}
+              style={{
+                padding: &quot;10px 15px&quot;,
+                borderBottom: &quot;1px solid #eee&quot;,
+                textTransform: &quot;capitalize&quot;
+              }}
+            &gt;
+              {pokemon.name}
+            &lt;/li&gt;
+          ))}
+        &lt;/ul&gt;
+      ) : query &amp;&amp; !loading &amp;&amp; (
+        &lt;p&gt;Nenhum Pokémon encontrado com &quot;{query}&quot;&lt;/p&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+            <p>Neste código acima, criamos um pequeno componente de busca que consulta a PokéAPI conforme o usuário
+                digita o nome de um Pokémon. No entanto, para <strong>evitar que a API seja chamada a cada letra
+                    digitada</strong>, usamos uma técnica chamada <strong>debounce</strong>. Esse componente:</p>
+            <ul>
+                <li>Exibe um campo de texto para o usuário digitar.</li>
+                <li>Espera <strong>meio segundo (500ms)</strong> após a última tecla antes de fazer a requisição.</li>
+                <li>Filtra os resultados localmente, mostrando até 5 Pokémon que contenham o texto digitado.</li>
+                <li>Cancela a busca anterior se o usuário digitar algo novo antes do tempo acabar.</li>
+                <li>Mostra mensagens de carregamento ou de erro quando apropriado.</li>
+            </ul>
+            <p>Para isso usamos o <code>useEffect</code>, que executa uma ação toda vez que uma variável (ou conjunto de
+                variáveis) muda. Neste exemplo, usamos <code>useEffect</code> para &quot;ouvir&quot; mudanças na
+                variável <code>query</code>, que representa o texto digitado pelo usuário.</p>
+            <p>Quando <code>query</code> muda:</p>
+            <ol>
+                <li><strong>Um <code>setTimeout</code> de 500ms é iniciado</strong>. Ele aguarda meio segundo antes de
+                    realizar a requisição.</li>
+                <li>Se o usuário digitar novamente <strong>antes do tempo acabar</strong>, o <code>useEffect</code> é
+                    executado de novo, <strong>cancelando o timeout anterior com <code>clearTimeout</code></strong>.
+                </li>
+                <li>Isso evita várias requisições desnecessárias e melhora a performance — comportamento conhecido como
+                    <strong>debounce manual</strong>. 👽</li>
+            </ol>
+            <p>Para entender isso melhor, imagine que o usuário começa a digitar &quot;pikachu&quot;. A cada letra
+                (<code>p</code>, <code>pi</code>, <code>pik</code>...), o React <strong>reinicia o timer de
+                    500ms</strong>. Somente quando o usuário <strong>parar de digitar por pelo menos meio
+                    segundo</strong>, a requisição é enviada.</p>
+            <p>Se a busca for bem-sucedida, os resultados são filtrados localmente e armazenados no estado
+                <code>results</code>. Se houver erro, é tratado no <code>catch</code>. O campo <code>loading</code>
+                controla o que deve ser exibido na tela: uma mensagem &quot;Buscando...&quot; ou os resultados, por
+                exemplo.</p>
+            <p>Esse código mostra vários conceitos importantes:</p>
+            <ul>
+                <li><strong>Estado local com <code>useState</code></strong>: Armazena o texto da busca
+                    (<code>query</code>), os resultados (<code>results</code>) e se a busca está em andamento
+                    (<code>loading</code>).</li>
+                <li><strong>Renderização condicional</strong>: O componente exibe mensagens ou listas <strong>com base
+                        nos valores de estado</strong>, como <code>loading</code>, <code>results.length</code> e
+                    <code>query</code>.</li>
+                <li><strong>Limpeza de efeito (<code>return () =&gt; { ... }</code>)</strong>: Garante que o efeito
+                    anterior seja cancelado antes que o novo comece, evitando conflitos ou buscas duplicadas.</li>
+            </ul>
+            <h3>🧠 <strong>6.8 Regras importantes do useEffect</strong></h3>
+            <p>Para usar <code>useEffect</code> corretamente, lembre-se destas regras:</p>
+            <ol>
+                <li>
+                    <p><strong>Sempre inclua todas as dependências usadas dentro do efeito</strong></p>
+                    <pre><code class="language-tsx">// Se você usa &#39;userId&#39; dentro do efeito, inclua-o nas dependências
+useEffect(() =&gt; {
+  fetchUserData(userId);
+}, [userId]);
+</code></pre>
+                </li>
+                <li>
+                    <p><strong>Evite dependências que mudam frequentemente</strong> para prevenir loops infinitos</p>
+                </li>
+                <li>
+                    <p><strong>Use a forma funcional do setState</strong> quando atualizar estado baseado em valor
+                        anterior</p>
+                    <pre><code class="language-tsx">useEffect(() =&gt; {
+  const timer = setInterval(() =&gt; {
+    setCount(c =&gt; c + 1); // Forma funcional é mais segura
+  }, 1000);
+  return () =&gt; clearInterval(timer);
+}, []);
+</code></pre>
+                </li>
+                <li>
+                    <p><strong>Separe efeitos com propósitos diferentes</strong> em chamadas distintas de
+                        <code>useEffect</code></p>
+                    <pre><code class="language-tsx">// Um efeito para buscar dados do usuário
+useEffect(() =&gt; {
+  fetchUserData(userId);
+}, [userId]);
+
+// Outro efeito para atualizar o título da página
+useEffect(() =&gt; {
+  document.title = `Perfil de ${userName}`;
+}, [userName]);
+</code></pre>
+                </li>
+            </ol>
+            <h3>✅ <strong>6.9 Conclusão da Seção</strong></h3>
+            <p>O <code>useEffect</code> é um hook fundamental que nos permite sincronizar nossos componentes React com
+                sistemas externos, como APIs, eventos do navegador e temporizadores.</p>
+            <p>Pontos-chave para lembrar:</p>
+            <ul>
+                <li>Use <code>useEffect</code> para executar código que não está diretamente relacionado à renderização
+                </li>
+                <li>O array de dependências controla quando o efeito é executado</li>
+                <li>Retorne uma função de limpeza quando necessário para evitar vazamentos de memória</li>
+                <li>Separe efeitos com propósitos diferentes</li>
+                <li>Não use <code>async</code> diretamente na função passada para <code>useEffect</code></li>
+            </ul>
+            <p>Com <code>useState</code> e <code>useEffect</code>, você já tem as ferramentas básicas para criar
+                componentes interativos e dinâmicos que se comunicam com o mundo exterior. Entendendo isso, entendemos a
+                base do React. Estamos prontos, agora, para finalmente entrar nos conceitos do React Native na próxima
+                aula!</p>
+            <p>Antes disso, na próxima seção, vamos aplicar esses conhecimentos em um projeto prático, construindo uma
+                aplicação completa que integra tudo o que aprendemos até agora.</p>
+            <hr>
+            <h2><strong>7. Aplicação prática: buscando dados na PokéAPI</strong></h2>
+            <p>Agora que entendemos o funcionamento de <code>useState</code> e <code>useEffect</code>, é hora de
+                aplicá-los juntos para criar uma pequena aplicação que:</p>
+            <ul>
+                <li>Consulta a PokéAPI;</li>
+                <li>Exibe dados básicos de um Pokémon;</li>
+                <li>Permite ao usuário digitar um nome e buscar dinamicamente.</li>
+            </ul>
+            <p>Essa será nossa <strong>primeira tela funcional com React</strong>, e ela marcará o início da construção
+                da nossa Pokédex (que evoluíremos, posteriormente, para React Native). 🎯</p>
+            <h3>🧪 <strong>Objetivo</strong></h3>
+            <p>Construir um componente que:</p>
+            <ol>
+                <li>Recebe o nome de um Pokémon via campo de texto;</li>
+                <li>Ao clicar em &quot;Buscar&quot;, consulta a PokéAPI;</li>
+                <li>Exibe o nome, altura, peso e tipos do Pokémon;</li>
+                <li>Mostra uma mensagem de erro caso o nome seja inválido.</li>
+            </ol>
+            <h3>🧱 <strong>Passo a passo: estrutura base</strong></h3>
+            <p>Vamos usar a seguinte estrutura de pastas. Como montaremos o projeto primeiramente com React Web, vamos
+                usar o Vite para criá-lo. O <strong>Vite</strong> é uma ferramenta de build moderna e super rápida para
+                projetos web que oferece <strong>inicialização instantânea</strong> e <strong>atualizações rápidas
+                    durante o desenvolvimento</strong>, ideal para projetos React, Vue, entre outros. Não se preocupe
+                muito: só vamos utilizá-lo nesse momento do curso, em que estamos vendo os conceitos de React. Após isso
+                retomaremos o React Native e não precisaremos utilizar o Vite.</p>
+            <p>Vamos criar o projeto com:</p>
+            <pre><code class="language-bash">npm create vite@latest pokedex-react -- --template react-ts
+</code></pre>
+            <p>Ou, estiver usando o <code>yarn</code>:</p>
+            <pre><code class="language-bash">yarn create vite pokedex-react --template react-ts
+</code></pre>
+            <p>Vamos acessar o diretório do projeto com</p>
+            <pre><code class="language-bash">cd pokedex-react
+</code></pre>
+            <p>E depois instalar as dependências com </p>
+            <pre><code class="language-bash">npm install
+</code></pre>
+            <p>Após isso, vamos criar a pasta de componentes</p>
+            <pre><code class="language-bash">mkdir src/components
+</code></pre>
+            <p>Nossa estrutura de diretórios ficará a seguinte</p>
+            <pre><code>pokedex-react/
+├── public/
+│   └── index.html
+├── src/
+│   ├── components/
+│   │   └── Pokedex.tsx      ← Componente principal
+│   │   └── Pokedex.css      ← Estilização do componente 
+│   ├── App.tsx              ← Componente raiz
+│   └── main.tsx             ← Ponto de entrada
+├── package.json
+├── tsconfig.json
+└── vite.config.ts (se usar Vite)
+</code></pre>
+            <p>Feito isso, vamos ver como ficará nosso código!</p>
+            <h3>🧱 <strong>Componente <code>Pokedex.tsx</code></strong></h3>
+            <p>Crie o arquivo <code>src/components/Pokedex.tsx</code>:</p>
+            <pre><code class="language-tsx">import React, { useState } from &quot;react&quot;;
+import &quot;./Pokedex.css&quot;;
+
+// Definindo o tipo com base no json para simplificar a implementação
+type Pokemon = {
+  name: string;
+  height: number;
+  weight: number;
+  sprites: {
+    front_default: string | null;
+  };
+  types: Array&lt;{
+    type: { name: string };
+  }&gt;;
+};
+
+export default function Pokedex() {
+  const [nome, setNome] = useState(&quot;&quot;);
+  const [carregando, setCarregando] = useState(false);
+
+  const [pokemon, setPokemon] = useState&lt;Pokemon | null&gt;(null);
+  const [erro, setErro] = useState(&quot;&quot;);
+
+  const buscarPokemon = async () =&gt; {
+    if (!nome.trim()) return;
+
+    setCarregando(true);
+    setErro(&quot;&quot;);
+    setPokemon(null);
+
+    try {
+      const resposta = await fetch(
+        `https://pokeapi.co/api/v2/pokemon/${nome.toLowerCase()}`
+      );
+      if (!resposta.ok) throw new Error(&quot;Pokémon não encontrado&quot;);
+
+      // Convertemos o JSON dizendo ao TS que ele tem formato Pokemon 
+      const dados: Pokemon = await resposta.json();
+      setPokemon(dados);
+    } catch (e) {
+      setErro(&quot;Pokémon não encontrado 😢&quot;);
+    } finally {
+      setCarregando(false);
+    }
+  };
+
+  return (
+    &lt;div className=&quot;pokedex-container&quot;&gt;
+      &lt;h2 className=&quot;pokedex-title&quot;&gt;🔎 Pokédex&lt;/h2&gt;
+
+      &lt;input
+        className=&quot;pokedex-input&quot;
+        type=&quot;text&quot;
+        placeholder=&quot;Digite o nome do Pokémon&quot;
+        value={nome}
+        onChange={(e) =&gt; setNome(e.target.value)}
+      /&gt;
+
+      &lt;button className=&quot;pokedex-button&quot; onClick={buscarPokemon}&gt;
+        Buscar
+      &lt;/button&gt;
+
+      {carregando &amp;&amp; &lt;p className=&quot;pokedex-loading&quot;&gt;Carregando...&lt;/p&gt;}
+      {erro &amp;&amp; &lt;p className=&quot;pokedex-error&quot;&gt;{erro}&lt;/p&gt;}
+
+      {pokemon &amp;&amp; (
+        &lt;div className=&quot;pokedex-card&quot;&gt;
+          &lt;h3 className=&quot;pokedex-name&quot;&gt;{pokemon.name}&lt;/h3&gt;
+          {pokemon.sprites.front_default &amp;&amp; (
+            &lt;img
+              src={pokemon.sprites.front_default}
+              alt={pokemon.name}
+              className=&quot;pokedex-image&quot;
+            /&gt;
+          )}
+          &lt;p&gt;
+            &lt;strong&gt;Altura:&lt;/strong&gt; {pokemon.height * 10} cm
+          &lt;/p&gt;
+          &lt;p&gt;
+            &lt;strong&gt;Peso:&lt;/strong&gt; {pokemon.weight / 10} kg
+          &lt;/p&gt;
+          &lt;p&gt;
+            &lt;strong&gt;Tipos:&lt;/strong&gt;{&quot; &quot;}
+            {pokemon.types.map((t) =&gt; t.type.name).join(&quot; / &quot;)}
+          &lt;/p&gt;
+        &lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+            <p>No código acima, começamos importando dois itens da biblioteca React – o objeto-módulo padrão
+                <strong>React</strong> e, entre chaves, o <strong>useState</strong>. Essa sintaxe é chamada <em>named
+                    import</em>: quando a biblioteca exporta várias entidades, escolhemos pelo nome apenas as que nos
+                interessam (aqui, o hook useState), o que torna o código mais claro. Em seguida carregamos o CSS local
+                para aplicar estilos de forma local ao componente.</p>
+            <p>Logo abaixo definimos <strong>Pokemon</strong>, um <em>type alias</em> do TypeScript que descreve
+                exatamente o formato do objeto retornado pela PokéAPI: nome, altura, peso, um caminho para a miniatura e
+                uma lista de tipos. Declarar esse tipo permite ao compilador verificar acesso a propriedades
+                inexistentes e habilita auto-completar durante a escrita do código.</p>
+            <p>Dentro do componente funcional <strong>Pokedex</strong> declaramos quatro estados usando o hook
+                <em>useState</em>. Cada chamada a useState devolve um par <code>[valor, setValor]</code>; armazenamos
+                cada par em constantes porque o ponteiro para o valor e a função de atualização nunca mudam (o conteúdo
+                muda, mas a referência permanece). Assim:</p>
+            <ul>
+                <li><strong>nome / setNome</strong> guarda o texto do input.</li>
+                <li><strong>carregando / setCarregando</strong> indica se há requisição em andamento.</li>
+                <li><strong>pokemon / setPokemon</strong> armazena o resultado da busca; o tipo
+                    <code>Pokemon | null</code> deixa explícito que o estado começa vazio.</li>
+                <li><strong>erro / setErro</strong> guarda mensagens de falha para exibir ao usuário.</li>
+            </ul>
+            <p>Todas as variáveis foram declaradas com <strong>const</strong> porque em JavaScript/TypeScript
+                <code>const</code> congela apenas a referência, não o conteúdo interno. Como não reatribuiremos novos
+                pares de estado, faz sentido usar <code>const</code> para sinalizar essa imutabilidade estrutural.</p>
+            <p>&quot;Professor, mas isso é esquisito, hein?&quot;. Calma! Vamos reforçar o entendimento. 👽🤓</p>
+            <p>Aqui em JavaScript/TypeScript, <strong><code>const</code> não congela o universo inteiro</strong> – ela
+                só diz que o <strong>apelido</strong> (a referência) não vai ser trocado <strong>durante aquela
+                    execução</strong> da função.</p>
+            <p>Quando o React re-renderiza o componente, ele <strong>chama a função <code>Pokedex</code> de
+                    novo</strong> do zero. Isso significa que - dentro dessa chamada - o código faz:</p>
+            <pre><code class="language-ts">const [nome, setNome] = useState(&quot;&quot;);
+</code></pre>
+            <p>e cria <strong>novas</strong> variáveis locais chamadas <code>nome</code> e <code>setNome</code>. Na
+                execução anterior elas já “morreram”; estas são outras, fresquinhas. Então não há nenhuma violação do
+                <code>const</code>: cada versão da variável vive apenas durante o render em que foi criada.</p>
+            <p>Além disso, o que realmente guarda o estado é uma estrutura interna do React.
+                Quando chamamos <code>setNome(&quot;Pikachu&quot;)</code>, <strong>não mudamos a variável
+                    <code>nome</code> diretamente</strong>; pedimos ao React:</p>
+            <blockquote>
+                <p>“Guarde ‘Pikachu’ como o novo estado, por favor.”</p>
+            </blockquote>
+            <p>O React salva isso lá dentro, agenda um novo render, e <em>na próxima chamada</em> da função ele devolve
+                o par <code>[ &quot;Pikachu&quot;, setNome ]</code>. A nossa variável <code>nome</code> continua de
+                “const” intacta - ela simplesmente começa a vida já valendo <code>&quot;Pikachu&quot;</code>.</p>
+            <p>Ou seja, se dentro do <strong>mesmo</strong> ciclo de execução (isto é, enquanto o código daquela função
+                ainda está rodando) tentarmos reatribuir uma variável declarada com <code>const</code>, será disparado
+                um erro de tempo de execução:</p>
+            <pre><code class="language-ts">const pokemon = &quot;Pikachu&quot;;
+pokemon = &quot;Charmander&quot;;   // TypeError: Assignment to constant variable.
+</code></pre>
+            <p>O motor JavaScript impede a reatribuição porque <code>const</code> fixa o <strong>apelido</strong>
+                (<code>nome</code>) ao primeiro valor (ou referência) que você deu para ele naquela execução. Agora, no
+                caso do React, quando você quer mudar o valor “Pikachu” para Charmander”, <strong>não</strong> faz
+                <code>pokemon = &quot;Charmander&quot;</code>; você chama
+                <code>setPokemon(&quot;Charmander&quot;)</code>. Isso grava o novo valor num “cofre” interno do React e
+                agenda outro render. Na próxima vez que a função componente for invocada, o React cria uma
+                <strong>nova</strong> variável <code>const pokemon</code>, já iniciada como
+                <code>&quot;Charmander&quot;</code>, sem jamais ter quebrado a regra de imutabilidade dentro de um único
+                ciclo.</p>
+            <p>Resumindo: <strong><code>const</code> garante imutabilidade da <strong>referência</strong> dentro daquela
+                    execução;</strong> o estado muda por fora, entre execuções, e o React devolve o novo valor quando a
+                função roda novamente. Não há, portanto, nenhuma contradição, apenas um &quot;truque&quot; elegante do
+                ciclo de renderização!</p>
+            <p>Beleza, reforçado isso, vamos continuar a explicação!</p>
+            <p>A função <strong>buscarPokemon</strong> concentra a lógica de busca. É uma arrow-function assinalada a
+                uma constante – novamente indicando que o identificador não mudará. Ela é marcada <em>async</em> para
+                que possamos usar <code>await</code> e escrever código assíncrono com aparência sequencial: chamamos
+                <code>fetch</code>, esperamos a resposta, transformamos em JSON e só então seguimos. Esse estilo evita a
+                pirâmide de <em>then()</em> e torna o fluxo de erro mais linear com <code>try/catch</code>. A primeira
+                linha da função aborta se o usuário enviou campo vazio (<code>!nome.trim()</code>). Depois mudamos o
+                estado para o ciclo “carregando”: limpamos erros, limpamos resultado anterior e ativamos o
+                &quot;spinner&quot;. Quando a <code>fetch</code> resolve, verificamos <code>resposta.ok</code>. Caso
+                contrário, lançamos erro para cair no <code>catch</code>. No caminho feliz, tipamos o JSON como
+                <code>Pokemon</code> para que o TypeScript passe a enxergar o objeto com o formato correto e então
+                gravamos em <strong>pokemon</strong>; no <code>finally</code> desligamos o indicador de carregamento.
+            </p>
+            <p>Já a <strong>renderização condicional</strong>, na parte do <code>return</code> que está abaixo da função
+                <strong>buscarPokemon</strong>, é construída só com JSX: primeiro a estrutura fixa (título, input e
+                botão). O atributo <code>onChange</code> do input usa <code>setNome</code> para sincronizar cada tecla
+                com o estado; o botão dispara <code>buscarPokemon</code>. Em seguida, três blocos condicionais: se
+                <code>carregando</code> verdadeiro mostramos “Carregando…”, se <code>erro</code> possuir texto mostramos
+                o erro, e se <code>pokemon</code> estiver preenchido exibimos o card. O card utiliza as informações já
+                validadas pelo tipo: nome em título, imagem se existir, altura (convertida para centímetros), peso (em
+                quilos) e a lista de tipos concatenada. Quando qualquer estado muda via <code>setX</code>, o React refaz
+                a função de componente, calcula uma nova árvore virtual e aplica ao DOM apenas as diferenças, garantindo
+                a reatividade.</p>
+            <p>Por fim, a palavra-chave <strong>export default</strong> indica que este arquivo exporta uma entidade
+                principal – o componente Pokedex. Quem importar o caminho <code>./Pokedex</code> receberá essa função.
+                Com isso o componente entra na árvore de renderização da aplicação, e toda a lógica descrita acima passa
+                a reger a interface.</p>
+            <h3>💃 <strong>Estilo <code>Pokedex.css</code></strong></h3>
+            <pre><code class="language-css">.pokedex-container {
+  padding: 20px;
+  max-width: 500px;
+  margin: 40px auto;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  color: #333;
+}
+
+.pokedex-title {
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+.pokedex-input {
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.pokedex-button {
+  padding: 10px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.pokedex-loading {
+  margin-top: 10px;
+  color: #888;
+}
+
+.pokedex-error {
+  margin-top: 10px;
+  color: red;
+  background: #ffe0e0;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.pokedex-card {
+  margin-top: 20px;
+  background-color: #f8f8f8;
+  padding: 16px;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.pokedex-name {
+  text-transform: capitalize;
+  margin-bottom: 10px;
+}
+
+.pokedex-image {
+  display: block;
+  margin: 0 auto 10px;
+}
+</code></pre>
+            <h3>🧩 <strong>Usando no <code>App.tsx</code></strong></h3>
+            <pre><code class="language-tsx">import React from &quot;react&quot;;
+import Pokedex from &quot;./components/Pokedex&quot;;
+
+export default function App() {
+  return (
+    &lt;div&gt;
+      &lt;Pokedex /&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+            <p><strong>Para evitar conflitos de estilo, não se esqueça de comentar a linha
+                    <code>import &#39;./index.css&#39;</code> em seu arquivo <code>main.tsx</code></strong>.</p>
+            <p>Depois disso, basta iniciar o ambiente de desenvolvimento:</p>
+            <pre><code class="language-bash">npm run dev
+</code></pre>
+            <p>E a aplicação será servida em <strong><a href="http://localhost:5173">http://localhost:5173</a></strong>
+                – abra essa URL no navegador para ver a Pokédex em funcionamento. 🤩</p>
+            <p>Se quiser acompanhar uma breve demonstração do código acima, confira o vídeo <strong>“PokéDex em
+                    React”</strong>:</p>
+            <p><a href="https://youtu.be/E2qN0vF5GXU">Assista no YouTube – PokéDex em React</a></p>
+            <h3>Em resumo …</h3>
+            <p>Este exercício reúne todos os conceitos centrais que vimos nesta aula. O vídeo acima mostra, passo a
+                passo, como o código foi construído – uma ótima forma de reforçar o aprendizado antes de avançarmos! 😊
+            </p>
+            <hr>
+            <h2><strong>8. Considerações finais, boas práticas e próximos passos</strong></h2>
+            <p>Ao longo desta aula, demos um passo essencial rumo ao desenvolvimento de aplicações móveis com React
+                Native: <strong>entendemos como funciona a arquitetura baseada em componentes</strong> e <strong>criamos
+                    nosso primeiro app funcional</strong>, consumindo uma API real. 🚀</p>
+            <p>Agora é hora de <strong>refletir sobre o que aprendemos</strong>, identificar boas práticas que podemos
+                aplicar desde o início e visualizar como evoluir essa estrutura nas próximas aulas, onde iniciaremos com
+                React Native.</p>
+            <p>Nessa aula aprendemos nesta aula:</p>
+            <ul>
+                <li>Como <strong>React funciona com componentes reutilizáveis</strong>, e como isso impacta diretamente
+                    a organização de interfaces em apps mobile;</li>
+                <li>A sintaxe e os conceitos do <strong>JSX</strong>, que tornam possível combinar HTML e JavaScript;
+                </li>
+                <li>O uso de <strong>props</strong> para comunicação entre componentes;</li>
+                <li>Como utilizar <strong><code>useState</code></strong> para criar e modificar valores reativos dentro
+                    da interface;</li>
+                <li>Como utilizar <strong><code>useEffect</code></strong> para lidar com efeitos colaterais — como
+                    chamadas à API;</li>
+                <li>Como construir <strong>um pequeno app funcional com React</strong>;</li>
+                <li>Como utilizar um serviço externo (PokéAPI) e exibir dados de forma responsiva;</li>
+                <li>Como organizar visualmente a aplicação e manter clareza no fluxo lógico.</li>
+            </ul>
+            <p>Um ponto importante para reforçar é que devemos seguir boas práticas desde o início. Mesmo em exemplos
+                simples como o que desenvolvemos hoje, já é possível ver algumas boas práticas:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Boas práticas</th>
+                        <th>Por que aplicar?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Usar <code>useState</code> de forma clara</td>
+                        <td>Ajuda a isolar os estados e entender melhor a lógica da tela</td>
+                    </tr>
+                    <tr>
+                        <td>Tratar erros nas chamadas à API</td>
+                        <td>Melhora a experiência do usuário e evita falhas silenciosas</td>
+                    </tr>
+                    <tr>
+                        <td>Separar componentes em arquivos</td>
+                        <td>Favorece a organização e a reutilização do código</td>
+                    </tr>
+                    <tr>
+                        <td>Utilizar nomes descritivos</td>
+                        <td>Melhora a leitura do código e ajuda na colaboração em equipe</td>
+                    </tr>
+                    <tr>
+                        <td>Declarar variáveis com <code>const</code></td>
+                        <td>Torna claro que o valor não será reatribuído diretamente</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Além disso, usamos <strong>tipagem com TypeScript</strong> para garantir segurança e previsibilidade no
+                desenvolvimento.</p>
+            <p>Lembre-se: o React é a base sobre a qual construíremos aplicações móveis com React Native. Entender bem
+                seus princípios — componentes, estado, efeitos — é o que permitirá que você crie interfaces ricas e
+                funcionais. </p>
+            <p>Se quiser aprofundar ainda mais o que vimos hoje, você pode explorar:</p>
+            <ul>
+                <li><a href="https://react.dev/learn/">Documentação oficial do React</a></li>
+                <li><a href="https://react.dev/reference/react/useState">Documentação do Hook <code>useState</code></a>
+                </li>
+                <li><a href="https://react.dev/reference/react/useEffect">Documentação do Hook
+                        <code>useEffect</code></a></li>
+                <li><a href="https://pokeapi.co/">PokéAPI</a> — para experimentar com mais endpoints</li>
+                <li>E claro: revise o código da Pokédex e tente modificar algo por conta própria! ✨</li>
+            </ul>
+            <p>Na <strong>próxima aula</strong>, vamos mergulhar na <strong>construção de apps com React
+                    Native</strong>. E o melhor: já com base no que aprendemos hoje.</p>
+            <p>Antes disso, teremos, como sempre...</p>
+            <hr>
+            <h2>🔧 9. Exercícios</h2>
+            <h3>Exercício – Melhorando a Pokédex!</h3>
+            <h3>🎯 <strong>Objetivo Geral</strong></h3>
+            <p>A partir do código base da Pokédex implementado em aula, você deverá realizar melhorias funcionais e
+                visuais que envolvem o uso de <code>props</code>, <code>useState</code>, <code>useEffect</code>,
+                estilização separada e organização de componentes.</p>
+            <h3>📌 <strong>Tarefas obrigatórias</strong></h3>
+            <ol>
+                <li>
+                    <p><strong>Refatore o componente principal (<code>Pokedex.tsx</code>)</strong> para que ele
+                        <strong>utilize um componente <code>PokeCard</code></strong>. Este novo componente deverá
+                        receber os dados do Pokémon via <code>props</code> e exibi-los com base no que já foi
+                        implementado (nome, altura, peso, tipos e imagem).</p>
+                </li>
+                <li>
+                    <p><strong>Adicione a funcionalidade de “favoritar” um Pokémon</strong>:</p>
+                    <ul>
+                        <li>Crie um botão no <code>PokeCard</code> que permita marcar ou desmarcar um Pokémon como
+                            favorito.</li>
+                        <li>Use o <code>useState</code> dentro do <code>PokeCard</code> para armazenar esse estado.</li>
+                        <li>Exiba um ⭐ ao lado do nome se o Pokémon estiver marcado como favorito.</li>
+                    </ul>
+                </li>
+                <li>
+                    <p><strong>Estilize a aplicação utilizando o arquivo <code>Pokedex.css</code> e crie um novo
+                            <code>PokeCard.css</code></strong>:</p>
+                    <ul>
+                        <li>Separe as responsabilidades visuais entre os arquivos CSS de <code>Pokedex</code> e
+                            <code>PokeCard</code>.</li>
+                        <li>Melhore o layout centralizando a tela, ajustando cores e tornando os elementos visualmente
+                            mais amigáveis.</li>
+                    </ul>
+                </li>
+                <li>
+                    <p><strong>Utilize o <code>useEffect</code> para exibir uma mensagem no console toda vez que um novo
+                            Pokémon for carregado</strong>:</p>
+                    <ul>
+                        <li>Exemplo de mensagem: <code>&quot;Pokémon Bulbasaur carregado com sucesso!&quot;</code>.</li>
+                    </ul>
+                </li>
+            </ol>
+            <h3>💡 Dicas</h3>
+            <ul>
+                <li><strong>Crie o <code>PokeCard.tsx</code> em <code>src/components</code></strong>.</li>
+                <li>No <code>useEffect</code>, adicione <code>pokemon</code> como dependência para escutar mudanças nos
+                    dados.</li>
+                <li>Lembre-se de que props são apenas leitura. O estado de favorito deve ser local ao
+                    <code>PokeCard</code>.</li>
+                <li>Mantenha a legibilidade do código: separe lógica, apresentação e estilo de forma limpa.</li>
+            </ul>
+            <h3>🌟 Desafio (extra)</h3>
+            <ul>
+                <li><strong>Permita buscar vários Pokémons em sequência</strong> e mostre todos abaixo, em cards
+                    separados.</li>
+                <li><strong>Armazene os favoritos em <code>localStorage</code></strong> usando <code>useEffect</code>.
+                </li>
+            </ul>
+
+
+        </div>
+        <footer class="footer mt-auto py-3">
+            <div class="container-fluid">
+                <span>
+                    <p class="text-center text-light">Instituto Federal de Educação, Ciência e Tecnologia de São Paulo,
+                        Câmpus Guarulhos. Desenvolvimento Mobile - Prof. Giovani.</p>
+                </span>
+            </div>
+        </footer>
+
+
+        <script src="js/prism.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/popper.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/main.js"></script>
+
+</body>
+
+</html>
