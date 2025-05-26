@@ -1,0 +1,2270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/estilo.css">
+    <link rel="stylesheet" href="css/prism.css">
+
+    <title>Desenvolvimento Mobile - Aula 04</title>
+</head>
+
+<body>
+    <div class="wrapper d-flex align-items-stretch">
+        <nav id="sidebar">
+            <div class="custom-menu">
+                <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                    <i class="fa fa-bars"></i>
+                    <span class="sr-only">Toggle Menu</span>
+                </button>
+            </div>
+            <h1><a href="index.html" class="logo text-center">AULAS</a></h1>
+            <ul class="list-unstyled components mb-5">
+                <li>
+                    <a href="Aula01.html"><span class="mr-1"></span>01 - Introdução e Panorama Mobile</a>
+                </li>
+                <li>
+                    <a href="Aula02.html"><span class="mr-0"></span>02 - Revisão de JavaScript e TypeScript</a>
+                </li>
+                <li>
+                    <a href="Aula03.html"><span class="mr-0"></span>03 - Começando com React: Componentes, JSX e
+                        Hooks</a>
+                </li>
+                <li class="active">
+                    <a href="Aula04.html"><span class="mr-0"></span>04 - Interfaces Visuais em React Native</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>05 - Navegação com React Navigation</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>06 - Consumo de APIs REST</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>07 - Armazenamento e Estado Global</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>08 - Recursos Nativos (Câmera, Localização)</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>09 - Boas Práticas e Arquitetura</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>10 - Build, Publicação e Projeto Final</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div id="content" class="p-4 p-md-5 pt-5">
+
+
+
+            <h1><strong>Aula 04 – Construção de Interfaces Visuais com React Native</strong></h1>
+            <h1><strong>1. Introdução à Construção de Interfaces em React Native</strong></h1>
+            <p>Na Aula 03, vimos os fundamentos essenciais do React, abordando de forma prática os conceitos de JSX,
+                componentes funcionais, props, estado com <code>useState</code> e efeitos colaterais com
+                <code>useEffect</code>. Para consolidar esses conhecimentos, desenvolvemos uma versão web da nossa
+                PokéDex, utilizando dados da PokéAPI e implementando funcionalidades interativas.</p>
+            <p>Agora, com esses fundamentos bem estabelecidos, está na hora de darmos o próximo passo: a construção de
+                <strong>interfaces visuais em React Native</strong>. Esta etapa é importante no desenvolvimento mobile,
+                pois representa o ponto de contato direto entre o usuário e o sistema. No React Native, essa construção
+                é feita de forma declarativa e tipada, utilizando os componentes visuais disponibilizados pela própria
+                biblioteca.</p>
+            <p>Vamos começar com uma introdução prática à criação de interfaces, destacando dois aspectos principais: a
+                estrutura dos componentes visuais (<code>View</code>, <code>Text</code>, etc.) e o ciclo básico de
+                desenvolvimento de UI no React Native.</p>
+            <h2><strong>1.1 O papel da View: containers e composição de layout</strong></h2>
+            <p>No React Native, todos os elementos visuais são baseados em componentes. O mais fundamental deles é o
+                <code>View</code>, que serve como <strong>container genérico</strong> para agrupar e posicionar outros
+                componentes na tela. É possível imaginar o <code>View</code> como o &quot;div&quot; do React Native —
+                ou, em termos mais conceituais, como um bloco visual que organiza outros blocos.</p>
+            <p>Considere o código abaixo:</p>
+            <pre><code class="language-tsx">import { View, Text } from &#39;react-native&#39;;
+
+export default function App() {
+  return (
+    &lt;View&gt;
+      &lt;Text&gt;Olá, mundo!&lt;/Text&gt;
+    &lt;/View&gt;
+  );
+}
+</code></pre>
+            <p>Nesse exemplo, o componente <code>App</code> renderiza uma <code>View</code> que contém um
+                <code>Text</code>. Mesmo sem estilo algum, esse é o ponto de partida de qualquer layout em React Native.
+            </p>
+            <p>Também é importante ter em mente que a construção de telas em React Native é baseada na
+                <strong>composição de componentes</strong>. Ou seja, em vez de criar estruturas grandes e monolíticas, o
+                ideal é dividir a interface em partes menores e reutilizáveis. Essa abordagem modular traz legibilidade,
+                reutilização e facilita a manutenção do código.</p>
+            <h3><strong>1.2 Ciclo visual de construção de interfaces</strong></h3>
+            <p>Criar a parte visual de um app usualmente não é um processo linear, que acontece de uma vez. Assim como
+                nas demais atividades de desenvolvimento de Software, a abordagem iterativa é comum: testes, ajustes e
+                refinamentos vão acontecendo aos poucos e intercaladamente, o que ajuda a obtermos resultados mais
+                sólidos e funcionais. Abaixo estão as etapas mais comuns desse processo:</p>
+            <ol>
+                <li>
+                    <p><strong>Rascunho ou prototipação da tela</strong>
+                        Antes de abrir o editor de código, é boa prática a prototipação de uma ideia da interface.
+                        Podemos fazer isso em ferramentas específicas e mais complexas, como o <strong>Figma</strong>,
+                        que permite criar interfaces mais detalhadas e até interativas, ou o <strong>Adobe XD</strong>.
+                        Também podemos trabalhar com ferramentas mais simples como o <strong>Balsamiq
+                            Wireframes</strong> (ferramenta paga, mas com Trial), Canva ou <strong>Frame0</strong> (em
+                        versão beta, mas, até o momento, gratuita!), que simula o estilo de um rascunho desenhado à mão
+                        e é ótimo para organizar ideias de layout! Em última instância, pode até ser feito à mão no
+                        papel - o importante é termos uma ideia geral do que vamos querer fazer.</p>
+                </li>
+                <li>
+                    <p><strong>Montagem da estrutura com componentes visuais</strong>
+                        Com base no esboço, começa-se a montar a tela com os blocos básicos do React Native:
+                        <code>View</code> para agrupar elementos, <code>Text</code> para exibir textos,
+                        <code>Image</code> para imagens, e assim por diante. O foco aqui é só estruturar a tela, sem se
+                        preocupar com estilo.</p>
+                </li>
+                <li>
+                    <p><strong>Aplicação de estilos com <code>StyleSheet.create()</code></strong>
+                        Depois de montar a estrutura, o próximo passo é aplicar estilos para posicionar os elementos,
+                        definir cores, espaçamentos e fontes. O React Native usa o <code>StyleSheet.create()</code> para
+                        organizar os estilos de forma clara e reaproveitável.</p>
+                </li>
+                <li>
+                    <p><strong>Testes no Expo em diferentes tamanhos de tela</strong>
+                        Com a interface pronta, é importante testar como ela se comporta em celulares de tamanhos
+                        variados. O <strong>Expo Go</strong>, além de ser leve e fácil de usar, permite ver o app
+                        rodando direto no celular. Assim, dá pra perceber rapidamente se algo ficou espremido,
+                        desalinhado ou cortado. Além disso, podemos usar o <strong>Expo</strong> para web e visualizar
+                        em diferentes tamanhos de dispositivos por meio do modo mobile dos browsers.</p>
+                </li>
+                <li>
+                    <p><strong>Ajustes de responsividade e refinamento visual</strong>
+                        Por fim, vem a parte dos ajustes finos: ajustar margens, fontes, cores e tornar o layout mais
+                        flexível, para que funcione bem em vários tipos de dispositivos. Aqui vale usar propriedades
+                        como <code>flex</code>, <code>padding</code>, <code>margin</code> e recursos como
+                        <code>Dimensions</code>, <code>Platform</code> e até bibliotecas como
+                        <strong>react-native-responsive-dimensions</strong> para facilitar, as quais veremos
+                        posteriormente no curso.</p>
+                </li>
+            </ol>
+            <p>Esse ciclo — rascunho, estrutura, estilo, teste e ajuste — costuma se repetir várias vezes ao longo do
+                desenvolvimento. Trabalhar assim, de forma incremental, ajuda a identificar problemas cedo e garantir
+                que o app fique funcional desde o começo. Um ponto importante a se considerar é a UX (<em>user
+                    experience</em>). Nas aulas da disciplina de IHC (Interação humano-computador) vocês já devem ter
+                visto sobre o tema, mas trataremos mais a diante sobre isso também nessa disciplina de desenvolvimento
+                para dispositivos móveis.</p>
+            <h3>🚀 <strong>Vamos começar pelo começo?</strong></h3>
+            <p>Para acompanhar esta aula com exemplos práticos, vamos criar um projeto novo usando Expo e TypeScript com
+                o seguinte comando:</p>
+            <pre><code class="language-bash">npx create-expo-app aula04-layouts --template
+</code></pre>
+            <p>Escolha o template <code>blank (TypeScript)</code> quando solicitado.</p>
+            <p>Em seguida, acesse o diretório do projeto:</p>
+            <pre><code class="language-bash">cd aula04-layouts
+</code></pre>
+            <p>E inicie o servidor de desenvolvimento:</p>
+            <pre><code class="language-bash">npx expo start
+</code></pre>
+            <p>A partir desse ponto, vamos escrever e testar o código da aula diretamente neste projeto. Todos os
+                exemplos seguintes podem ser copiados e colados no arquivo <code>App.tsx</code>, ou em novos componentes
+                criados dentro de uma pasta <code>src/components</code>.</p>
+            <h3>🧪 Deseja testar os exemplos também no navegador?</h3>
+            <p>Se quiser rodar o projeto no modo <strong>web</strong> (pressionando <code>w</code> no terminal), você
+                precisará instalar algumas dependências específicas do React Native for Web. Basta executar o comando
+                abaixo:</p>
+            <pre><code class="language-bash">npx expo install react-dom react-native-web @expo/metro-runtime
+</code></pre>
+            <p>Após isso, reinicie o servidor com <code>npx expo start</code> e pressione <code>w</code> para abrir a
+                aplicação no navegador.</p>
+            <p>Tudo rodando aí em suas respectivas máquinas? 🧑‍💻</p>
+            <p>Então daremos início à exploração dos componentes visuais fundamentais do React Native, como
+                <code>Text</code>, <code>Button</code>, <code>TextInput</code> e <code>TouchableOpacity</code>,
+                entendendo suas propriedades e como tipá-los corretamente em TypeScript. Utilize o projeto que você
+                acabou de gerar acima para ir testando, ao longo da aula, os componentes e conceitos que serão
+                abordados. 😊</p>
+            <hr>
+            <h2><strong>2. Componentes Visuais Fundamentais</strong></h2>
+            <p>A construção de interfaces no React Native parte do uso de componentes visuais que representam os
+                elementos básicos da tela: textos, botões, campos de entrada, imagens, entre outros. Esses componentes
+                são mapeados para os elementos nativos de cada sistema operacional (Android ou iOS), garantindo
+                desempenho e comportamento visual adequado em diferentes plataformas.</p>
+            <p>Esta seção apresenta os principais componentes utilizados na criação de interfaces, com foco em suas
+                propriedades mais relevantes, boas práticas de uso e exemplos ilustrativos escritos em TypeScript.</p>
+            <h3><strong>2.1 Principais componentes: <code>View</code>, <code>Text</code>, <code>TextInput</code>,
+                    <code>Image</code>, <code>Button</code> e <code>TouchableOpacity</code></strong></h3>
+            <h4>📦 <code>View</code>: estrutura e agrupamento de elementos</h4>
+            <p>O componente <code>View</code> é utilizado como container visual para agrupar e estruturar outros
+                elementos na interface. Ele é essencial para organizar o layout por meio de empilhamento, alinhamento e
+                espaçamento dos componentes filhos.</p>
+            <pre><code class="language-tsx">import { View } from &#39;react-native&#39;;
+
+&lt;View style={{ padding: 16, backgroundColor: &#39;#eee&#39; }}&gt;
+  {/* outros elementos aqui dentro */}
+&lt;/View&gt;
+</code></pre>
+            <p>No exemplo acima a <code>View</code> mostra como criar um container visual com preenchimento interno de
+                16 pixels e fundo cinza claro. A <code>View</code> aqui, evidentemente, é o componente-base para
+                estruturação da interface no React Native e funciona como um agrupador de outros elementos visuais. Seu
+                papel se assemelha ao da tag <code>div</code> no HTML, sendo fundamental para organizar o layout e
+                aplicar estilos como espaçamentos, alinhamentos e cores de fundo.</p>
+            <p>As principais propriedades da <code>View</code> são:</p>
+            <ul>
+                <li><code>style</code>: objeto ou array de objetos que define o estilo visual do container (cores,
+                    bordas, espaçamento, etc.).</li>
+                <li><code>flexDirection</code>: define a orientação dos filhos (<code>&#39;row&#39;</code> para
+                    horizontal ou <code>&#39;column&#39;</code> para vertical).</li>
+                <li><code>justifyContent</code>: alinha os elementos filhos ao longo do eixo principal (por exemplo,
+                    <code>&#39;center&#39;</code>, <code>&#39;space-between&#39;</code>).</li>
+                <li><code>alignItems</code>: alinha os elementos no eixo secundário (por exemplo,
+                    <code>&#39;stretch&#39;</code>, <code>&#39;center&#39;</code>).</li>
+                <li><code>padding</code>, <code>margin</code>: definem os espaçamentos interno e externo do container,
+                    respectivamente.</li>
+            </ul>
+            <p>Ao utilizar <code>View</code>, é possível estruturar a tela em blocos visuais reutilizáveis e bem
+                organizados, seguindo princípios de composição.</p>
+            <h4>📝 <code>Text</code>: exibição de conteúdo textual</h4>
+            <p>O componente <code>Text</code> é responsável por renderizar qualquer tipo de texto na interface. No React
+                Native, todo conteúdo textual deve estar obrigatoriamente contido dentro de um componente
+                <code>Text</code>, mesmo quando estiver inserido dentro de uma <code>View</code>.</p>
+            <pre><code class="language-tsx">import { Text } from &#39;react-native&#39;;
+
+&lt;Text style={{ fontSize: 20, color: &#39;blue&#39; }}&gt;
+  Olá, React Native!
+&lt;/Text&gt;
+</code></pre>
+            <p>Aqui o <code>Text</code> exibe a frase “Olá, React Native!” com tamanho de fonte 20 e cor azul. O
+                <code>Text</code> também permite estilizações como negrito, alinhamento, espaçamento entre linhas e até
+                a composição de trechos com diferentes estilos em uma mesma frase.</p>
+            <p>As principais propriedades do <code>Text</code> são:</p>
+            <ul>
+                <li><code>style</code>: personaliza a aparência do texto (tamanho da fonte, cor, alinhamento,
+                    espaçamento, etc.).</li>
+                <li><code>numberOfLines</code>: define o número máximo de linhas que o texto pode ocupar; útil para
+                    textos longos em espaços limitados.</li>
+                <li><code>ellipsizeMode</code>: define como o texto é cortado quando excede o número de linhas permitido
+                    (<code>&#39;tail&#39;</code>, <code>&#39;middle&#39;</code>, <code>&#39;head&#39;</code>).</li>
+                <li><code>textAlign</code>: permite alinhar o texto à esquerda, centro ou direita.</li>
+            </ul>
+            <p>Além disso, o componente <code>Text</code> permite a composição de trechos com diferentes estilos dentro
+                de um mesmo parágrafo, tornando-o útil para textos ricos e dinâmicos.</p>
+            <h4>✏️ <code>TextInput</code>: entrada de dados pelo usuário</h4>
+            <p>Para permitir que o usuário digite informações, utilizamos o componente <code>TextInput</code>. Ele pode
+                ser usado em formulários, campos de login, filtros de busca, entre outros.</p>
+            <pre><code class="language-tsx">import { TextInput } from &#39;react-native&#39;;
+
+&lt;TextInput
+  placeholder=&quot;Digite seu nome&quot;
+  value={nome}
+  onChangeText={setNome}
+  style={{ borderWidth: 1, padding: 8, borderRadius: 4 }}
+/&gt;
+</code></pre>
+            <p>Acima temos um exemplo de uso do <code>TextInput</code>: um campo de entrada de texto que exibe uma
+                sugestão (“Digite seu nome”) enquanto está vazio. Seu valor é controlado pela variável
+                <code>nome</code>, e ele chama a função <code>setNome</code> sempre que o usuário digita algo. O campo
+                também possui bordas, preenchimento interno e cantos arredondados, definidos por meio de seu
+                <code>style</code>. É importante mencionar que esse componente deve ser combinado com
+                <code>useState</code> para controle do conteúdo digitado.</p>
+            <p>As principais propriedades do <code>TextInput</code> são:</p>
+            <ul>
+                <li><code>placeholder</code>: texto exibido quando o campo está vazio, como sugestão de preenchimento.
+                </li>
+                <li><code>value</code>: valor atual do campo de entrada.</li>
+                <li><code>onChangeText</code>: função chamada sempre que o texto for alterado.</li>
+                <li><code>secureTextEntry</code>: oculta o texto digitado, ideal para campos de senha.</li>
+                <li><code>keyboardType</code>: define o tipo de teclado a ser exibido, como <code>email-address</code>,
+                    <code>numeric</code>, <code>phone-pad</code>, entre outros.</li>
+                <li><code>multiline</code>: permite que o campo aceite múltiplas linhas.</li>
+            </ul>
+            <p>Em resumo, com <code>TextInput</code> é possível controlar tanto o conteúdo quanto o comportamento do
+                campo, utilizando eventos e estados da aplicação.</p>
+            <h4>🖼️ <code>Image</code>: carregamento e exibição de imagens</h4>
+            <p>O componente <code>Image</code> permite exibir imagens tanto locais quanto remotas. Ele é amplamente
+                utilizado para ilustrações, avatares, logotipos, ícones e outros elementos gráficos.</p>
+            <pre><code class="language-tsx">import { Image } from &#39;react-native&#39;;
+
+&lt;Image
+  source={{ uri: &#39;https://reactnative.dev/img/tiny_logo.png&#39; }}
+  style={{ width: 50, height: 50 }}
+/&gt;
+</code></pre>
+            <p>E para imagens locais:</p>
+            <pre><code class="language-tsx">&lt;Image
+  source={require(&#39;./assets/logo.png&#39;)}
+  style={{ width: 100, height: 100 }}
+/&gt;
+</code></pre>
+            <p>Acima o exemplo do componente <code>Image</code>, utilizado para exibir imagens tanto locais quanto
+                hospedadas em URLs. No primeiro exemplo, uma imagem remota é exibida com largura e altura de 50 pixels.
+                No segundo, uma imagem local é carregada usando <code>require</code>. Em ambos os casos, a definição
+                explícita de tamanho é obrigatória.</p>
+            <p>As principais propriedades do <code>Image</code> são:</p>
+            <ul>
+                <li><code>source</code>: define a origem da imagem (com <code>require()</code> ou com <code>uri</code>).
+                </li>
+                <li><code>style</code>: controla altura, largura, bordas e arredondamentos.</li>
+                <li><code>resizeMode</code>: define como a imagem se ajusta dentro do espaço disponível. Valores comuns
+                    incluem <code>&#39;cover&#39;</code>, <code>&#39;contain&#39;</code>,
+                    <code>&#39;stretch&#39;</code>.</li>
+            </ul>
+            <p>Lembrando: a correta definição de largura e altura é obrigatória para que a imagem seja renderizada.</p>
+            <h4>🎯 <code>Button</code>: acionamento de ações simples</h4>
+            <p>O componente <code>Button</code> representa um botão básico com comportamento nativo da plataforma. Ele é
+                indicado para casos simples onde não há necessidade de personalização visual.</p>
+            <pre><code class="language-tsx">import { Button } from &#39;react-native&#39;;
+
+&lt;Button title=&quot;Enviar&quot; onPress={() =&gt; alert(&#39;Ação executada&#39;)} /&gt;
+</code></pre>
+            <p>O componente <code>Button</code> mostrado cria um botão simples com o rótulo “Enviar” e executa uma ação
+                (no caso, exibir um alerta) ao ser pressionado. Ele oferece uma solução rápida e nativa para ações
+                básicas, mas tem limitações quanto à personalização visual. Por isso, é mais indicado para situações
+                simples ou prototipagem inicial.</p>
+            <p>As principais propriedades do <code>Button</code> são:</p>
+            <ul>
+                <li><code>title</code>: texto exibido no botão.</li>
+                <li><code>onPress</code>: função executada quando o botão for pressionado.</li>
+                <li><code>color</code>: define a cor do botão (limitação: comportamento varia entre Android e iOS).</li>
+            </ul>
+            <blockquote>
+                <p>Observação importante: o componente <code>Button</code> não nos fornece muita flexibilidade de
+                    estilização. Para botões personalizados, portanto, utilizamos o componente
+                    <code>TouchableOpacity</code>.</p>
+            </blockquote>
+            <h4>👆 <code>TouchableOpacity</code>: área interativa com personalização</h4>
+            <p>O <code>TouchableOpacity</code> é um componente de toque que permite personalizar completamente o
+                conteúdo visual e oferece feedback ao usuário ao reduzir a opacidade temporariamente quando pressionado.
+            </p>
+            <pre><code class="language-tsx">import { TouchableOpacity, Text } from &#39;react-native&#39;;
+
+&lt;TouchableOpacity
+  onPress={() =&gt; alert(&#39;Pressionado&#39;)}
+  style={{ backgroundColor: &#39;#6200ee&#39;, padding: 12, borderRadius: 8 }}
+&gt;
+  &lt;Text style={{ color: &#39;white&#39;, textAlign: &#39;center&#39; }}&gt;Entrar&lt;/Text&gt;
+&lt;/TouchableOpacity&gt;
+</code></pre>
+            <p>O <code>TouchableOpacity</code>, acima, envolve um <code>Text</code> estilizado com fundo roxo e texto
+                branco centralizado, e exibe um alerta ao toque. Esse componente permite total controle visual e oferece
+                feedback ao usuário ao reduzir temporariamente sua opacidade quando pressionado. Como mencionado, é
+                muito utilizado em botões customizados, cartões interativos e áreas clicáveis em geral.</p>
+            <p>As principais propriedades do <code>TouchableOpacity</code> são:</p>
+            <ul>
+                <li><code>onPress</code>: função executada ao toque.</li>
+                <li><code>style</code>: permite estilizar totalmente o botão.</li>
+                <li><code>activeOpacity</code>: define o nível de opacidade ao toque (padrão: <code>0.2</code>).</li>
+            </ul>
+            <p>Importante: o <code>TouchableOpacity</code> pode conter qualquer outro componente em seu interior, como
+                <code>Text</code>, <code>Image</code> ou até ícones, sendo ideal para a criação de botões visuais
+                consistentes com a identidade do app.</p>
+            <h3><strong>2.2 Propriedades comuns entre componentes</strong></h3>
+            <p>Vistos os principais blocos de construção da interface, passamos agora a algumas propriedades que
+                aparecem com frequência nos diferentes componentes e que contribuem diretamente para a organização
+                visual e comportamental do app.</p>
+            <h4>🎨 <code>style</code></h4>
+            <p>A propriedade <code>style</code> permite aplicar regras de apresentação aos componentes. Ao contrário do
+                CSS tradicional, os estilos em React Native são definidos com objetos JavaScript, podendo ser inseridos
+                diretamente ou encapsulados com <code>StyleSheet.create()</code>.</p>
+            <pre><code class="language-tsx">&lt;Text style={{ fontWeight: &#39;bold&#39;, color: &#39;#333&#39; }}&gt;
+  Texto em destaque
+&lt;/Text&gt;
+</code></pre>
+            <p>Usar <code>StyleSheet.create()</code> é recomendado, pois melhora a legibilidade do código e a
+                performance da aplicação.</p>
+            <h4>🧭 Eventos: <code>onPress</code>, <code>onChangeText</code> e similares</h4>
+            <p>Eventos são propriedades que recebem funções de callback e são executados em resposta a interações do
+                usuário.</p>
+            <pre><code class="language-tsx">&lt;Button title=&quot;Sair&quot; onPress={handleLogout} /&gt;
+&lt;TextInput onChangeText={(texto) =&gt; setTextoAtual(texto)} /&gt;
+</code></pre>
+            <p>Essas propriedades permitem capturar o comportamento do usuário e atualizar a interface dinamicamente.
+            </p>
+            <h3><strong>2.3 Boas práticas: organização, reaproveitamento e tipagem</strong></h3>
+            <p>À medida que a aplicação cresce, é importante manter o código bem organizado e fácil de manter. Algumas
+                práticas simples ajudam a evitar repetições, garantir legibilidade e permitir que diferentes partes da
+                equipe possam colaborar de forma eficiente. A seguir, destacamos algumas dessas boas práticas adotadas
+                em projetos com React Native.</p>
+            <p>A primeira é a criação de <strong>componentes reutilizáveis</strong>. Em vez de repetir blocos de código
+                semelhantes em várias partes da interface, podemos agrupá-los em componentes próprios e reutilizáveis,
+                como <code>BotaoPrimario</code> ou <code>CampoTexto</code>. Isso evita redundância, facilita ajustes e
+                torna o código mais limpo.</p>
+            <p>Outra prática importante é manter os <strong>estilos centralizados</strong> com o uso do
+                <code>StyleSheet.create()</code>. Ao invés de espalhar estilos inline pelos componentes, centralizar as
+                definições em objetos nomeados melhora a organização e contribui para a padronização visual do app.</p>
+            <p>Por fim, o uso de <strong>tipagem com TypeScript</strong> ajuda a tornar o desenvolvimento mais seguro e
+                previsível. Ao definir a estrutura das props com <code>interface</code> ou <code>type</code>, garantimos
+                que os componentes sejam usados corretamente e evitamos erros em tempo de execução.</p>
+            <p>Um exemplo prático pode ser visto no componente abaixo:</p>
+            <pre><code class="language-tsx">interface PropsBotao {
+  titulo: string;
+  onPress: () =&gt; void;
+}
+
+export function BotaoPrimario({ titulo, onPress }: PropsBotao) {
+  return (
+    &lt;TouchableOpacity onPress={onPress} style={styles.botao}&gt;
+      &lt;Text style={styles.texto}&gt;{titulo}&lt;/Text&gt;
+    &lt;/TouchableOpacity&gt;
+  );
+}
+</code></pre>
+            <p>Esse botão pode ser reutilizado em diversos lugares da aplicação, com títulos e ações diferentes,
+                mantendo o mesmo estilo visual e comportamento consistente. Essa abordagem modular facilita a manutenção
+                e a evolução da interface conforme o projeto avança!</p>
+            <hr>
+            <h2><strong>3. Estilização com StyleSheet</strong></h2>
+            <p>A aparência dos componentes visuais em React Native é definida por meio de objetos JavaScript que
+                descrevem propriedades de estilo semelhantes às do CSS. Embora a ideia geral seja familiar para quem já
+                trabalhou com a web, existem diferenças significativas de sintaxe, comportamento e organização dos
+                estilos em ambientes móveis.</p>
+            <p>A ferramenta principal utilizada para estilização é o <code>StyleSheet.create</code>, que permite definir
+                estilos de forma estruturada, segura e eficiente em termos de performance. A seguir, vamos examinar como
+                ele funciona, por que é recomendado e quais boas práticas podem ser adotadas para manter a coesão visual
+                do projeto.</p>
+            <h3><strong>3.1 O que é o <code>StyleSheet.create</code> e por que utilizá-lo</strong></h3>
+            <p>O módulo <code>StyleSheet</code>, fornecido pelo React Native, permite criar objetos de estilo de maneira
+                otimizada. O método <code>create()</code> é utilizado para declarar estilos que serão reaproveitados
+                entre renderizações, garantindo maior previsibilidade e organização do código.</p>
+            <p>O <code>StyleSheet.create</code> é a forma recomendada de definir estilos no React Native, e seu uso traz
+                uma série de benefícios tanto em termos de organização quanto de performance da aplicação. Ao invés de
+                escrever objetos de estilo diretamente dentro dos componentes, podemos encapsular todas as regras
+                visuais em um único local, com nomeação clara e validação automática.</p>
+            <p>Uma das principais vantagens é a <strong>validação estática</strong>: erros de digitação em nomes de
+                propriedades ou valores incompatíveis com o esperado são identificados ainda durante o desenvolvimento,
+                o que evita bugs sutis em tempo de execução. Além disso, como os objetos criados com
+                <code>StyleSheet.create</code> são <strong>pré-processados</strong> pelo framework, eles consomem menos
+                recursos e não são recriados a cada renderização, o que contribui para uma <strong>melhor
+                    performance</strong>.</p>
+            <p>Outro ponto positivo é a <strong>separação entre lógica e aparência</strong>, que torna o código mais
+                legível e fácil de manter. Ao agrupar os estilos em blocos específicos, conseguimos ter uma visão mais
+                clara da estrutura visual da interface. Isso também reforça o uso de <strong>boas práticas</strong>,
+                como a modularização e o reaproveitamento de estilos entre diferentes componentes.</p>
+            <p>Veja um exemplo de uso:</p>
+            <pre><code class="language-tsx">import { StyleSheet } from &#39;react-native&#39;;
+
+const styles = StyleSheet.create({
+  titulo: {
+    fontSize: 24,
+    fontWeight: &#39;bold&#39;,
+    color: &#39;#333&#39;,
+  },
+  container: {
+    padding: 16,
+    backgroundColor: &#39;#f9f9f9&#39;,
+  },
+});
+</code></pre>
+            <p>Esses estilos podem ser aplicados diretamente aos componentes por meio da propriedade <code>style</code>,
+                como em <code>&lt;Text style={styles.titulo}&gt;</code> ou
+                <code>&lt;View style={styles.container}&gt;</code>. Essa abordagem melhora a consistência visual e
+                simplifica eventuais ajustes na aparência do app.</p>
+            <h3><strong>3.2 Estilos inline e com <code>StyleSheet</code>: diferenças e usos adequados</strong></h3>
+            <p>Outro ponto a destacar é que é possível aplicar estilos diretamente no componente, usando objetos
+                JavaScript de forma literal:</p>
+            <pre><code class="language-tsx">&lt;Text style={{ fontSize: 20, color: &#39;blue&#39; }}&gt;Texto&lt;/Text&gt;
+</code></pre>
+            <p>Ou ainda, referenciando um objeto de estilos criado com <code>StyleSheet</code>:</p>
+            <pre><code class="language-tsx">&lt;Text style={styles.titulo}&gt;Texto&lt;/Text&gt;
+</code></pre>
+            <p>Ambas as abordagens são válidas, mas apresentam diferenças importantes em termos de desempenho, clareza e
+                reaproveitamento. Vamos sintetizar isso abaixo:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Critério</th>
+                        <th>Estilo Inline</th>
+                        <th><code>StyleSheet.create</code></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Organização visual</td>
+                        <td>Pouco estruturado</td>
+                        <td>Centralizado e modular</td>
+                    </tr>
+                    <tr>
+                        <td>Reaproveitamento</td>
+                        <td>Limitado</td>
+                        <td>Amplo, entre componentes</td>
+                    </tr>
+                    <tr>
+                        <td>Validação de erros</td>
+                        <td>Ausente</td>
+                        <td>Presente (durante o desenvolvimento)</td>
+                    </tr>
+                    <tr>
+                        <td>Performance</td>
+                        <td>Recria o objeto a cada render</td>
+                        <td>Reutiliza objeto otimizado</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>O uso de estilos inline pode ser útil em situações pontuais, como testes rápidos ou ajustes locais. No
+                entanto, para projetos em produção, recomenda-se a utilização do <code>StyleSheet.create</code>, que
+                fornece maior controle e previsibilidade.</p>
+            <h3><strong>3.3 Estratégias para organização e reaproveitamento de estilos</strong></h3>
+            <p>Visto que a manutenção visual de uma aplicação tende a se tornar mais complexa à medida que ela cresce,
+                adotar uma abordagem modular para os estilos é importante. Vejamos algumas estratégias e boas práticas
+                abaixo.</p>
+            <h4>1. Estilos separados por componente</h4>
+            <p>É uma boa prática organizar os estilos de cada componente em arquivos próprios. Isso contribui para o
+                isolamento de responsabilidades e facilita a leitura.</p>
+            <p>Imagine que temos um componente chamado <code>BotaoPrimario</code>. Em vez de misturar lógica e estilo no
+                mesmo arquivo (<code>BotaoPrimario.tsx</code>), criamos um arquivo separado chamado
+                <code>BotaoPrimario.styles.ts</code> para armazenar seus estilos. A estrutura do diretório fica assim:
+            </p>
+            <pre><code class="language-bash">src/
+  components/
+    BotaoPrimario.tsx
+    BotaoPrimario.styles.ts
+</code></pre>
+            <p>Dentro do arquivo de estilos, usamos o <code>StyleSheet.create</code> para organizar as regras visuais de
+                forma clara:</p>
+            <pre><code class="language-ts">// BotaoPrimario.styles.ts
+import { StyleSheet } from &#39;react-native&#39;;
+
+export const styles = StyleSheet.create({
+  botao: {
+    backgroundColor: &#39;#6200ee&#39;,
+    padding: 12,
+    borderRadius: 8,
+  },
+  texto: {
+    color: &#39;white&#39;,
+    fontWeight: &#39;600&#39;,
+    textAlign: &#39;center&#39;,
+  },
+});
+</code></pre>
+            <p>Esses estilos são então importados e utilizados dentro do componente <code>BotaoPrimario.tsx</code>,
+                mantendo a lógica e a apresentação separadas, mas integradas. Isso permite, por exemplo, que uma equipe
+                trabalhe em paralelo na lógica de um componente e em seu estilo, sem conflitos e com mais clareza no
+                controle das mudanças.</p>
+            <h4>2. Definição de temas reutilizáveis</h4>
+            <p>Outra prática importante para manter a consistência visual em aplicações React Native é a
+                <strong>centralização dos estilos globais</strong> — como cores, tamanhos de fonte e espaçamentos — em
+                um arquivo de tema. Essa estratégia permite que todas as telas e componentes da aplicação compartilhem
+                os mesmos valores visuais, promovendo padronização e facilitando ajustes futuros.</p>
+            <p>Para isso, criamos um arquivo chamado <code>theme.ts</code>, geralmente localizado na pasta
+                <code>src/</code>, que exporta constantes com os principais estilos reutilizáveis. Um exemplo de
+                organização pode ser:</p>
+            <pre><code class="language-ts">// src/theme.ts
+export const COLORS = {
+  primary: &#39;#6200ee&#39;,
+  background: &#39;#f9f9f9&#39;,
+  text: &#39;#333&#39;,
+  error: &#39;#d32f2f&#39;,
+};
+
+export const FONT_SIZES = {
+  small: 14,
+  medium: 18,
+  large: 24,
+};
+</code></pre>
+            <p>Essas constantes são então importadas dentro dos arquivos de estilo (<code>.styles.ts</code>) dos
+                componentes, como mostra o exemplo a seguir:</p>
+            <pre><code class="language-ts">import { COLORS, FONT_SIZES } from &#39;../theme&#39;;
+
+export const styles = StyleSheet.create({
+  titulo: {
+    color: COLORS.text,
+    fontSize: FONT_SIZES.large,
+  },
+});
+</code></pre>
+            <p>Com isso, sempre que precisarmos alterar uma cor ou ajustar um tamanho de fonte na aplicação inteira,
+                basta modificar o valor correspondente no arquivo <code>theme.ts</code>. Esse padrão melhora a
+                manutenção, evita repetições desnecessárias e fortalece a identidade visual do app ao longo do tempo.
+            </p>
+            <h4>3. Combinação condicional de estilos</h4>
+            <p>O React Native permite aplicar múltiplos estilos a um mesmo componente utilizando <strong>arrays de
+                    estilos</strong>. Essa abordagem é bastante útil para aplicar combinações de estilos fixos e
+                dinâmicos, de acordo com o estado da aplicação ou com alguma lógica condicional.</p>
+            <p>No exemplo abaixo, temos dois estilos sendo aplicados a um componente <code>Text</code>:
+                <code>styles.texto</code> e <code>styles.destaque</code>. Ambos são utilizados de forma conjunta e
+                sempre serão aplicados:</p>
+            <pre><code class="language-tsx">&lt;Text style={[styles.texto, styles.destaque]}&gt;
+  Destaque
+&lt;/Text&gt;
+</code></pre>
+            <p>Por outro lado, é possível também aplicar estilos <strong>condicionalmente</strong>. Veja o caso a
+                seguir, em que o estilo <code>styles.textoAtivo</code> só será aplicado se a variável <code>ativo</code>
+                for verdadeira:</p>
+            <pre><code class="language-tsx">&lt;Text style={[styles.texto, ativo &amp;&amp; styles.textoAtivo]}&gt;
+  Texto interativo
+&lt;/Text&gt;
+</code></pre>
+            <p>Essa técnica é útil porque o React Native ignora automaticamente qualquer valor <code>false</code> dentro
+                do array de estilos, tornando o código limpo e expressivo. Isso significa que, se <code>ativo</code> for
+                <code>false</code>, apenas <code>styles.texto</code> será aplicado ao componente. É uma maneira elegante
+                de controlar o visual da interface com base em variáveis de estado ou props sem precisar escrever
+                estruturas condicionais mais complexas.</p>
+            <h4>✨ Considerações finais</h4>
+            <p>A estilização com <code>StyleSheet</code> é um ponto de grande importância na construção de interfaces
+                consistentes, acessíveis e bem organizadas. Algumas práticas recomendadas incluem:</p>
+            <ul>
+                <li><strong>Evitar valores fixos dispersos</strong> (como cores e tamanhos): prefira constantes
+                    compartilhadas.</li>
+                <li><strong>Organizar os estilos por componente</strong>: facilita o isolamento e a reutilização.</li>
+                <li><strong>Utilizar o <code>StyleSheet.create</code> sempre que possível</strong>, evitando estilos
+                    inline em larga escala.</li>
+                <li><strong>Adotar um tema global</strong>: melhora a coerência visual e permite ajustes rápidos em todo
+                    o projeto.</li>
+            </ul>
+            <p>Para projetos maiores, é possível integrar bibliotecas como <a
+                    href="https://www.nativewind.dev/">NativeWind</a> ou <a href="https://styled-components.com/">Styled
+                    Components</a> para lidar com temas, responsividade e composição de estilos — temas que serão
+                explorados nas próximas aulas.</p>
+            <p>Com a base de estilização consolidada, seguimos agora para o modelo de layout mais utilizado no React
+                Native: o <strong>Flexbox</strong>, responsável por controlar alinhamentos, espaçamentos e organização
+                responsiva dos elementos na tela.</p>
+            <hr>
+            <h2><strong>4. Layout com Flexbox no React Native</strong></h2>
+            <p>Diferentemente do desenvolvimento web, onde há múltiplos modelos de layout (como grid, float e table), no
+                React Native o modelo adotado para posicionamento e distribuição de elementos é o
+                <strong>Flexbox</strong>. Isso torna seu domínio fundamental para a construção de interfaces.</p>
+            <p>O React Native utiliza o <strong>Yoga Layout</strong>, que implementa a especificação Flexbox quase
+                integralmente. Na prática, isso significa que todo fluxo normal de layout — alinhamento, distribuição de
+                espaço e dimensionamento proporcional — passa pelas regras do Flexbox, embora ainda possamos recorrer a
+                <code>position: &#39;absolute&#39;</code> para casos pontuais. A sintaxe é quase idêntica à da Web, mas
+                há diferenças de valores padrão e de suporte a algumas propriedades. Por exemplo, o eixo principal
+                (<code>flexDirection</code>) assume <strong><code>column</code></strong> por padrão, não
+                <code>row</code>; <code>flexShrink</code> começa em <strong>0</strong> (na Web é 1) e o atalho
+                <code>flex</code> aceita apenas um número simples. Para mais informações, é importante consultar a
+                documentação oficial do <a href="https://reactnative.dev/docs/flexbox">Flexbox no React Native</a>.</p>
+            <p>Embora o Flexbox no React Native siga a lógica do Flexbox do CSS, há simplificações na sua implementação
+                e algumas adaptações necessárias ao ambiente mobile. A seguir, veremos como utilizá-lo na prática por
+                meio das principais propriedades aplicáveis tanto ao container quanto aos seus itens.</p>
+            <h3><strong>4.1 Fundamentos do Flexbox</strong></h3>
+            <p>Flexbox é um sistema de layout unidimensional que organiza elementos filhos dentro de um container em
+                <strong>linha</strong> (horizontal) ou <strong>coluna</strong> (vertical), de forma flexível e adaptável
+                ao espaço disponível.</p>
+            <p>No React Native, as principais propriedades relacionadas ao Flexbox são aplicadas por meio do objeto
+                <code>style</code> da <code>View</code> que atua como container:</p>
+            <ul>
+                <li><code>flexDirection</code></li>
+                <li><code>justifyContent</code></li>
+                <li><code>alignItems</code></li>
+                <li><code>flex</code></li>
+                <li><code>flexWrap</code></li>
+            </ul>
+            <p>Essas propriedades controlam tanto o eixo principal (horizontal ou vertical) quanto o eixo secundário
+                (perpendicular ao principal), além do comportamento de crescimento, quebra de linha e alinhamento dos
+                elementos. Vamos explorá-las!</p>
+            <h3><strong>4.2 Propriedades do Container Flex</strong></h3>
+            <h4><code>flexDirection</code>: define a direção dos itens</h4>
+            <p>Essa propriedade determina se os elementos filhos da <code>View</code> serão organizados em linha ou
+                coluna.</p>
+            <pre><code class="language-tsx">&lt;View style={{ flexDirection: &#39;row&#39; }}&gt;
+  {/* elementos lado a lado */}
+&lt;/View&gt;
+
+&lt;View style={{ flexDirection: &#39;column&#39; }}&gt;
+  {/* elementos empilhados verticalmente (padrão) */}
+&lt;/View&gt;
+</code></pre>
+            <p>Os valores possíveis para essa propriedade são:</p>
+            <ul>
+                <li><code>&#39;row&#39;</code>: da esquerda para a direita</li>
+                <li><code>&#39;column&#39;</code>: de cima para baixo (valor padrão)</li>
+                <li><code>&#39;row-reverse&#39;</code> ou <code>&#39;column-reverse&#39;</code>: distribuições
+                    invertidas</li>
+            </ul>
+            <h4><code>justifyContent</code>: alinha os itens no eixo principal</h4>
+            <p>Essa propriedade alinha os elementos ao longo do eixo definido por <code>flexDirection</code>. Se
+                <code>flexDirection</code> for <code>&#39;row&#39;</code>, o eixo principal é horizontal; se for
+                <code>&#39;column&#39;</code>, é vertical.</p>
+            <pre><code class="language-tsx">&lt;View style={{ justifyContent: &#39;center&#39; }}&gt;
+  {/* centraliza os filhos no eixo principal */}
+&lt;/View&gt;
+</code></pre>
+            <p>Valores comuns para o <code>justifyContent</code> são:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Valor</th>
+                        <th>Comportamento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>flex-start</code></td>
+                        <td>Alinha no início do eixo principal</td>
+                    </tr>
+                    <tr>
+                        <td><code>center</code></td>
+                        <td>Centraliza os elementos</td>
+                    </tr>
+                    <tr>
+                        <td><code>flex-end</code></td>
+                        <td>Alinha no final do eixo</td>
+                    </tr>
+                    <tr>
+                        <td><code>space-between</code></td>
+                        <td>Espaço igual entre os elementos</td>
+                    </tr>
+                    <tr>
+                        <td><code>space-around</code></td>
+                        <td>Espaço igual em torno de cada elemento</td>
+                    </tr>
+                    <tr>
+                        <td><code>space-evenly</code></td>
+                        <td>Espaço igual entre, antes e depois dos elementos</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h4><code>alignItems</code>: alinha os itens no eixo secundário</h4>
+            <p>Enquanto <code>justifyContent</code> trata do eixo principal, <code>alignItems</code> atua no eixo
+                perpendicular. Ele define como os itens são distribuídos transversalmente.</p>
+            <pre><code class="language-tsx">&lt;View style={{ alignItems: &#39;center&#39; }}&gt;
+  {/* centraliza os filhos no eixo secundário */}
+&lt;/View&gt;
+</code></pre>
+            <p>Valores comuns para o <code>alignItems</code> são:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Valor</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>flex-start</code></td>
+                        <td>Alinha os itens no início do eixo secundário</td>
+                    </tr>
+                    <tr>
+                        <td><code>center</code></td>
+                        <td>Centraliza os itens no eixo secundário</td>
+                    </tr>
+                    <tr>
+                        <td><code>flex-end</code></td>
+                        <td>Alinha os itens ao final</td>
+                    </tr>
+                    <tr>
+                        <td><code>stretch</code></td>
+                        <td>Estica os itens para preencher o container (padrão)</td>
+                    </tr>
+                    <tr>
+                        <td><code>baseline</code></td>
+                        <td>Alinha com base na linha de base do texto</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h4><code>flexWrap</code>: controle de quebra de linha</h4>
+            <p>Quando os itens excedem a largura (ou altura) do container, <code>flexWrap</code> define se eles devem
+                quebrar a linha.</p>
+            <pre><code class="language-tsx">&lt;View style={{ flexWrap: &#39;wrap&#39;, flexDirection: &#39;row&#39; }}&gt;
+  {/* os filhos quebrarão linha se necessário */}
+&lt;/View&gt;
+</code></pre>
+            <p>Os valores possíveis para <code>flexWrap</code> são:</p>
+            <ul>
+                <li><code>&#39;nowrap&#39;</code> (padrão): tudo na mesma linha</li>
+                <li><code>&#39;wrap&#39;</code>: permite quebra em múltiplas linhas</li>
+                <li><code>&#39;wrap-reverse&#39;</code>: quebra em sentido inverso</li>
+            </ul>
+            <h3><strong>4.3 Propriedades aplicadas aos itens</strong></h3>
+            <h4><code>flex</code>: define a proporção do espaço ocupado</h4>
+            <p>A propriedade <code>flex</code> indica quanto espaço um item ocupará em relação aos outros itens dentro
+                do mesmo container.</p>
+            <pre><code class="language-tsx">&lt;View style={{ flex: 1 }} /&gt;
+&lt;View style={{ flex: 2 }} /&gt;
+</code></pre>
+            <p>Neste exemplo, o segundo item ocupará o dobro da largura do primeiro, respeitando a soma total do espaço
+                disponível.</p>
+            <p>Um valor <code>flex: 1</code> indica que o item ocupará todo o espaço restante dentro do container.</p>
+            <h4><code>alignSelf</code>: alinhamento individual</h4>
+            <p>Usada para sobrescrever o <code>alignItems</code> apenas para um item específico. Ideal para aplicar uma
+                exceção de alinhamento dentro do grupo.</p>
+            <pre><code class="language-tsx">&lt;View style={{ alignSelf: &#39;center&#39; }}&gt;
+  {/* este item será centralizado, independentemente dos demais */}
+&lt;/View&gt;
+</code></pre>
+            <h3><strong>4.4 Dicas práticas para trabalhar com Flexbox</strong></h3>
+            <p>Antes de aplicar Flexbox em seus layouts, vale ter em mente algumas recomendações que ajudam a tirar o
+                máximo proveito do sistema e evitam armadilhas comuns. Seguindo as boas práticas abaixo, você consegue
+                construir interfaces responsivas de forma mais previsível:</p>
+            <ul>
+                <li>Tenha clareza sobre qual é o eixo principal (<code>flexDirection</code>) e qual é o eixo secundário.
+                </li>
+                <li>Utilize <code>flex: 1</code> para expandir elementos, principalmente em containers que devem ocupar
+                    todo o espaço da tela.</li>
+                <li>Combine <code>justifyContent</code> com <code>alignItems</code> para centralizações completas.</li>
+                <li>Evite usar valores fixos quando possível. Flexbox proporciona comportamentos adaptativos que
+                    funcionam melhor em diferentes tamanhos de tela.</li>
+            </ul>
+            <h3>✨ Resumão</h3>
+            <p>Flexbox é o sistema base de layout do React Native. Seu funcionamento simples permite estruturar e
+                distribuir componentes de maneira adaptável e precisa. Ao dominar as propriedades do Flexbox e
+                combiná-las com boas práticas de organização de estilos, você terá mais controle sobre o comportamento
+                visual dos seus aplicativos. Isso garante interfaces que se ajustam bem a diferentes tamanhos de tela,
+                mantendo consistência e legibilidade.</p>
+            <p>Abaixo resumimos as principais propriedades do FlexBox no React Native 🤠</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Categoria</th>
+                        <th>Propósito</th>
+                        <th>Propriedades–chave</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Direção do fluxo</td>
+                        <td>Define o eixo principal</td>
+                        <td><code>flexDirection</code> (<code>row</code>, <code>row-reverse</code>, <code>column</code>,
+                            <code>column-reverse</code>)</td>
+                    </tr>
+                    <tr>
+                        <td>Distribuição no eixo principal</td>
+                        <td>Espaça ou centraliza itens</td>
+                        <td><code>justifyContent</code> (<code>flex-start</code>, <code>center</code>,
+                            <code>space-between</code>, etc.)</td>
+                    </tr>
+                    <tr>
+                        <td>Alinhamento no eixo transversal</td>
+                        <td>Controla como os itens “cruzam” o eixo principal</td>
+                        <td><code>alignItems</code> e <code>alignSelf</code></td>
+                    </tr>
+                    <tr>
+                        <td>Crescimento / encolhimento</td>
+                        <td>Divide o espaço disponível ou resolve overflow</td>
+                        <td><code>flex</code>, <code>flexGrow</code>, <code>flexShrink</code>, <code>flexBasis</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Quebra de linha</td>
+                        <td>Permite várias linhas</td>
+                        <td><code>flexWrap</code> (<code>nowrap</code>, <code>wrap</code>)</td>
+                    </tr>
+                    <tr>
+                        <td>Várias linhas</td>
+                        <td>Distribuição das linhas geradas por <code>wrap</code></td>
+                        <td><code>alignContent</code></td>
+                    </tr>
+                    <tr>
+                        <td>Espaços (RN ≥ 0.72)</td>
+                        <td>Gaps uniformes entre linhas/colunas</td>
+                        <td><code>rowGap</code>, <code>columnGap</code>, <code>gap</code></td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+            <h2><strong>5. Componentização e Reutilização de UI com Props</strong></h2>
+            <p>Interfaces modernas em React Native são construídas a partir da composição de componentes reutilizáveis,
+                que funcionam como pequenas unidades visuais com comportamento próprio. Cada componente pode receber
+                <strong>props</strong> (propriedades) como parâmetros de entrada e, a partir disso, renderizar uma saída
+                personalizada — seja ela visual, funcional ou ambas.</p>
+            <p>Essa abordagem torna o código mais legível, reutilizável e modular. Além disso, contribui diretamente
+                para a escalabilidade e manutenção da aplicação, que são requisitos indispensáveis em projetos reais.
+            </p>
+            <p>Nesta seção, exploraremos gradualmente como criar componentes reutilizáveis com props, tipá-los com
+                TypeScript, estruturar estilos de forma clara, compor interfaces com <code>children</code> e organizar
+                arquivos e pastas de maneira sustentável!</p>
+            <h3><strong>5.1 O que é um componente</strong></h3>
+            <p>Em React Native, um <strong>componente</strong> é uma função (ou classe) que usualmente retorna elementos
+                visuais, como <code>View</code>, <code>Text</code>, <code>Image</code>, <code>TextInput</code> ou
+                componentes personalizados. É importante destacar, entretanto, que um componente não precisa
+                necessariamente renderizar algo visível: ele pode retornar <code>null</code>, ou apenas encapsular
+                lógica e contexto. Além disso, o retorno pode ser um único elemento, um array ou mesmo um fragmento
+                (<code>&lt;&gt;…&lt;/&gt;</code>).</p>
+            <p>Desde a introdução dos <strong>Hooks</strong>, componente de função tornou-se a forma recomendada;
+                componentes de classe continuam válidos, mas são cada vez menos usados em código novo e, por isso, vamos
+                adotar a forma de componentes funcionais por padrão. </p>
+            <p>Componentes podem ser utilizados várias vezes em uma interface, com diferentes valores de entrada, sem
+                duplicar lógica ou estilo. Por exemplo:</p>
+            <pre><code class="language-tsx">import { Text } from &#39;react-native&#39;;
+
+export function Saudacao() {
+  return &lt;Text&gt;Olá, mundo!&lt;/Text&gt;;
+}
+</code></pre>
+            <p>Esse componente poderia ser inserido em qualquer parte da aplicação, promovendo consistência e economia
+                de código - não que você queira ficar repetindo &quot;Olá, mundo!&quot; em vários lugares da sua
+                aplicação, mas você entendeu a ideia, né? 👽</p>
+            <h3><strong>5.2 Props: propriedades que personalizam um componente</strong></h3>
+            <p>Os <strong>props</strong> (propriedades) são o principal mecanismo para deixar um componente
+                configurável: quem utiliza o componente passa valores da mesma forma que envia argumentos para uma
+                função, e esses valores determinam tanto o que será exibido na interface quanto o comportamento interno
+                do componente. Em TypeScript, declaramos a forma dessas propriedades numa <code>interface</code> (ou
+                <code>type</code>), o que garante segurança de tipo e documentação automática.</p>
+            <pre><code class="language-tsx">interface Props {
+  nome: string; // a tela que usar &lt;Saudacao&gt; precisa fornecer essa string
+}
+
+export function Saudacao({ nome }: Props) {
+  return &lt;Text&gt;Olá, {nome}!&lt;/Text&gt;;
+}
+</code></pre>
+            <p>Na prática, basta instanciar o componente e fornecer o valor desejado:</p>
+            <pre><code class="language-tsx">&lt;Saudacao nome=&quot;Camila&quot; /&gt;
+</code></pre>
+            <p>Ao receber <code>nome=&quot;Camila&quot;</code>, o componente renderiza “Olá, Camila!”. Se você
+                reutilizar <code>&lt;Saudacao&gt;</code> em outra parte da aplicação com
+                <code>nome=&quot;Bruno&quot;</code>, o texto exibido mudará sem que seja preciso duplicar lógica ou
+                alterar o componente original. Dessa forma, props tornam os componentes <strong>dinâmicos, previsíveis e
+                    reutilizáveis</strong>, adaptando-se ao contexto onde forem inseridos.</p>
+            <h3><strong>5.3 Criando um componente reutilizável: Botão personalizado</strong></h3>
+            <p>Para evitar duplicação de código quando precisamos de vários botões com aparência idêntica, mas rótulos e
+                comportamentos distintos, criamos um <strong>componente reutilizável</strong>. Ele expõe duas props: o
+                texto exibido no botão e a função disparada no toque. Assim, a lógica de clique fica desacoplada do
+                estilo e podemos reutilizar o mesmo layout em qualquer parte do app.</p>
+            <h3>Definição da interface das props</h3>
+            <pre><code class="language-tsx">interface BotaoProps {
+  titulo: string;        // rótulo exibido no botão
+  onPress: () =&gt; void;   // ação executada ao toque
+}
+</code></pre>
+            <h3>Estrutura do componente</h3>
+            <pre><code class="language-tsx">import { Text, TouchableOpacity, StyleSheet } from &#39;react-native&#39;;
+
+export function BotaoPrimario({ titulo, onPress }: BotaoProps) {
+  return (
+    &lt;TouchableOpacity style={styles.botao} onPress={onPress}&gt;
+      &lt;Text style={styles.texto}&gt;{titulo}&lt;/Text&gt;
+    &lt;/TouchableOpacity&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  botao: {
+    backgroundColor: &#39;#6200ee&#39;,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+  },
+  texto: {
+    color: &#39;#fff&#39;,
+    fontWeight: &#39;bold&#39;,
+    textAlign: &#39;center&#39;,
+  },
+});
+</code></pre>
+            <h3>Utilização</h3>
+            <pre><code class="language-tsx">&lt;BotaoPrimario titulo=&quot;Salvar&quot; onPress={() =&gt; alert(&#39;Salvo!&#39;)} /&gt;
+</code></pre>
+            <p>Com essa abordagem, basta trocar as props para adaptar o botão a novos contextos, enquanto o estilo e a
+                estrutura permanecem consistentes em todo o aplicativo.</p>
+            <h3><strong>5.4 Props opcionais e valores padrão</strong></h3>
+            <p>Nem sempre todas as propriedades precisam ser obrigatórias. Quando queremos oferecer personalização
+                opcional — por exemplo, permitir que o chamador escolha a cor de fundo de um botão sem exigir esse valor
+                — definimos a prop como opcional, usando o sufixo <code>?</code> na interface TypeScript. Depois, dentro
+                do componente, aplicamos um <strong>valor padrão</strong> caso a prop não seja fornecida.</p>
+            <pre><code class="language-tsx">interface BotaoProps {
+  titulo: string;          // texto visível no botão
+  onPress: () =&gt; void;     // ação disparada no toque
+  corFundo?: string;       // cor de fundo opcional
+}
+</code></pre>
+            <p>Durante a renderização, usamos o operador de coalescência nula (<code>??</code>) para cair em uma cor
+                padrão quando <code>corFundo</code> não é enviada:</p>
+            <pre><code class="language-tsx">&lt;TouchableOpacity
+  style={[styles.botao, { backgroundColor: corFundo ?? &#39;#6200ee&#39; }]}
+  onPress={onPress}
+&gt;
+  &lt;Text style={styles.texto}&gt;{titulo}&lt;/Text&gt;
+&lt;/TouchableOpacity&gt;
+</code></pre>
+            <p>Assim, o componente funciona perfeitamente mesmo sem a prop <code>corFundo</code>, mas dá ao
+                desenvolvedor liberdade para alterar a aparência sempre que necessário, sem duplicar um novo estilo ou
+                componente.</p>
+            <h3><strong>5.5 Composição com <code>children</code>: componentes contêiner</strong></h3>
+            <p>Em alguns casos, o componente precisa servir apenas como <strong>contêiner</strong> para outros
+                elementos, delegando ao chamador a liberdade de decidir o que será exibido dentro dele. Nesses cenários
+                recorremos à prop especial <code>children</code>, que representa todo o conteúdo colocado entre a tag de
+                abertura e a de fechamento do componente. Ao tipar <code>children</code> como
+                <code>React.ReactNode</code>, garantimos que qualquer elemento React — texto, imagens, outros
+                componentes ou mesmo fragmentos — possa ser passado livremente. Considere o exemplo abaixo:</p>
+            <pre><code class="language-tsx">interface CardProps {
+  children: React.ReactNode; // qualquer conteúdo interno
+}
+
+export function Card({ children }: CardProps) {
+  return &lt;View style={styles.card}&gt;{children}&lt;/View&gt;;
+}
+</code></pre>
+            <p>O uso é direto: basta envolver os elementos desejados dentro de
+                <code>&lt;Card&gt; ... &lt;/Card&gt;</code>.</p>
+            <pre><code class="language-tsx">&lt;Card&gt;
+  &lt;Text&gt;Conteúdo do card&lt;/Text&gt;
+&lt;/Card&gt;
+</code></pre>
+            <p>O padrão acima transforma <code>Card</code> em um <strong>invólucro visual</strong>: ele cuida apenas do
+                “quadro” — bordas, sombra, espaçamento, cor de fundo, etc. — e exibe, na região interna, tudo o que for
+                passado como <code>children</code>. Quando você escreve</p>
+            <pre><code class="language-tsx">&lt;Card&gt;
+  &lt;Text&gt;Conteúdo do card&lt;/Text&gt;
+&lt;/Card&gt;
+</code></pre>
+            <p>Ou seja: o React substitui a palavra-chave <code>children</code> pelo elemento <code>&lt;Text&gt;</code>
+                fornecido. Na renderização, o que aparece na tela é uma caixa (<code>View</code>) estilizada pelas
+                regras de <code>styles.card</code> — por exemplo, um retângulo com fundo claro, cantos arredondados e
+                sombra — contendo o texto “Conteúdo do card” centralizado (ou alinhado conforme o estilo aplicado).</p>
+            <h3><strong>5.6 Estilização com <code>StyleSheet.create</code></strong></h3>
+            <p>Sempre que criamos um componente com intenção de reaproveitá-lo em várias telas, vale agrupar todas as
+                regras visuais em um objeto gerado por <code>StyleSheet.create</code>. Essa centralização traz três
+                vantagens importantes: o <strong>React Native valida</strong> nomes de propriedades e tipos em tempo de
+                desenvolvimento, os objetos de estilo são <strong>pré-processados e compartilhados</strong> (evitando
+                recriação a cada render) e o código fica <strong>mais legível</strong>, pois a lógica do componente não
+                se mistura com detalhes de cor, margem ou tipografia.</p>
+            <pre><code class="language-tsx">const styles = StyleSheet.create({
+  botao: {
+    backgroundColor: &#39;#ff5722&#39;,
+    padding: 12,
+    borderRadius: 6,
+  },
+  texto: {
+    color: &#39;#fff&#39;,
+    fontSize: 16,
+    textAlign: &#39;center&#39;,
+  },
+});
+</code></pre>
+            <p>Mantendo o objeto <code>styles</code> em um arquivo separado (por exemplo <code>Botao.styles.ts</code>),
+                garantimos isolamento de responsabilidades: quem ajusta o visual modifica apenas o arquivo de estilos,
+                enquanto a lógica de clique e as props continuam intactas no componente principal. Isso simplifica
+                refatorações, facilita colaboração entre designers e desenvolvedores e preserva a consistência visual do
+                aplicativo.</p>
+            <h3><strong>5.7 Organização em arquivos e pastas</strong></h3>
+            <p>Uma boa organização de pastas evita que o código se transforme em um amontoado difícil de navegar à
+                medida que novos recursos são adicionados. No React Native, um padrão simples e eficaz é criar
+                <strong>uma pasta para cada componente</strong>, contendo, no mínimo, o arquivo de código-fonte e seu
+                arquivo de estilos. Desse modo, tudo que diz respeito a um componente fica reunido no mesmo lugar.</p>
+            <pre><code>src/
+  components/
+    BotaoPrimario/
+      index.tsx   ← lógica e markup do botão
+      styles.ts   ← regras visuais do botão
+    Card/
+      index.tsx
+      styles.ts
+</code></pre>
+            <p>Com essa convenção, qualquer pessoa da equipe localiza rapidamente onde alterar visual ou comportamento,
+                evita duplicações acidentais e pode reaproveitar os componentes em outras telas sem esforço. Além disso,
+                ferramentas de versionamento (Git, por exemplo) exibem mudanças de forma mais clara, tornando o fluxo de
+                revisão e manutenção muito mais ágil.</p>
+            <h3><strong>5.8 Exemplo integrado: <code>CardDeProduto</code></strong></h3>
+            <p>Um exemplo prático que une todos os conceitos anteriores é o componente <code>CardDeProduto</code>, que
+                exibe nome, preço e status de disponibilidade de um item. Vejamos o código abaixo:</p>
+            <pre><code class="language-tsx">interface Props {
+  nome: string;
+  preco: number;
+  disponivel?: boolean;          // se omitido, assume true
+}
+
+export function CardDeProduto({ nome, preco, disponivel = true }: Props) {
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;Text style={styles.nome}&gt;{nome}&lt;/Text&gt;
+      &lt;Text style={styles.preco}&gt;R$ {preco.toFixed(2)}&lt;/Text&gt;
+      &lt;Text style={[styles.status, { color: disponivel ? &#39;green&#39; : &#39;red&#39; }]}&gt;
+        {disponivel ? &#39;DISPONÍVEL&#39; : &#39;INDISPONÍVEL&#39;}
+      &lt;/Text&gt;
+    &lt;/View&gt;
+  );
+}
+</code></pre>
+            <p>O objeto de estilos, criado com <code>StyleSheet.create</code>, isola toda a aparência do cartão:</p>
+            <pre><code class="language-tsx">const styles = StyleSheet.create({
+  container: {
+    padding: 12,
+    margin: 8,
+    borderRadius: 8,
+    backgroundColor: &#39;#f5f5f5&#39;,
+  },
+  nome: {
+    fontWeight: &#39;bold&#39;,
+    fontSize: 16,
+  },
+  preco: {
+    fontSize: 14,
+    marginTop: 4,
+  },
+  status: {
+    marginTop: 8,
+    fontWeight: &#39;600&#39;,
+  },
+});
+</code></pre>
+            <p>Esse é um exemplo de componente de apresentação que concentra, em poucas linhas, vários conceitos já
+                discutidos: tipagem de props, estilos centralizados, renderização condicional e reaproveitamento de UI.
+                Ele recebe três propriedades — <code>nome</code>, <code>preco</code> e a flag opcional
+                <code>disponivel</code> — e transforma esses dados em um pequeno cartão informativo. 🤩</p>
+            <h3>Em suma</h3>
+            <p>Aprendemos a:</p>
+            <ul>
+                <li>Criar componentes funcionais reutilizáveis com React Native;</li>
+                <li>Declarar e tipar props, inclusive opcionais;</li>
+                <li>Utilizar composição com <code>children</code>;</li>
+                <li>Estilizar com <code>StyleSheet</code> de forma limpa e eficiente;</li>
+                <li>Organizar a estrutura de projeto de maneira modular.</li>
+            </ul>
+            <p>Essa combinação de técnicas será de grande importância nas próximas aulas, porque os aplicativos que
+                construiremos daí em diante se apoiarão nesses padrões para evoluir com qualidade e manutenibilidade.
+            </p>
+            <hr>
+            <h1><strong>6. Interatividade com Inputs e Eventos</strong></h1>
+            <p>Um aplicativo mobile que não responde ao usuário... não é um app 😅. Nesta seção, vamos aprender como:
+            </p>
+            <ol>
+                <li>Capturar eventos de toque (taps, cliques);</li>
+                <li>Trabalhar com campos de texto;</li>
+                <li>Controlar o valor de inputs com estados;</li>
+                <li>Aplicar validação básica de entrada;</li>
+                <li>Combinar interatividade com componentização e TypeScript.</li>
+            </ol>
+            <p>Esses conceitos compõem a base para <strong>formulários</strong>, <strong>autenticação</strong>,
+                <strong>cadastros</strong>, <strong>buscas</strong> e diversas funcionalidades de apps reais.</p>
+            <h3><strong>6.1 Capturando eventos de toque com <code>Button</code> e <code>TouchableOpacity</code></strong>
+            </h3>
+            <p>Botões são elementos interativos que disparam ações. A forma mais simples de capturar um clique é com o
+                componente <code>Button</code>:</p>
+            <pre><code class="language-tsx">import { Button } from &#39;react-native&#39;;
+
+&lt;Button title=&quot;Enviar&quot; onPress={() =&gt; alert(&#39;Enviado!&#39;)} /&gt;
+</code></pre>
+            <p>O evento de toque é tratado pela prop <code>onPress</code>, que espera uma função a ser executada.</p>
+            <p>Já para maior controle de estilo, usamos <code>TouchableOpacity</code>, como vimos anteriormente.</p>
+            <pre><code class="language-tsx">import { TouchableOpacity, Text } from &#39;react-native&#39;;
+
+&lt;TouchableOpacity onPress={() =&gt; alert(&#39;Toque!&#39;)}&gt;
+  &lt;Text&gt;Toque Aqui&lt;/Text&gt;
+&lt;/TouchableOpacity&gt;
+</code></pre>
+            <p>Esse componente <strong>não tem estilo próprio</strong>, e deve ser <strong>combinado com um
+                    <code>&lt;Text&gt;</code> ou <code>&lt;View&gt;</code></strong> com aparência de botão.</p>
+            <h3><strong>6.2 Criando botões reutilizáveis com eventos</strong></h3>
+            <p>Quando precisamos repetir um mesmo botão em várias telas, a melhor estratégia é extrair o layout e o
+                feedback visual para um <strong>componente de alto nível</strong>. Assim, cada tela envia apenas o
+                rótulo e a ação, enquanto o estilo, a opacidade de toque e as boas práticas de acessibilidade ficam
+                centralizadas em um único lugar. Considere o exemplo abaixo:</p>
+            <pre><code class="language-tsx">import { Text, TouchableOpacity, StyleSheet } from &#39;react-native&#39;;
+
+interface BotaoProps {
+  /** Texto que aparecerá no centro do botão */
+  titulo: string;
+  /** Função disparada no toque */
+  onPress: () =&gt; void;
+}
+
+export function BotaoPrimario({ titulo, onPress }: BotaoProps) {
+  return (
+    &lt;TouchableOpacity
+      style={styles.botao}
+      activeOpacity={0.7}           /* feedback de toque */
+      accessibilityRole=&quot;button&quot;    /* acessibilidade nativa */
+      accessibilityLabel={titulo}   /* leitor de tela */
+      onPress={onPress}
+    &gt;
+      &lt;Text style={styles.texto}&gt;{titulo}&lt;/Text&gt;
+    &lt;/TouchableOpacity&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  botao: {
+    backgroundColor: &#39;#6200ee&#39;,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+  },
+  texto: {
+    color: &#39;#fff&#39;,
+    fontWeight: &#39;bold&#39;,
+    textAlign: &#39;center&#39;,
+  },
+});
+</code></pre>
+            <p>Para utilizá-lo, basta adicionar o componente:</p>
+            <pre><code class="language-tsx">&lt;BotaoPrimario
+  titulo=&quot;Cadastrar&quot;
+  onPress={() =&gt; console.log(&#39;Cadastro enviado&#39;)}
+/&gt;
+</code></pre>
+            <p>Com essa abordagem, você mantém <strong>consistência visual</strong> em todo o app, facilita ajustes de
+                design futuro (basta alterar <code>styles.botao</code>) e garante que cada novo botão já venha com
+                acessibilidade e feedback tátil configurados de fábrica.</p>
+            <h3><strong>6.3 Capturando texto com <code>TextInput</code></strong></h3>
+            <p>O <code>TextInput</code> é o ponto-de-partida para qualquer formulário: ele renderiza um <strong>campo
+                    editável</strong> que já lida com foco, teclado virtual e acessibilidade nativa.</p>
+            <pre><code class="language-tsx">import { TextInput } from &#39;react-native&#39;;
+
+&lt;TextInput
+  placeholder=&quot;Digite seu nome&quot;
+  keyboardType=&quot;default&quot;   // numérico, e-mail, phone-pad…
+  autoCapitalize=&quot;words&quot;   // controla capitalização automática
+  returnKeyType=&quot;done&quot;     // muda o rótulo da tecla “Enter”
+  style={{ borderWidth: 1, borderRadius: 4, padding: 8 }}
+/&gt;
+</code></pre>
+            <p>Nesse componente temos essas props que costumamos utilizar:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Prop</th>
+                        <th>Para que serve</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>value</code> / <code>onChangeText</code></td>
+                        <td>transformam o campo em <strong>input controlado</strong> com <code>useState</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>placeholder</code></td>
+                        <td>mostra uma sugestão enquanto o usuário não digitou nada</td>
+                    </tr>
+                    <tr>
+                        <td><code>secureTextEntry</code></td>
+                        <td>esconde o texto (senhas)</td>
+                    </tr>
+                    <tr>
+                        <td><code>keyboardType</code></td>
+                        <td>escolhe o teclado ideal: <code>email-address</code>, <code>numeric</code>,
+                            <code>phone-pad</code>, etc.</td>
+                    </tr>
+                    <tr>
+                        <td><code>autoCapitalize</code></td>
+                        <td>liga/desliga capitalização automática (<code>none</code>, <code>sentences</code>,
+                            <code>words</code>, <code>characters</code>)</td>
+                    </tr>
+                    <tr>
+                        <td><code>maxLength</code> / <code>multiline</code></td>
+                        <td>limita caracteres ou permite múltiplas linhas</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Com apenas essas opções você já cobre a maioria dos cenários de login, busca, formulários de cadastro e
+                qualquer campo de texto que precise no aplicativo.</p>
+            <h3><strong>6.4 Controlando inputs com <code>useState</code></strong></h3>
+            <p>Para que o campo de texto reflita imediatamente o que o usuário digita — e vice-versa — transformamos o
+                <code>TextInput</code> em um <strong>input controlado</strong>. O truque é armazenar o conteúdo em um
+                estado React e atualizar esse estado a cada digitação. Vejamos o exemplo abaixo:</p>
+            <pre><code class="language-tsx">import { useState } from &#39;react&#39;;
+import { TextInput, Text } from &#39;react-native&#39;;
+
+export default function FormNome() {
+  const [nome, setNome] = useState(&#39;&#39;); // estado inicial vazio
+
+  return (
+    &lt;&gt;
+      &lt;TextInput
+        value={nome} // o que está na tela vem do estado
+        onChangeText={setNome} // cada digitação atualiza o estado
+        placeholder=&quot;Digite seu nome&quot;
+        style={{ borderWidth: 1, borderRadius: 4, padding: 8 }}
+      /&gt;
+
+      &lt;Text style={{ marginTop: 8 }}&gt;
+        Você digitou: {nome || &#39;—&#39;}
+      &lt;/Text&gt;
+    &lt;/&gt;
+  );
+}
+</code></pre>
+            <ol>
+                <li><code>useState(&#39;&#39;)</code> cria a variável de estado <code>nome</code> e a função
+                    <code>setNome</code>.</li>
+                <li>A prop <code>value={nome}</code> faz o <code>TextInput</code> <strong>exibir</strong> o valor
+                    guardado no estado.</li>
+                <li>A prop <code>onChangeText={setNome}</code> grava, a cada tecla, o novo texto no estado.</li>
+            </ol>
+            <p>Esse ciclo garante sincronização perfeita entre interface e dados internos, permitindo validações em
+                tempo real, formatação automática (por exemplo, maiúsculas) ou até mesmo envio de requisições conforme o
+                usuário digita. 🧑‍💻</p>
+            <h3><strong>6.5 Tipando estados com TypeScript</strong></h3>
+            <p>Quando o dado que chega do teclado <strong>não é string</strong>, precisamos converter o texto digitado
+                para o tipo correto — neste exemplo abaixo, <code>number</code>. Usando generics do
+                <code>useState</code>, tipamos o estado como <code>number | null</code> e, a cada alteração,
+                transformamos o texto em número com <code>Number(...)</code>. Veja o código abaixo:</p>
+            <pre><code class="language-tsx">import { useState } from &#39;react&#39;;
+import { TextInput, Text } from &#39;react-native&#39;;
+
+export default function CampoIdade() {
+  const [idade, setIdade] = useState&lt;number | null&gt;(null);
+
+  return (
+    &lt;&gt;
+      &lt;TextInput
+        keyboardType=&quot;numeric&quot; // exibe teclado numérico
+        value={idade?.toString() ?? &#39;&#39;} // mostra idade ou string vazia
+        onChangeText={(t) =&gt; setIdade(Number(t))} // converte para número
+        placeholder=&quot;Idade&quot;
+        style={{ borderWidth: 1, borderRadius: 4, padding: 8 }}
+      /&gt;
+
+      &lt;Text style={{ marginTop: 8 }}&gt;
+        {idade !== null ? `Você tem ${idade} anos` : &#39;Informe sua idade&#39;}
+      &lt;/Text&gt;
+    &lt;/&gt;
+  );
+}
+</code></pre>
+            <p>Nesse código:</p>
+            <ul>
+                <li><strong><code>keyboardType=&quot;numeric&quot;</code></strong> já força um teclado especializado,
+                    reduzindo erros.</li>
+                <li><code>idade?.toString() ?? &#39;&#39;</code> garante que o campo mostre uma string vazia quando o
+                    estado ainda é <code>null</code>.</li>
+                <li>No <code>onChangeText</code>, <strong><code>Number(t)</code></strong> converte a entrada para
+                    número; caso o usuário apague tudo, o resultado vira <code>0</code> ou <code>NaN</code>, e você pode
+                    tratar isso com validação adicional caso necessário.</li>
+            </ul>
+            <p>Em resumo: sempre converta explicitamente o texto o tipo correto — isso evita avisos do TypeScript e bugs
+                de comparação mais adiante.</p>
+            <h3><strong>6.6 Validação básica e feedback ao usuário</strong></h3>
+            <p>A lógica de validação costuma ser executada <strong>no clique do botão</strong> ou <strong>à medida que o
+                    usuário digita</strong>. </p>
+            <p>Considere o componente abaixo, onde adotamos a primeira estratégia (validar ao clique do botão),
+                disparando a checagem quando o usuário pressiona <strong>Validar</strong>.</p>
+            <pre><code class="language-tsx">import { useState } from &#39;react&#39;;
+import { View, Text, TextInput, StyleSheet } from &#39;react-native&#39;;
+import { BotaoPrimario } from &#39;./components/BotaoPrimario&#39;; // supondo que já exista
+
+export function FormularioEmail() {
+  /* ---------- 1) estado + lógica ---------- */
+  const [email, setEmail] = useState(&#39;&#39;);
+  const [erro,  setErro ] = useState(&#39;&#39;);
+
+  function validarEmail() {
+    if (!email.includes(&#39;@&#39;)) {
+      setErro(&#39;E-mail inválido&#39;);
+    } else {
+      setErro(&#39;&#39;);
+      alert(&#39;E-mail válido!&#39;);
+    }
+  }
+
+  /* ---------- 2) interface que usa o estado ---------- */
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;TextInput
+        value={email}
+        onChangeText={setEmail}
+        placeholder=&quot;Digite seu e-mail&quot;
+        keyboardType=&quot;email-address&quot;
+        style={styles.input}
+      /&gt;
+
+      {/* Mostra a mensagem só quando há erro */}
+      {erro !== &#39;&#39; &amp;&amp; &lt;Text style={styles.mensagemErro}&gt;{erro}&lt;/Text&gt;}
+
+      &lt;BotaoPrimario titulo=&quot;Validar&quot; onPress={validarEmail} /&gt;
+    &lt;/View&gt;
+  );
+}
+
+/* ---------- estilos ---------- */
+const styles = StyleSheet.create({
+  container: { padding: 20 },
+  input: {
+    borderWidth: 1,
+    borderColor: &#39;#999&#39;,
+    padding: 8,
+    borderRadius: 4,
+    marginBottom: 12,
+  },
+  mensagemErro: { color: &#39;red&#39;, marginBottom: 8 },
+});
+</code></pre>
+            <p>O que acontece na tela é o seguinte:</p>
+            <ol>
+                <li><strong>O usuário digita</strong>: cada alteração no <code>TextInput</code> invoca
+                    <code>setEmail</code>, mantendo o estado <code>email</code> sincronizado (input controlado).</li>
+                <li><strong>Aperta “Validar”</strong>: <code>validarEmail</code> roda. Se não houver “@” na string, a
+                    função grava a mensagem <em>“E-mail inválido”</em> em <code>erro</code>; caso contrário, limpa o
+                    erro e mostra um <code>alert</code>.</li>
+                <li><strong>Renderização</strong>: o bloco <code>{erro !== &#39;&#39; &amp;&amp; …}</code> só aparece
+                    quando <code>erro</code> contém texto; assim, a mensagem em vermelho surge exatamente nos casos
+                    inválidos e some depois que o e-mail é considerado válido.</li>
+            </ol>
+            <h3><strong>6.7 Organizando um formulário simples com tipagem</strong></h3>
+            <p>Quando o formulário reúne vários campos, é prático guardar tudo em <strong>um único
+                    estado-objeto</strong>. Tipamos esse estado com uma interface (<code>Usuario</code>) para manter o
+                TypeScript alinhado e, a cada mudança, espalhamos o objeto atual (<code>...form</code>) e sobrescrevemos
+                apenas o campo alterado.</p>
+            <pre><code class="language-tsx">// 1) contrato de tipagem
+interface Usuario {
+  nome: string;
+  idade: number;
+}
+
+// 2) estado inicial do formulário
+const [form, setForm] = useState&lt;Usuario&gt;({
+  nome: &#39;&#39;,
+  idade: 0,
+});
+</code></pre>
+            <p>Para atualizar cada campo, no <code>onChangeText</code> de cada <code>TextInput</code>, usamos o
+                <strong>spread operator</strong> para copiar o estado atual e ajustamos somente a propriedade que mudou:
+            </p>
+            <pre><code class="language-tsx">{/* campo nome */}
+&lt;TextInput
+  value={form.nome}
+  onChangeText={(texto) =&gt;
+    setForm((prev) =&gt; ({ ...prev, nome: texto }))
+  }
+/&gt;
+
+{/* campo idade */}
+&lt;TextInput
+  value={String(form.idade)}
+  keyboardType=&quot;numeric&quot;
+  onChangeText={(texto) =&gt;
+    setForm((prev) =&gt; ({ ...prev, idade: Number(texto) }))
+  }
+/&gt;
+</code></pre>
+            <ul>
+                <li><code>setForm((prev) =&gt; …)</code> garante que pegaremos a versão mais recente do estado, evitando
+                    condições de corrida.</li>
+                <li><code>Number(texto)</code> converte a string digitada para número, mantendo a consistência do tipo
+                    <code>idade: number</code> definido em <code>Usuario</code>.</li>
+            </ul>
+            <p>Dessa forma, cada <code>TextInput</code> controla apenas o seu pedaço do objeto sem perder as demais
+                informações já preenchidas.</p>
+            <h3><strong>6.8 Exemplo completo – formulário de cadastro</strong></h3>
+            <p>O componente abaixo reúne tudo o que vimos até agora: estados controlados, validação básica, tipagem e um
+                botão reaproveitável. Ele exibe dois <code>TextInput</code>s (nome e idade), valida os dados e, se tudo
+                estiver correto, devolve uma mensagem de sucesso.</p>
+            <pre><code class="language-tsx">import { useState } from &#39;react&#39;;
+import { View, Text, TextInput, StyleSheet } from &#39;react-native&#39;;
+import { BotaoPrimario } from &#39;../components/BotaoPrimario&#39;; // supondo que já exista
+
+export function CadastroUsuario() {
+  const [nome,  setNome]   = useState(&#39;&#39;); // estado controlado para o campo nome
+  const [idade, setIdade]  = useState(&#39;&#39;); // guardamos como string para facilitar o binding
+  const [mensagem, setMsg] = useState(&#39;&#39;); // feedback ao usuário
+
+  /** Executa quando o botão é pressionado */
+  function cadastrar() {
+    // 1) validação de preenchimento
+    if (!nome.trim() || !idade.trim()) {
+      setMsg(&#39;Preencha todos os campos!&#39;);
+      return;
+    }
+
+    // 2) validação de tipo numérico
+    const idadeNum = Number(idade);
+    if (Number.isNaN(idadeNum)) {
+      setMsg(&#39;Idade inválida — use apenas números&#39;);
+      return;
+    }
+
+    // 3) tudo certo ➜ feedback positivo
+    setMsg(`Usuário ${nome} (${idadeNum}) cadastrado com sucesso!`);
+  }
+
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;TextInput
+        placeholder=&quot;Nome&quot;
+        value={nome}
+        onChangeText={setNome}
+        style={styles.input}
+      /&gt;
+
+      &lt;TextInput
+        placeholder=&quot;Idade&quot;
+        value={idade}
+        onChangeText={setIdade}
+        keyboardType=&quot;numeric&quot;
+        style={styles.input}
+      /&gt;
+
+      &lt;BotaoPrimario titulo=&quot;Cadastrar&quot; onPress={cadastrar} /&gt;
+
+      {mensagem !== &#39;&#39; &amp;&amp; (
+        &lt;Text style={styles.feedback}&gt;{mensagem}&lt;/Text&gt;
+      )}
+    &lt;/View&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 20,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: &#39;#999&#39;,
+    borderRadius: 4,
+    padding: 10,
+    marginBottom: 12,
+  },
+  feedback: {
+    marginTop: 10,
+    fontWeight: &#39;600&#39;,
+  },
+});
+</code></pre>
+            <p>Na prática, o que acontece aqui é:</p>
+            <ol>
+                <li><strong>Digitando</strong> em cada <code>TextInput</code>, o valor entra nos respectivos estados
+                    (<code>nome</code> e <code>idade</code>) — inputs controlados.</li>
+                <li><strong>Pressionando</strong> o botão, a função <code>cadastrar()</code>:<ul>
+                        <li>verifica se há campos vazios;</li>
+                        <li>converte a idade de string para número e testa se é válida;</li>
+                        <li>exibe uma mensagem de erro ou sucesso no mesmo componente.</li>
+                    </ul>
+                </li>
+                <li>O texto de feedback aparece logo abaixo do botão, atualizando-se em tempo real sempre que o usuário
+                    tenta cadastrar novamente.</li>
+            </ol>
+            <h3><strong>6.9 Boas práticas</strong></h3>
+            <p>Para que formulários sigam fluindo sem dores de cabeça, vale adotar algumas regras simples — elas poupam
+                refatorações futuras e garantem uma experiência de uso consistente:</p>
+            <ul>
+                <li>
+                    <p><strong>Mantenha cada campo como “input controlado”.</strong> Vincule o valor do
+                        <code>TextInput</code> a um estado criado com <code>useState</code>. Assim, qualquer digitação
+                        do usuário é refletida imediatamente na árvore de componentes, permitindo validações em tempo
+                        real e exibição de mensagens de erro no mesmo render.</p>
+                </li>
+                <li>
+                    <p><strong>Valide antes de processar ou enviar dados.</strong> Nunca presuma que o que veio do
+                        teclado está correto. Verifique campos obrigatórios, tipos (número, e-mail, CPF…) e regras de
+                        negócio. Se algo falhar, mostre feedback claro; se tudo passar, prossiga com a ação (salvar em
+                        backend, navegar, etc.).</p>
+                </li>
+                <li>
+                    <p><strong>Tipagem é sua amiga.</strong> Declare o formato dos estados e das props com TypeScript
+                        (<code>string</code>, <code>number</code>, tipos literais ou estruturas mais complexas). O
+                        compilador pega inconsistências na hora e evita bugs de conversão ou comparação em tempo de
+                        execução.</p>
+                </li>
+                <li>
+                    <p><strong>Extraia componentes reutilizáveis.</strong> Se você repetir o mesmo “bloco” (ex.: botão
+                        primário, campo de texto com rótulo, seletor de data), transforme-o em um componente isolado.
+                        Isso elimina duplicação de estilo e lógica, além de deixar o código mais legível.</p>
+                </li>
+                <li>
+                    <p><strong>Escolha o <code>keyboardType</code> correto.</strong> Ajuste o teclado ao contexto:</p>
+                    <ul>
+                        <li><code>email-address</code> para e-mails</li>
+                        <li><code>numeric</code> ou <code>number-pad</code> para números</li>
+                        <li><code>phone-pad</code> para telefones
+                            Essa mudança simples reduz erros de digitação e melhora a experiência do usuário.</li>
+                    </ul>
+                </li>
+            </ul>
+            <p>Em síntese:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Prática</th>
+                        <th>Explicação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Controlar os inputs via <code>useState</code></td>
+                        <td>Permite rastrear o que o usuário está digitando</td>
+                    </tr>
+                    <tr>
+                        <td>Validar antes de processar</td>
+                        <td>Garante dados corretos antes de enviar</td>
+                    </tr>
+                    <tr>
+                        <td>Tipar estados e entradas</td>
+                        <td>Evita erros de tipo em tempo de execução</td>
+                    </tr>
+                    <tr>
+                        <td>Extrair componentes</td>
+                        <td>Reutiliza lógica e estilo com <code>TextInput</code>, <code>Button</code>,
+                            <code>Label</code>, etc.</td>
+                    </tr>
+                    <tr>
+                        <td>Usar <code>keyboardType</code> apropriado</td>
+                        <td>Ex: <code>&quot;email-address&quot;</code>, <code>&quot;numeric&quot;</code> melhora a UX
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+            <h2><strong>7. Listas, Arrays e Renderização com <code>FlatList</code></strong></h2>
+            <p>Listas são um dos elementos <strong>mais recorrentes em interfaces de aplicativos móveis</strong>. Seja
+                exibindo produtos, mensagens, notificações ou tarefas, <strong>exibir dados de forma performática e
+                    organizada</strong> é uma competência base em React Native.</p>
+            <p>Nesta seção, vamos explorar:</p>
+            <ol>
+                <li>Como renderizar listas com <code>.map()</code> e <code>ScrollView</code>;</li>
+                <li>As limitações dessas abordagens e por que usar <code>FlatList</code>;</li>
+                <li>Como utilizar <code>FlatList</code> de forma eficiente e tipada;</li>
+                <li>Como aplicar estilos e chaves únicas;</li>
+                <li>Como personalizar renderizações com <code>ListHeaderComponent</code>,
+                    <code>ItemSeparatorComponent</code> e <code>ListEmptyComponent</code>;</li>
+                <li>Como aplicar boas práticas de performance.</li>
+            </ol>
+            <h3><strong>7.1 Renderizando listas com <code>.map()</code> e <code>ScrollView</code></strong></h3>
+            <p>Para exibir listas de dados em React Native, uma abordagem comum é utilizar o método <code>.map()</code>,
+                nativo do JavaScript. Este método permite percorrer arrays e transformar cada um de seus elementos em
+                componentes React. Por exemplo, para um array de nomes, poderíamos fazer:</p>
+            <pre><code class="language-tsx">const nomes = [&#39;Ana&#39;, &#39;Bruno&#39;, &#39;Carlos&#39;];
+
+{nomes.map((nome, index) =&gt; (
+  &lt;Text key={index}&gt;{nome}&lt;/Text&gt;
+))}
+</code></pre>
+            <p>No código acima, cada nome no array <code>nomes</code> é transformado em um componente <code>Text</code>,
+                e a propriedade <code>key</code> é fundamental para que o React possa identificar e gerenciar cada
+                elemento da lista de forma eficiente.</p>
+            <p>Contudo, se a lista for extensa, o uso direto de <code>.map()</code> pode acarretar em problemas de
+                performance. Isso ocorre porque todos os elementos da lista são renderizados de uma só vez, mesmo
+                aqueles que não estão visíveis na tela, o que pode sobrecarregar a interface.</p>
+            <h4>Usando <code>ScrollView</code> com <code>.map()</code></h4>
+            <p>Para permitir a rolagem de conteúdo que excede o tamanho da tela, podemos envolver a lista gerada pelo
+                <code>.map()</code> com o componente <code>ScrollView</code>.</p>
+            <pre><code class="language-tsx">import { ScrollView, Text } from &#39;react-native&#39;;
+
+&lt;ScrollView&gt;
+  {nomes.map((nome, index) =&gt; (
+    &lt;Text key={index}&gt;{nome}&lt;/Text&gt;
+  ))}
+&lt;/ScrollView&gt;
+</code></pre>
+            <p>Embora o <code>ScrollView</code> adicione a funcionalidade de rolagem, ele não resolve o problema
+                fundamental da renderização de todos os itens de uma vez. Portanto, esta combinação é ideal apenas para
+                listas pequenas, geralmente com menos de aproximadamente 20 itens, onde o impacto na performance não é
+                significativo.</p>
+            <h3><strong>7.2 A solução: <code>FlatList</code></strong></h3>
+            <p>Para listas mais longas ou com requisitos de performance mais rigorosos, o componente
+                <code>FlatList</code> é a solução ideal no React Native. Ele foi projetado especificamente para
+                renderizar listas de dados de forma eficiente, oferecendo diversas vantagens: <code>FlatList</code>
+                renderiza apenas os itens que estão atualmente visíveis na tela, além de uma pequena quantidade fora
+                dela, implementando o conceito de &quot;lazy loading&quot;. Isso significa que, à medida que o usuário
+                rola a lista, novos itens são renderizados sob demanda e itens que saem da tela podem ser desalocados,
+                economizando memória e poder de processamento. Além disso, <code>FlatList</code> oferece recursos
+                nativos de rolagem tanto vertical quanto horizontal, permite a personalização de cabeçalhos, rodapés e
+                componentes para listas vazias, é compatível com tipagem TypeScript para os dados da lista e,
+                crucialmente, lida muito bem com listas grandes, dinâmicas e que exigem alta performance.</p>
+            <h4>Exemplo básico com <code>FlatList</code></h4>
+            <p>Veja um exemplo simples de como utilizar o <code>FlatList</code> para renderizar o mesmo array de nomes:
+            </p>
+            <pre><code class="language-tsx">import { FlatList, Text } from &#39;react-native&#39;;
+
+const nomes = [&#39;Ana&#39;, &#39;Bruno&#39;, &#39;Carlos&#39;];
+
+&lt;FlatList
+  data={nomes}
+  renderItem={({ item }) =&gt; &lt;Text&gt;{item}&lt;/Text&gt;}
+  keyExtractor={(item) =&gt; item}
+/&gt;
+</code></pre>
+            <p>Neste exemplo, <code>data</code> recebe o array de dados, <code>renderItem</code> é uma função que define
+                como cada item (<code>item</code>) será transformado em um componente (neste caso, um
+                <code>Text</code>), e <code>keyExtractor</code> é uma função que retorna uma chave única para cada item
+                (aqui, o próprio nome, assumindo que são únicos).</p>
+            <h3><strong>7.3 Propriedades essenciais de <code>FlatList</code></strong></h3>
+            <p>O <code>FlatList</code> possui diversas propriedades para customizar seu comportamento e aparência. As
+                mais essenciais incluem:</p>
+            <ul>
+                <li><code>data</code>: Esta propriedade recebe o array de dados que será exibido na lista.</li>
+                <li><code>renderItem</code>: Uma função que recebe um objeto contendo o item individual e seu índice, e
+                    retorna o componente React que deve ser renderizado para aquele item.</li>
+                <li><code>keyExtractor</code>: Uma função que recebe um item da lista e seu índice, e deve retornar uma
+                    string única que servirá como chave para aquele item. Serve para a otimização da renderização.</li>
+                <li><code>ListEmptyComponent</code>: Permite especificar um componente React a ser exibido quando o
+                    array <code>data</code> estiver vazio.</li>
+                <li><code>ItemSeparatorComponent</code>: Utilizado para renderizar um componente entre cada item da
+                    lista, como uma linha divisória.</li>
+                <li><code>ListHeaderComponent</code>: Permite renderizar um componente no topo da lista, antes do
+                    primeiro item.</li>
+            </ul>
+            <h3><strong>7.4 Lista de objetos com tipagem</strong></h3>
+            <p>Frequentemente, as listas são compostas por objetos mais complexos. Para garantir a consistência e
+                aproveitar os benefícios do TypeScript, podemos definir uma interface para os objetos da lista. Vamos
+                considerar um exemplo com uma lista de produtos, onde cada produto tem um <code>id</code>,
+                <code>nome</code> e <code>preco</code>:</p>
+            <pre><code class="language-tsx">interface Produto {
+  id: number;
+  nome: string;
+  preco: number;
+}
+</code></pre>
+            <p>Com a interface <code>Produto</code> definida, podemos criar nosso array de produtos tipado:</p>
+            <pre><code class="language-tsx">const produtos: Produto[] = [
+  { id: 1, nome: &#39;Caderno&#39;, preco: 15 },
+  { id: 2, nome: &#39;Caneta&#39;, preco: 5 },
+  { id: 3, nome: &#39;Borracha&#39;, preco: 3 },
+];
+</code></pre>
+            <h3>Exibição com <code>FlatList</code></h3>
+            <p>Para exibir esta lista de produtos usando <code>FlatList</code>, faríamos:</p>
+            <pre><code class="language-tsx">&lt;FlatList
+  data={produtos}
+  renderItem={({ item }) =&gt; (
+    &lt;Text&gt;
+      {item.nome} – R$ {item.preco.toFixed(2)}
+    &lt;/Text&gt;
+  )}
+  keyExtractor={(item) =&gt; item.id.toString()}
+/&gt;
+</code></pre>
+            <p>Na função <code>renderItem</code>, acessamos as propriedades <code>nome</code> e <code>preco</code> de
+                cada <code>item</code>. Para <code>keyExtractor</code>, usamos o <code>id</code> do produto,
+                convertendo-o para string com <code>item.id.toString()</code>, pois a chave extraída precisa ser uma
+                string.</p>
+            <h3><strong>7.5 Customizando o item da lista com componente</strong></h3>
+            <p>Para organizar melhor o código e permitir maior reutilização, é uma boa prática criar um componente
+                separado para renderizar cada item da lista. Seguindo o exemplo dos produtos, podemos criar um
+                componente <code>ItemProduto</code>:</p>
+            <pre><code class="language-tsx">interface ProdutoProps {
+  produto: Produto; // Usamos a mesma interface Produto definida anteriormente
+}
+
+function ItemProduto({ produto }: ProdutoProps) {
+  return (
+    &lt;View style={styles.card}&gt;
+      &lt;Text style={styles.nome}&gt;{produto.nome}&lt;/Text&gt;
+      &lt;Text style={styles.preco}&gt;R$ {produto.preco.toFixed(2)}&lt;/Text&gt;
+    &lt;/View&gt;
+  );
+}
+</code></pre>
+            <p>Este componente <code>ItemProduto</code> recebe um <code>produto</code> como prop e o exibe dentro de uma
+                <code>View</code> estilizada. Agora, podemos usar este componente na prop <code>renderItem</code> do
+                nosso <code>FlatList</code>:</p>
+            <pre><code class="language-tsx">&lt;FlatList
+  data={produtos}
+  renderItem={({ item }) =&gt; &lt;ItemProduto produto={item} /&gt;} // Usando o componente ItemProduto
+  keyExtractor={(item) =&gt; item.id.toString()}
+/&gt;
+</code></pre>
+            <p>Essa abordagem torna o <code>FlatList</code> mais legível e o componente <code>ItemProduto</code> pode
+                ser estilizado e complexificado independentemente.</p>
+            <h3><strong>7.6 Adicionando componentes extras à lista</strong></h3>
+            <p>O <code>FlatList</code> permite adicionar elementos visuais além dos próprios itens da lista, como
+                cabeçalhos, separadores e um componente para quando a lista está vazia.</p>
+            <p>Para adicionar um <strong>cabeçalho</strong>, utilizamos a propriedade <code>ListHeaderComponent</code>.
+                Ela espera uma função que retorna o componente a ser exibido no topo:</p>
+            <pre><code class="language-tsx">&lt;FlatList
+  // ... outras props
+  ListHeaderComponent={() =&gt; &lt;Text style={styles.titulo}&gt;Produtos Disponíveis&lt;/Text&gt;}
+/&gt;
+</code></pre>
+            <p>Para inserir um <strong>separador</strong> entre os itens, usamos <code>ItemSeparatorComponent</code>.
+                Similarmente, ele recebe uma função que retorna o componente separador:</p>
+            <pre><code class="language-tsx">&lt;FlatList
+  // ... outras props
+  ItemSeparatorComponent={() =&gt; &lt;View style={styles.separador} /&gt;}
+/&gt;
+</code></pre>
+            <p>E para exibir uma mensagem ou componente quando a lista não possui itens (ou seja, o array
+                <code>data</code> está vazio), usamos <code>ListEmptyComponent</code>:</p>
+            <pre><code class="language-tsx">&lt;FlatList
+  data={[]} // Exemplo com lista vazia
+  // ... outras props
+  ListEmptyComponent={() =&gt; &lt;Text style={{ textAlign: &#39;center&#39; }}&gt;Nenhum item disponível&lt;/Text&gt;}
+/&gt;
+</code></pre>
+            <h3><strong>7.7 Scroll horizontal com <code>horizontal</code></strong></h3>
+            <p>Por padrão, o <code>FlatList</code> rola verticalmente. Para criar uma lista com rolagem horizontal,
+                basta adicionar a propriedade <code>horizontal</code> (que é um booleano e, quando presente, assume
+                <code>true</code>):</p>
+            <pre><code class="language-tsx">&lt;FlatList
+  data={produtos}
+  horizontal // Habilita a rolagem horizontal
+  renderItem={({ item }) =&gt; &lt;ItemProduto produto={item} /&gt;}
+  keyExtractor={(item) =&gt; item.id.toString()}
+/&gt;
+</code></pre>
+            <p>Isso é particularmente útil para implementar carrosséis de imagens, listas de destaque, seções de
+                &quot;stories&quot; ou qualquer outro layout que se beneficie da navegação lateral.</p>
+            <h3><strong>7.8 Estilizando a lista</strong></h3>
+            <p>A estilização dos itens da lista, bem como de seus componentes extras (cabeçalho, separador), é feita
+                utilizando <code>StyleSheet</code>, da mesma forma que qualquer outro componente React Native. Abaixo,
+                um exemplo de como os estilos para os componentes <code>ItemProduto</code>, título e separador poderiam
+                ser definidos:</p>
+            <pre><code class="language-tsx">const styles = StyleSheet.create({
+  titulo: {
+    fontSize: 18,
+    fontWeight: &#39;bold&#39;,
+    marginBottom: 8,
+  },
+  card: {
+    backgroundColor: &#39;#f2f2f2&#39;,
+    padding: 12,
+    borderRadius: 8,
+    marginVertical: 4, // Para listas verticais
+    // marginHorizontal: 4, // Poderia ser usado para listas horizontais
+  },
+  nome: {
+    fontSize: 16,
+  },
+  preco: {
+    color: &#39;green&#39;,
+  },
+  separador: {
+    height: 1,
+    backgroundColor: &#39;#ccc&#39;,
+    marginVertical: 4,
+  },
+});
+</code></pre>
+            <p>Esses estilos seriam aplicados aos respectivos componentes dentro de <code>renderItem</code>,
+                <code>ListHeaderComponent</code>, <code>ItemSeparatorComponent</code>, etc.</p>
+            <h3><strong>7.9 Dicas de performance com <code>FlatList</code></strong></h3>
+            <p>Para garantir que seu <code>FlatList</code> funcione da maneira mais performática possível, especialmente
+                com grandes volumes de dados, algumas práticas são recomendadas:</p>
+            <ul>
+                <li>Sempre utilize a propriedade <code>keyExtractor</code> para fornecer chaves únicas e estáveis para
+                    cada item. Isso ajuda o React a otimizar as re-renderizações, evitando atualizações desnecessárias.
+                </li>
+                <li>Evite criar componentes ou funções inline diretamente na prop <code>renderItem</code> (ou em outras
+                    props que esperam componentes/funções), pois isso pode levar à recriação dessas funções a cada
+                    renderização. Se possível, extraia a lógica de <code>renderItem</code> para uma função separada ou
+                    um componente memorizado.</li>
+                <li>Para listas muito grandes, considere o uso das propriedades <code>initialNumToRender</code> (para
+                    controlar quantos itens são renderizados no lote inicial) e <code>maxToRenderPerBatch</code> (para
+                    controlar quantos itens são renderizados por lote durante a rolagem). Ajustar esses valores pode
+                    otimizar o tempo de carregamento inicial e a suavidade da rolagem.</li>
+                <li>Reiterando, evite a combinação de <code>ScrollView</code> com <code>.map()</code> para listas
+                    grandes, pois a renderização de todos os itens de uma vez pode travar a interface do usuário.</li>
+                <li>Se os itens da sua lista forem componentes complexos e você perceber problemas de performance mesmo
+                    com as otimizações acima, considere usar <code>React.memo</code> para memorizar os componentes de
+                    item, evitando que eles sejam re-renderizados se suas props não mudarem.</li>
+            </ul>
+            <hr>
+            <h2>8. Mãos à obra!</h2>
+            <p>Chegamos ao momento de consolidar todo o conhecimento adquirido nesta aula sobre a construção de
+                interfaces visuais com React Native! Depois de explorarmos os fundamentos da UI, desde a estrutura com
+                <code>View</code> e <code>Text</code>, passando pela estilização com <code>StyleSheet</code> e o layout
+                com Flexbox, até a criação de componentes reutilizáveis com <code>props</code> e a gestão da
+                interatividade com inputs e eventos, é hora de aplicar esses conceitos em um projeto prático.</p>
+            <p>Nesta seção, colocaremos a mão na massa para desenvolver uma versão mobile (um pouquinho diferente) da
+                nossa &quot;Pokedex&quot;, que já exploramos nas aulas anteriores. Este projeto prático não só
+                revisitará os conceitos da Aula 03 sobre React, como também integrará de forma coesa os componentes
+                visuais, a busca de dados de uma API externa, a tipagem com TypeScript e a organização de um projeto
+                mobile que vimos ao longo desta aula.</p>
+            <p>Nessa versão da PokeDex a ideia é mostrar uma lista de pokemóns como cards e fazer a filtragem através de
+                um input de texto. Vamos lá!</p>
+            <h3>📁 Estrutura do Projeto</h3>
+            <p>Vamos estruturar nosso projeto da seguinte forma:</p>
+            <pre><code>PokedexApp/
+├── App.tsx
+├── assets/
+├── components/
+│   └── PokemonCard.tsx
+├── screens/
+│   └── PokedexScreen.tsx
+├── services/
+│   └── api.ts
+├── types/
+│   └── Pokemon.ts
+├── utils/
+│   └── format.ts
+└── tsconfig.json
+</code></pre>
+            <p>Esta organização promove a modularidade e facilita a manutenção e escalabilidade do projeto e esta é a
+                estrutura de pastas sugerida para o seu aplicativo Pokedex.</p>
+            <p>Ela organiza o código de forma lógica:</p>
+            <ul>
+                <li><strong><code>App.tsx</code></strong>: Ponto de entrada principal do aplicativo.</li>
+                <li><strong><code>assets/</code></strong>: Para armazenar imagens estáticas, fontes, etc. (Atualmente
+                    vazia, mas é uma boa prática tê-la).</li>
+                <li><strong><code>components/</code></strong>: Contém componentes reutilizáveis da interface do usuário
+                    (UI).<ul>
+                        <li><strong><code>PokemonCard.tsx</code></strong>: Componente para exibir as informações de um
+                            único Pokémon.</li>
+                    </ul>
+                </li>
+                <li><strong><code>screens/</code></strong>: Contém os componentes que representam as diferentes telas do
+                    aplicativo.<ul>
+                        <li><strong><code>PokedexScreen.tsx</code></strong>: A tela principal que exibirá a lista de
+                            Pokémons.</li>
+                    </ul>
+                </li>
+                <li><strong><code>services/</code></strong>: Módulos responsáveis pela comunicação com APIs externas ou
+                    serviços.<ul>
+                        <li><strong><code>api.ts</code></strong>: Contém a lógica para buscar dados da PokeAPI.</li>
+                    </ul>
+                </li>
+                <li><strong><code>types/</code></strong>: Definições de tipos TypeScript para garantir a consistência
+                    dos dados.<ul>
+                        <li><strong><code>Pokemon.ts</code></strong>: Define as interfaces para os dados dos Pokémons.
+                        </li>
+                    </ul>
+                </li>
+                <li><strong><code>utils/</code></strong>: Funções utilitárias que podem ser usadas em várias partes do
+                    aplicativo.<ul>
+                        <li><strong><code>format.ts</code></strong>: Exemplo de um utilitário para formatação de
+                            strings.</li>
+                    </ul>
+                </li>
+                <li><strong><code>tsconfig.json</code></strong>: Arquivo de configuração do TypeScript para o projeto.
+                </li>
+            </ul>
+            <h3>✅ Como criar o projeto</h3>
+            <p>Para iniciar, você utilizaria o Expo CLI, uma ferramenta que simplifica o desenvolvimento de aplicativos
+                React Native.</p>
+            <p>Primeiro, crie o projeto com um template TypeScript:</p>
+            <pre><code>npx create-expo-app PokedexApp -t expo-template-blank-typescript
+</code></pre>
+            <p>Este comando gera a estrutura básica do projeto já configurada para TypeScript.</p>
+            <p>Em seguida, navegue para o diretório do projeto:</p>
+            <pre><code>cd PokedexApp
+</code></pre>
+            <p>Depois, instale as dependências adicionais que serão úteis:</p>
+            <pre><code>npm install axios react-native-safe-area-context
+</code></pre>
+            <ul>
+                <li><strong><code>axios</code></strong>: É um cliente HTTP popular baseado em Promises, usado aqui para
+                    fazer requisições à PokeAPI.</li>
+                <li><strong><code>react-native-safe-area-context</code></strong>: Ajuda a garantir que o conteúdo da
+                    interface do usuário não seja sobreposto por elementos do sistema operacional (como a barra de
+                    status ou o &quot;notch&quot; em alguns dispositivos).</li>
+            </ul>
+            <p>Para executar o projeto na versão web, também temos que instalar:</p>
+            <pre><code>npx expo install react-dom react-native-web @expo/metro-runtime
+</code></pre>
+            <p>E para rodar:</p>
+            <pre><code>npx expo start
+</code></pre>
+            <p>Vamos agora ao código-fonte de cada componente! 👽</p>
+            <h3>📁 <code>App.tsx</code></h3>
+            <pre><code class="language-tsx">import React from &#39;react&#39;;
+import { SafeAreaProvider } from &#39;react-native-safe-area-context&#39;;
+import { PokedexScreen } from &#39;./screens/PokedexScreen&#39;;
+
+export default function App() {
+  return (
+    &lt;SafeAreaProvider&gt;
+      &lt;PokedexScreen /&gt;
+    &lt;/SafeAreaProvider&gt;
+  );
+}
+</code></pre>
+            <p>Este é o componente raiz do seu aplicativo.</p>
+            <p>Ele importa <code>React</code> para a criação de componentes e o <code>SafeAreaProvider</code> de
+                <code>react-native-safe-area-context</code>. Este último é envolvido em torno do conteúdo principal do
+                aplicativo, garantindo que os componentes filhos possam usar o <code>SafeAreaView</code> ou hooks
+                relacionados para ajustar o layout e evitar áreas de entalhe do dispositivo ou barras de sistema. A
+                <code>PokedexScreen</code>, importada da pasta <code>screens</code>, é a tela inicial que será
+                renderizada. A função <code>App</code> retorna a <code>PokedexScreen</code> encapsulada pelo
+                <code>SafeAreaProvider</code>. </p>
+            <p>Essencialmente, este arquivo configura o ponto de entrada básico e a gestão da área segura para o
+                aplicativo.</p>
+            <h3>🟦 <code>screens/PokedexScreen.tsx</code></h3>
+            <pre><code class="language-tsx">import React, { useEffect, useState } from &#39;react&#39;;
+import { View, Text, FlatList, TextInput, StyleSheet } from &#39;react-native&#39;;
+import { getPokemons, getPokemonDetails } from &#39;../services/api&#39;;
+import { Pokemon } from &#39;../types/Pokemon&#39;;
+import { PokemonCard } from &#39;../components/PokemonCard&#39;;
+
+export const PokedexScreen = () =&gt; {
+  const [pokemons, setPokemons] = useState&lt;Pokemon[]&gt;([]);
+  const [search, setSearch] = useState(&#39;&#39;);
+
+  useEffect(() =&gt; {
+    const fetchData = async () =&gt; {
+      const list = await getPokemons(30); // primeiros 30 pokemons
+      const details = await Promise.all(list.map(p =&gt; getPokemonDetails(p.url)));
+      setPokemons(details);
+    };
+    fetchData();
+  }, []);
+
+  const filtered = pokemons.filter(p =&gt; p.name.includes(search.toLowerCase()));
+
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;Text style={styles.title}&gt;Pokédex&lt;/Text&gt;
+      &lt;TextInput
+        placeholder=&quot;Buscar pokémon...&quot;
+        style={styles.input}
+        onChangeText={setSearch}
+      /&gt;
+      &lt;FlatList
+        data={filtered}
+        keyExtractor={item =&gt; item.id.toString()}
+        numColumns={2}
+        renderItem={({ item }) =&gt; &lt;PokemonCard pokemon={item} /&gt;}
+      /&gt;
+    &lt;/View&gt;
+  );
+};
+
+const styles = StyleSheet.create({
+  container: { flex: 1, paddingTop: 60, paddingHorizontal: 16 },
+  title: { fontSize: 32, fontWeight: &#39;bold&#39;, marginBottom: 12 },
+  input: {
+    backgroundColor: &#39;#f1f1f1&#39;,
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 20,
+  },
+});
+</code></pre>
+            <p>Este componente representa a tela principal da Pokédex! </p>
+            <p>Ele importa as dependências necessárias, incluindo <code>React</code> com os hooks <code>useEffect</code>
+                e <code>useState</code>, componentes do React Native como <code>View</code>, <code>Text</code>,
+                <code>FlatList</code> e <code>TextInput</code>, além das funções de serviço <code>getPokemons</code> e
+                <code>getPokemonDetails</code>, o tipo <code>Pokemon</code> e o componente <code>PokemonCard</code>. O
+                estado do componente é gerenciado por <code>pokemons</code>, um array para os dados detalhados dos
+                Pokémons, e <code>search</code>, uma string para o termo de busca. </p>
+            <p>O hook <code>useEffect</code> é responsável por buscar os dados quando o componente é montado: ele chama
+                <code>getPokemons(30)</code> para obter uma lista inicial e, em seguida, usa <code>Promise.all</code>
+                com <code>getPokemonDetails</code> para buscar os detalhes de cada Pokémon, atualizando o estado
+                <code>pokemons</code>. A busca é implementada filtrando o array <code>pokemons</code> com base no estado
+                <code>search</code>, resultando no array <code>filtered</code> que considera a busca case-insensitive.
+                Na renderização, um <code>View</code> principal contém o título &quot;Pokédex&quot;, um
+                <code>TextInput</code> para a busca (que atualiza o estado <code>search</code> via
+                <code>onChangeText</code>), e uma <code>FlatList</code>.</p>
+            <p>A <code>FlatList</code> exibe os Pokémons filtrados em duas colunas (<code>numColumns={2}</code>),
+                utilizando o <code>PokemonCard</code> para renderizar cada item. As chaves dos itens são extraídas dos
+                IDs dos Pokémons. Os estilos visuais são definidos usando <code>StyleSheet.create</code>, incluindo um
+                <code>paddingTop: 60</code> no contêiner principal, que pode ser uma forma de evitar a barra de status,
+                embora o uso de <code>SafeAreaContext</code> seja mais robusto.</p>
+            <h3>🟨 <code>components/PokemonCard.tsx</code></h3>
+            <pre><code class="language-tsx">import React from &#39;react&#39;;
+import { View, Text, Image, StyleSheet } from &#39;react-native&#39;;
+import { Pokemon } from &#39;../types/Pokemon&#39;;
+
+interface Props {
+  pokemon: Pokemon;
+}
+
+export const PokemonCard = ({ pokemon }: Props) =&gt; {
+  return (
+    &lt;View style={styles.card}&gt;
+      &lt;Image source={{ uri: pokemon.image }} style={styles.image} /&gt;
+      &lt;Text style={styles.name}&gt;{pokemon.name}&lt;/Text&gt;
+    &lt;/View&gt;
+  );
+};
+
+const styles = StyleSheet.create({
+  card: {
+    flex: 1,
+    backgroundColor: &#39;#e0e0e0&#39;,
+    margin: 8,
+    padding: 12,
+    borderRadius: 12,
+    alignItems: &#39;center&#39;,
+  },
+  image: { width: 80, height: 80 },
+  name: { marginTop: 8, fontWeight: &#39;bold&#39; },
+});
+</code></pre>
+            <p>Este é um componente de UI reutilizável, projetado para exibir as informações básicas de um único Pokémon
+                em um formato de &quot;cartão&quot;.</p>
+            <p>Ele importa <code>React</code>, componentes visuais do React Native como <code>View</code>,
+                <code>Text</code>, <code>Image</code> e <code>StyleSheet</code>, além do tipo <code>Pokemon</code> para
+                definir as props esperadas. A interface <code>Props</code> especifica que o componente
+                <code>PokemonCard</code> deve receber uma propriedade <code>pokemon</code> do tipo <code>Pokemon</code>.
+            </p>
+            <p>Só para relembrar o que vimos na aula anterior: Em TypeScript, uma <strong>interface</strong> descreve o
+                formato obrigatório de um objeto e, neste componente, ela garante em tempo de compilação que
+                <code>PokemonCard</code> receba exatamente uma prop <code>pokemon</code> conforme o contrato definido em
+                <code>Pokemon</code>👆🤓</p>
+            <p>O componente funcional <code>PokemonCard</code> recebe essa prop <code>pokemon</code> desestruturada e
+                retorna uma <code>View</code> principal estilizada como um cartão. Dentro deste cartão, um componente
+                <code>Image</code> exibe a imagem do Pokémon, obtendo a URL de <code>pokemon.image</code>, e um
+                componente <code>Text</code> mostra o nome do Pokémon (<code>pokemon.name</code>). Os estilos, definidos
+                em <code>StyleSheet.create</code>, incluem <code>card</code> para o contêiner (com <code>flex: 1</code>
+                para distribuição igual em layouts de grade, cor de fundo, margens, preenchimento, bordas arredondadas e
+                alinhamento centralizado), <code>image</code> para definir as dimensões da imagem, e <code>name</code>
+                para estilizar o texto do nome. O foco deste componente é a apresentação visual concisa de um Pokémon.
+            </p>
+            <h3>🟧 <code>services/api.ts</code></h3>
+            <pre><code class="language-tsx">import axios from &#39;axios&#39;;
+import { Pokemon, PokemonListItem } from &#39;../types/Pokemon&#39;;
+
+const API_BASE = &#39;https://pokeapi.co/api/v2&#39;;
+
+export async function getPokemons(limit: number): Promise&lt;PokemonListItem[]&gt; {
+  const res = await axios.get(`${API_BASE}/pokemon?limit=${limit}`);
+  return res.data.results;
+}
+
+export async function getPokemonDetails(url: string): Promise&lt;Pokemon&gt; {
+  const res = await axios.get(url);
+  return {
+    id: res.data.id,
+    name: res.data.name,
+    image: res.data.sprites.front_default,
+    types: res.data.types.map((t: any) =&gt; t.type.name),
+  };
+}
+</code></pre>
+            <p>Este módulo encapsula toda a lógica de comunicação com a PokeAPI. </p>
+            <p>Ele importa <code>axios</code> para realizar requisições HTTP e os tipos <code>Pokemon</code> e
+                <code>PokemonListItem</code> do arquivo <code>types/Pokemon.ts</code>. Uma constante
+                <code>API_BASE</code> armazena a URL base da PokeAPI para centralizar essa informação. A função
+                assíncrona <code>getPokemons</code> aceita um <code>limit</code> numérico e retorna uma
+                <code>Promise</code> que resolve para um array de <code>PokemonListItem</code>.</p>
+            <p>Ela faz uma requisição GET ao endpoint <code>/pokemon</code> da API, utilizando o <code>limit</code>, e
+                retorna <code>res.data.results</code>, que contém a lista de Pokémons com nome e URL para detalhes. A
+                outra função assíncrona, <code>getPokemonDetails</code>, aceita uma <code>url</code> específica de um
+                Pokémon e retorna uma <code>Promise</code> que resolve para um objeto <code>Pokemon</code> com detalhes
+                completos. Ela faz uma requisição GET para a URL fornecida e mapeia a resposta da API para a estrutura
+                <code>Pokemon</code>, extraindo <code>id</code>, <code>name</code>, a imagem
+                (<code>res.data.sprites.front_default</code>) e os tipos (mapeando o array <code>res.data.types</code>
+                para obter apenas os nomes dos tipos, usando <code>(t: any)</code> que poderia ser mais tipado para
+                segurança).</p>
+            <p>Este arquivo abstrai as chamadas de API, mantendo os componentes de tela mais limpos.</p>
+            <h3>🟪 <code>types/Pokemon.ts</code></h3>
+            <pre><code class="language-tsx">export interface PokemonListItem {
+  name: string;
+  url: string;
+}
+
+export interface Pokemon {
+  id: number;
+  name: string;
+  image: string;
+  types: string[];
+}
+</code></pre>
+            <p>Este arquivo define as estruturas de dados, através de interfaces TypeScript, usadas no aplicativo para
+                os Pokémons.</p>
+            <p>A interface <code>PokemonListItem</code> descreve a estrutura de um item na lista inicial de Pokémons
+                retornada pela API, contendo <code>name</code> (o nome do Pokémon) e <code>url</code> (a URL para seus
+                detalhes completos). A interface <code>Pokemon</code> define a estrutura de um objeto Pokémon com seus
+                detalhes, incluindo <code>id</code> (identificador numérico), <code>name</code> (nome),
+                <code>image</code> (URL da imagem) e <code>types</code> (um array de strings representando os tipos do
+                Pokémon, como <code>[&quot;grass&quot;, &quot;poison&quot;]</code>). </p>
+            <p>O uso dessas interfaces TypeScript ajuda a garantir a consistência dos dados em todo o aplicativo,
+                auxiliando na detecção de erros durante o desenvolvimento e melhorando a legibilidade do código.</p>
+            <h3>🟪 (Opcional) <code>utils/format.ts</code></h3>
+            <pre><code class="language-tsx">export const capitalize = (s: string) =&gt; s.charAt(0).toUpperCase() + s.slice(1);
+</code></pre>
+            <p>Este é um arquivo opcional destinado a conter funções utilitárias genéricas. A função
+                <code>capitalize</code>, exportada aqui, aceita uma string <code>s</code> como argumento. Ela retorna
+                uma nova string onde o primeiro caractere é convertido para maiúscula
+                (<code>s.charAt(0).toUpperCase()</code>) e concatenado com o restante da string original
+                (<code>s.slice(1)</code>). </p>
+            <p>Embora não esteja diretamente em uso nos componentes fornecidos, serve como um bom exemplo de uma função
+                utilitária que poderia ser empregada, por exemplo, para formatar os nomes dos Pokémons para exibição. 😊
+            </p>
+            <h3>Resumindo tudo!</h3>
+            <p>Nesse exercício vimos os conceitos principais sendo aplicados. Além disso, já conseguimos fazer um app
+                bem completinho, com uso de API externa, interação com usuário e estilização!</p>
+            <p>Para consolidar o conhecimento, vamos fazer alguns exercícios! (sim, sim... eu sei, mas fazer o quê, né?)
+            </p>
+            <hr>
+            <h2>9. Exercícios</h2>
+            <p>Concentre-se nestes 5 desafios para elevar o nível da sua Pokédex, aplicando conceitos importantes de
+                robustez, experiência do usuário e funcionalidade.</p>
+            <p><strong>Exercício 1: Robustez na Busca de Dados e Feedback ao Usuário</strong></p>
+            <p>Atualmente, a busca inicial de dados não informa ao usuário o que está acontecendo e pode falhar
+                silenciosamente.</p>
+            <ul>
+                <li><strong>Sua tarefa:</strong>
+                    <ol>
+                        <li><strong>Indicador de Carregamento:</strong> Na <code>PokedexScreen</code>, adicione um
+                            estado <code>isLoading</code>. Ele deve ser <code>true</code> enquanto os dados iniciais são
+                            buscados e <code>false</code> ao final. Enquanto <code>isLoading</code> for
+                            <code>true</code>, exiba um <code>ActivityIndicator</code> ou uma mensagem &quot;Carregando
+                            Pokémons...&quot;.</li>
+                        <li><strong>Tratamento de Erros:</strong> Modifique as funções em <code>services/api.ts</code>
+                            para usar <code>try...catch</code>. Se a busca inicial em <code>PokedexScreen</code> falhar,
+                            atualize um novo estado de erro e exiba uma mensagem amigável (ex: &quot;Falha ao carregar
+                            Pokémons. Verifique sua conexão.&quot;).</li>
+                    </ol>
+                </li>
+            </ul>
+            <p><strong>Exercício 2: Melhorando a Experiência da Lista e da Busca</strong></p>
+            <p>Uma lista vazia ou uma busca sem resultados pode deixar o usuário confuso.</p>
+            <ul>
+                <li><strong>Sua tarefa:</strong>
+                    <ol>
+                        <li>Na <code>PokedexScreen</code>, utilize a propriedade <code>ListEmptyComponent</code> da
+                            <code>FlatList</code>.</li>
+                        <li>Este componente deve exibir mensagens contextuais:<ul>
+                                <li>Se a busca (<code>search</code>) estiver preenchida e não houver resultados:
+                                    &quot;Nenhum Pokémon encontrado para &#39;{termo_buscado}&#39;&quot;.</li>
+                                <li>Se a lista inicial <code>pokemons</code> estiver vazia após a tentativa de
+                                    carregamento (e não estiver mais carregando): &quot;Nenhum Pokémon para exibir no
+                                    momento.&quot;</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </li>
+            </ul>
+            <p><strong>Exercício 3: Expandindo a Descoberta com &quot;Carregamento Infinito&quot;</strong></p>
+            <p>Limitar a Pokédex a apenas 30 Pokémons restringe a exploração. Vamos permitir que o usuário carregue mais
+                Pokémons conforme rola a tela.</p>
+            <ul>
+                <li><strong>Sua tarefa:</strong>
+                    <ol>
+                        <li>Adicione um estado para o <code>offset</code> (ou página) na <code>PokedexScreen</code> e
+                            modifique <code>getPokemons</code> em <code>services/api.ts</code> para aceitar e usar esse
+                            <code>offset</code>.</li>
+                        <li>Crie uma função <code>loadMorePokemons</code> em <code>PokedexScreen</code> que busque a
+                            próxima leva de Pokémons e os adicione à lista existente.</li>
+                        <li>Use a propriedade <code>onEndReached</code> da <code>FlatList</code> para chamar
+                            <code>loadMorePokemons</code>.</li>
+                        <li><strong>Desafio extra:</strong> Adicione um indicador de carregamento no rodapé da lista
+                            (usando <code>ListFooterComponent</code>) enquanto mais Pokémons são buscados e evite
+                            chamadas múltiplas se uma já estiver em andamento.</li>
+                    </ol>
+                </li>
+            </ul>
+            <p><strong>Exercício 4: Refinamento Visual e de Layout</strong></p>
+            <p>Pequenos ajustes podem fazer uma grande diferença na apresentação e usabilidade.</p>
+            <ul>
+                <li><strong>Sua tarefa:</strong>
+                    <ol>
+                        <li><strong>Capitalização:</strong> Importe e utilize a função <code>capitalize</code> de
+                            <code>utils/format.ts</code> no <code>PokemonCard.tsx</code> para exibir o nome de cada
+                            Pokémon com a primeira letra maiúscula.</li>
+                        <li><strong>Área Segura Dinâmica:</strong> Na <code>PokedexScreen.tsx</code>, substitua o
+                            <code>paddingTop: 60</code> fixo. Utilize o hook <code>useSafeAreaInsets</code> de
+                            <code>react-native-safe-area-context</code> para aplicar um <code>paddingTop</code>
+                            dinâmico, garantindo que o layout se adapte corretamente a diferentes dispositivos.</li>
+                    </ol>
+                </li>
+            </ul>
+            <p><strong>Desafio 1: Aprofundando com uma Tela de Detalhes do Pokémon</strong></p>
+            <p>Ver apenas o card é legal, mas que tal uma tela dedicada para cada Pokémon?</p>
+            <ul>
+                <li><strong>Sua tarefa:</strong>
+                    <ol>
+                        <li>Instale e configure uma biblioteca de navegação (como React Navigation:
+                            <code>@react-navigation/native</code> e <code>@react-navigation/stack</code>).</li>
+                        <li>Crie uma nova tela <code>PokemonDetailScreen.tsx</code>.</li>
+                        <li>Faça com que, ao pressionar um <code>PokemonCard</code> (transforme-o em um
+                            <code>TouchableOpacity</code>), o aplicativo navegue para <code>PokemonDetailScreen</code>,
+                            passando o ID ou o objeto do Pokémon selecionado como parâmetro.</li>
+                        <li>Na <code>PokemonDetailScreen</code>, exiba o nome, a imagem em tamanho maior e os tipos do
+                            Pokémon recebido.</li>
+                        <li><strong>Desafio extra:</strong> Na <code>PokemonDetailScreen</code>, busque e exiba
+                            informações adicionais como altura, peso e uma breve descrição (a PokeAPI oferece um
+                            endpoint para espécies que contém descrições 😉).</li>
+                    </ol>
+                </li>
+            </ul>
+            <h1><strong>Bom trabalho! 🔨</strong></h1>
+
+
+
+
+
+
+
+        </div>
+    </div>
+    <footer class="footer mt-auto py-3">
+        <div class="container-fluid">
+            <span>
+                <p class="text-center text-light">Instituto Federal de Educação, Ciência e Tecnologia de São Paulo,
+                    Câmpus Guarulhos. Desenvolvimento Mobile - Prof. Giovani.</p>
+            </span>
+        </div>
+    </footer>
+
+
+    <script src="js/prism.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
