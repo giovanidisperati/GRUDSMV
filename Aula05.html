@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/estilo.css">
+    <link rel="stylesheet" href="css/prism.css">
+
+    <title>Desenvolvimento Mobile - Aula 04</title>
+</head>
+
+<body>
+    <div class="wrapper d-flex align-items-stretch">
+        <nav id="sidebar">
+            <div class="custom-menu">
+                <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                    <i class="fa fa-bars"></i>
+                    <span class="sr-only">Toggle Menu</span>
+                </button>
+            </div>
+            <h1><a href="index.html" class="logo text-center">AULAS</a></h1>
+            <ul class="list-unstyled components mb-5">
+                <li>
+                    <a href="Aula01.html"><span class="mr-1"></span>01 - Introdução e Panorama Mobile</a>
+                </li>
+                <li>
+                    <a href="Aula02.html"><span class="mr-0"></span>02 - Revisão de JavaScript e TypeScript</a>
+                </li>
+                <li>
+                    <a href="Aula03.html"><span class="mr-0"></span>03 - Começando com React: Componentes, JSX e
+                        Hooks</a>
+                </li>
+                <li>
+                    <a href="Aula04.html"><span class="mr-0"></span>04 - Interfaces Visuais em React Native</a>
+                </li>
+                <li class="active">
+                    <a href="Aula05.html"><span class="mr-0"></span>05 - Navegação com React Navigation</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>06 - Consumo de APIs REST</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>07 - Armazenamento e Estado Global</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>08 - Recursos Nativos (Câmera, Localização)</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>09 - Boas Práticas e Arquitetura</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>10 - Build, Publicação e Projeto Final</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div id="content" class="p-4 p-md-5 pt-5">
+
+
+
+            <h1><strong>Aula 05 – Navegação e Organização de Aplicações com React Native</strong></h1>
+            <p>Na Aula 04, desenvolvemos uma Pokédex visual e modular, aprendendo a estruturar projetos com React Native
+                + TypeScript, utilizando boas práticas de componentes, tipos e organização de arquivos. Agora, com essa
+                base sólida, vamos expandir nosso projeto e nossos conhecimentos, abordando:</p>
+            <ul>
+                <li>Navegação entre telas para exibir detalhes de cada Pokémon.</li>
+                <li>Utilização da biblioteca <code>react-navigation</code> para gerenciar o fluxo entre telas.</li>
+                <li>Melhores práticas de modularização para projetos em crescimento.</li>
+                <li>Uma introdução a visões arquiteturais comuns em aplicativos móveis.</li>
+            </ul>
+            <p>Para isso, vamos partir de onde paramos na aula anterior (PokéDex) e dar continuidade aos conceitos que
+                precisam ser abordados!</p>
+            <hr>
+            <h2><strong>1. Introdução à Navegação com React Navigation</strong></h2>
+            <p>Aplicativos móveis raramente se limitam a uma única tela. A capacidade de transitar entre diferentes
+                seções, exibir informações detalhadas ou guiar o usuário por um fluxo de tarefas é fundamental. No
+                universo React Native, uma das bibliotecas mais populares e robustas para gerenciar a navegação é a
+                <strong>React Navigation</strong>.</p>
+            <p>Ela oferece diversas estratégias de navegação (pilha, abas, gaveta) e é altamente configurável. Nesta
+                aula, focaremos na navegação em pilha (<em>stack navigation</em>), ideal para cenários onde uma nova
+                tela é colocada sobre a anterior, permitindo ao usuário &quot;voltar&quot; (como ao abrir um item de uma
+                lista para ver seus detalhes).</p>
+            <p><strong>Antes de começar, é preciso ter o código do exercício da Aula passada</strong>. Caso você não o
+                tenha feito, ele pode ser encontrado no link a seguir: <a
+                    href="https://github.com/giovanidisperati/PokedexApp/tree/Aula04">Repositório no GitHub - Pokedéx da
+                    Aula04</a></p>
+            <p>Certique-se de &quot;puxar&quot; a branch Aula04 para sua máquina.</p>
+            <p>Vamos agora começar a abordar o React Navigation a partir do Desafio 01 da Aula anterior, que solicitava
+                <strong>(1)</strong> instalar o pacote <code>@react-navigation/native</code> e suas dependências
+                específicas do Expo, <strong>(2)</strong> criar um <em>stack navigator</em> no <code>App.tsx</code>
+                definindo a tela <strong>Pokedex</strong> como rota inicial e adicionando a nova rota
+                <strong>PokemonDetails</strong>, <strong>(3)</strong> declarar o tipo <code>RootStackParamList</code>
+                para garantir que os parâmetros de navegação sejam verificados em tempo de compilação,
+                <strong>(4)</strong> implementar a <code>PokemonDetailsScreen</code> para exibir informações detalhadas
+                do Pokémon selecionado, e <strong>(5)</strong> transformar cada cartão da lista na Pokédex em um
+                <code>TouchableOpacity</code> que, ao ser pressionado, chame
+                <code>navigation.navigate(&#39;PokemonDetails&#39;, { pokemonId })</code>.</p>
+            <p>Ao cumprir essas etapas, converteremos nossa aplicação de tela única em um fluxo completo de navegação.
+            </p>
+            <h3><strong>1.1 Instalação das dependências</strong></h3>
+            <p>Para começar, precisamos adicionar a React Navigation e suas dependências ao nosso projeto
+                <code>PokedexApp</code> (criado na Aula 04). Abra o terminal na raiz do projeto e execute:</p>
+            <pre><code class="language-bash">npm install @react-navigation/native @react-navigation/native-stack
+</code></pre>
+            <p>E também as dependências de suporte:</p>
+            <pre><code class="language-bash">npx expo install react-native-screens react-native-safe-area-context
+</code></pre>
+            <p>Esses pacotes são:</p>
+            <ul>
+                <li><code>@react-navigation/native</code>: O núcleo da biblioteca.</li>
+                <li><code>@react-navigation/native-stack</code>: Fornece a navegação em pilha (estilo nativo).</li>
+                <li><code>react-native-screens</code>: Otimiza o uso de memória para telas nativas.</li>
+                <li><code>react-native-safe-area-context</code>: A mesma biblioteca que usamos na Aula 04 para lidar com
+                    áreas seguras, essencial para a React Navigation.</li>
+            </ul>
+            <h3><strong>1.2 Configuração inicial no <code>App.tsx</code></strong></h3>
+            <p>Com as dependências instaladas, vamos configurar o contêiner de navegação e nossa pilha de telas no
+                arquivo <code>App.tsx</code>.</p>
+            <p>Primeiro, precisamos definir os tipos das nossas rotas. Isso garante que estamos passando os parâmetros
+                corretos entre as telas e nos dá um ótimo autocomplete! </p>
+            <p>Crie um novo arquivo types/Navigation.ts e coloque nele o código a seguir, como mostrado na estrutura
+                abaixo:</p>
+            <pre><code>PokedexApp/
+├─ App.tsx
+├─ screens/
+│  ├─ PokedexScreen.tsx
+│  └─ PokemonDetailsScreen.tsx
+└─ types/
+   └─ Navigation.ts      ← aqui fica o código abaixo
+</code></pre>
+            <p>E a seguir o <code>Navigation.ts</code></p>
+            <pre><code class="language-typescript">export type RootStackParamList = {
+  Pokedex: undefined; // A tela Pokedex não recebe parâmetros
+  PokemonDetails: { pokemonId: number }; // A tela de detalhes recebe o ID do Pokémon como parâmetro
+};
+</code></pre>
+            <p>Agora, alteramos o <code>App.tsx</code>:</p>
+            <pre><code class="language-tsx">// App.tsx
+import React from &#39;react&#39;;
+import { NavigationContainer } from &#39;@react-navigation/native&#39;;
+import { createNativeStackNavigator } from &#39;@react-navigation/native-stack&#39;;
+import { SafeAreaProvider } from &#39;react-native-safe-area-context&#39;;
+
+import { PokedexScreen } from &#39;./screens/PokedexScreen&#39;;
+import { PokemonDetailsScreen } from &#39;./screens/PokemonDetailsScreen&#39;; // Nova tela
+import { RootStackParamList } from &#39;./types/Navigation&#39;; // Importando nossos tipos
+
+// Criamos a pilha de navegação com os tipos definidos
+const Stack = createNativeStackNavigator&lt;RootStackParamList&gt;();
+
+export default function App() {
+  return (
+    &lt;SafeAreaProvider&gt;
+      &lt;NavigationContainer&gt;
+        &lt;Stack.Navigator initialRouteName=&quot;Pokedex&quot;&gt;
+          &lt;Stack.Screen 
+            name=&quot;Pokedex&quot; 
+            component={PokedexScreen} 
+            options={{ title: &#39;Pokédex&#39; }} // Título da tela na barra de navegação
+          /&gt;
+          &lt;Stack.Screen 
+            name=&quot;PokemonDetails&quot; 
+            component={PokemonDetailsScreen} 
+            options={{ title: &#39;Detalhes do Pokémon&#39; }} 
+          /&gt;
+        &lt;/Stack.Navigator&gt;
+      &lt;/NavigationContainer&gt;
+    &lt;/SafeAreaProvider&gt;
+  );
+}
+</code></pre>
+            <p><strong>E o que fizemos aqui?</strong></p>
+            <p>Para entender o código acima, vamos separar a explicação em cinco etapas.</p>
+            <ol>
+                <li>Importamos <code>NavigationContainer</code> e <code>createNativeStackNavigator</code>.</li>
+            </ol>
+            <p>A configuração inicial da navegação no arquivo <code>App.tsx</code> estabelece a fundação para a
+                transição entre múltiplas telas na aplicação Pokédex. Primeiramente, foi realizada a importação dos
+                módulos da biblioteca React Navigation: <code>NavigationContainer</code>, que serve como o contêiner
+                raiz para gerenciar o estado da navegação, e <code>createNativeStackNavigator</code>, uma função que
+                possibilita a criação de um navegador baseado em pilha, onde novas telas são colocadas sobre as
+                anteriores, mimetizando o comportamento de navegação nativo das plataformas móveis. Adicionalmente, o
+                <code>SafeAreaProvider</code> da biblioteca <code>react-native-safe-area-context</code> foi definido
+                como o componente mais externo para garantir que a interface do usuário respeite as áreas seguras do
+                dispositivo, como entalhes e barras de sistema, por exemplo.</p>
+            <ol start="2">
+                <li>Definimos <code>RootStackParamList</code> para tipar nossas rotas e seus parâmetros.</li>
+            </ol>
+            <p>Aqui é onde ocorre a definição explícita dos tipos das rotas e seus respectivos parâmetros através da
+                criação de uma interface TypeScript denominada <code>RootStackParamList</code>. Esta interface,
+                localizada em <code>types/Navigation.ts</code>, especifica que a rota <code>Pokedex</code> não espera
+                nenhum parâmetro (<code>undefined</code>), enquanto a rota <code>PokemonDetails</code> requer um
+                parâmetro obrigatório <code>pokemonId</code> do tipo <code>number</code>. Essa tipagem estática serve
+                para prevenirmos erros em tempo de execução ao passar dados entre telas, além de habilitar o suporte a
+                autocompletar e verificações durante o desenvolvimento. Em outras palavras, pense no
+                <strong><code>RootStackParamList</code></strong> como um “contrato” que diz, para cada tela da
+                navegação, quais dados ela recebe. Se você tentar abrir <strong><code>PokemonDetails</code></strong> sem
+                mandar <code>pokemonId</code>, o TypeScript já avisa no editor. Se digitar um id como string
+                (<code>&quot;42&quot;</code>) em vez de número, ele avisa também. Em resumo, é só uma forma de “tipar”
+                as rotas para pegar erros antes mesmo de rodar o app e ainda ganhar autocomplete enquanto programa.</p>
+            <ol start="3">
+                <li>Criamos uma instância <code>Stack</code> usando
+                    <code>createNativeStackNavigator&lt;RootStackParamList&gt;()</code>.</li>
+            </ol>
+            <p>Com os tipos definidos, uma instância do navegador de pilha, nomeada <code>Stack</code>, foi criada
+                utilizando <code>createNativeStackNavigator&lt;RootStackParamList&gt;()</code>. Pense nesta função como
+                uma <strong>fábrica</strong> que nos entrega os componentes <code>Stack.Navigator</code> e
+                <code>Stack.Screen</code> para montarmos nossa navegação. Além disso, hooks como <code>useRoute</code>
+                se tornam automaticamente cientes dos tipos de dados que a tela receberá. Em resumo, essa linha de
+                código transforma nosso navegador de uma ferramenta genérica para uma estrutura de navegação
+                especializada e inteligente, que previne uma classe inteira de bugs antes mesmo de rodarmos a aplicação.
+            </p>
+            <ol start="4">
+                <li>Envolvemos toda a aplicação com <code>NavigationContainer</code>.</li>
+            </ol>
+            <p>Posteriormente, no componente <code>App</code>, a estrutura de navegação foi efetivamente montada. O
+                <code>NavigationContainer</code> foi utilizado para envolver toda a lógica de navegação. Dentro dele, o
+                <code>Stack.Navigator</code> foi empregado para declarar o conjunto de telas que compõem a pilha de
+                navegação. A propriedade <code>initialRouteName=&quot;Pokedex&quot;</code> designou a
+                <code>PokedexScreen</code> como a tela a ser exibida inicialmente quando o aplicativo é carregado.</p>
+            <ol start="5">
+                <li>Usamos <code>Stack.Navigator</code> para definir quais telas fazem parte da nossa pilha.<ul>
+                        <li><code>initialRouteName=&quot;Pokedex&quot;</code>: Define <code>PokedexScreen</code> como a
+                            tela inicial.</li>
+                        <li>Cada <code>Stack.Screen</code> mapeia um nome de rota para um componente e permite
+                            configurar opções, como o título (<code>options={{ title: &#39;...&#39; }}</code>).</li>
+                    </ul>
+                </li>
+            </ol>
+            <p>Cada tela da pilha foi definida por meio do componente <code>Stack.Screen</code>. Para a rota nomeada
+                <code>&quot;Pokedex&quot;</code>, o componente <code>PokedexScreen</code> (previamente existente) foi
+                associado, e através da propriedade <code>options</code>, um título &quot;Pokédex&quot; foi configurado
+                para aparecer na barra de navegação dessa tela. De forma similar, uma nova rota
+                <code>&quot;PokemonDetails&quot;</code> foi configurada para renderizar o componente
+                <code>PokemonDetailsScreen</code> (uma nova tela a ser criada), com o título &quot;Detalhes do
+                Pokémon&quot; especificado para sua barra de navegação. Esse mapeamento entre nomes de rotas,
+                componentes de tela e opções de apresentação é o que permite ao <code>NavigationContainer</code>
+                gerenciar qual tela está ativa e como ela deve ser exibida. Com essa estrutura implementada, a nossa
+                Pokédex evoluiu de uma aplicação de tela única para uma aplicação capaz de apresentar múltiplas
+                visualizações, especificamente uma lista de Pokémons e uma tela dedicada para os detalhes de um Pokémon
+                individual!</p>
+            <hr>
+            <h2><strong>2. Refatoração da Pokédex com Navegação</strong></h2>
+            <p>Com a infraestrutura de navegação devidamente configurada no aplicativo, o passo subsequente é possibilar
+                que o usuário transite da tela de listagem de Pokémons (<code>PokedexScreen</code>) para uma tela de
+                visualização detalhada (<code>PokemonDetailsScreen</code>). Essa interação será disparada pelo toque em
+                um dos cards de Pokémon exibidos na lista.</p>
+            <h3><strong>2.1 Tornando os Cards Clicáveis e Implementando a Navegação</strong></h3>
+            <p>Para alcançar a interatividade desejada, o componente <code>PokemonCard.tsx</code> será modificado. O
+                objetivo é que cada card se torne uma área &quot;tocável&quot; que, ao ser pressionada, acione o
+                mecanismo de navegação para a tela de detalhes do Pokémon correspondente.</p>
+            <p>Primeiramente, é necessário importar os artefatos essenciais do React Navigation e outros módulos. O hook
+                <code>useNavigation</code> é fundamental, pois ele provê acesso ao objeto de navegação da pilha (stack)
+                corrente. Adicionalmente, para garantir a segurança de tipos e o auxílio do TypeScript durante o
+                desenvolvimento, importamos <code>NativeStackNavigationProp</code> e a nossa definição customizada de
+                tipos de rota, <code>RootStackParamList</code>. O <code>TouchableOpacity</code> do React Native é
+                importado para envolver o card, conferindo-lhe a capacidade de resposta ao toque com um feedback visual
+                de opacidade. Finalmente, a função utilitária <code>capitalize</code>, desenvolvida anteriormente, é
+                importada para formatar o nome do Pokémon.</p>
+            <pre><code class="language-tsx">// components/PokemonCard.tsx
+import React from &#39;react&#39;;
+import { View, Text, Image, StyleSheet, TouchableOpacity } from &#39;react-native&#39;; 
+import { Pokemon } from &#39;../types/Pokemon&#39;; 
+import { useNavigation } from &#39;@react-navigation/native&#39;;
+import { NativeStackNavigationProp } from &#39;@react-navigation/native-stack&#39;;
+import { RootStackParamList } from &#39;../types/Navigation&#39;;
+import { capitalize } from &#39;../utils/format&#39;; 
+
+interface Props {
+  pokemon: Pokemon; 
+}
+
+type PokemonCardNavigationProp = NativeStackNavigationProp&lt;RootStackParamList, &#39;PokemonDetails&#39;&gt;;
+
+export const PokemonCard = ({ pokemon }: Props) =&gt; {
+  const navigation = useNavigation&lt;PokemonCardNavigationProp&gt;();
+
+  const handlePress = () =&gt; {
+    navigation.navigate(&#39;PokemonDetails&#39;, { pokemonId: pokemon.id });
+  };
+
+  return (
+    &lt;TouchableOpacity onPress={handlePress} style={styles.touchableCard}&gt;
+      {/* View interna que mantém a estrutura e estilização visual original do card. */}
+      &lt;View style={styles.cardInner}&gt;
+        &lt;Image source={{ uri: pokemon.image }} style={styles.image} /&gt;
+        &lt;Text style={styles.name}&gt;{capitalize(pokemon.name)}&lt;/Text&gt;
+      &lt;/View&gt;
+    &lt;/TouchableOpacity&gt;
+  );
+};
+
+const styles = StyleSheet.create({
+  touchableCard: {
+    flex: 1,
+    margin: 8,
+  },
+  cardInner: {
+    backgroundColor: &#39;#e0e0e0&#39;,
+    padding: 12,
+    borderRadius: 12,
+    alignItems: &#39;center&#39;,
+    flex: 1,
+  },
+  image: { width: 80, height: 80 }, 
+  name: { marginTop: 8, fontWeight: &#39;bold&#39; }, 
+});
+</code></pre>
+            <p>Analisando as <strong>mudanças principais</strong> de forma mais aprofundada, temos as alterações
+                descritas abaixo.</p>
+            <p>Primeiro, fizemos a importação de <code>TouchableOpacity</code> de <code>react-native</code>. Lembre-se
+                que falamos sobre esse componente na aula anterior. 🤓</p>
+            <p>Também fizemos uso do hook <code>useNavigation</code>, que é invocado dentro do componente funcional
+                <code>PokemonCard</code>. Este hook, fornecido pela biblioteca React Navigation, retorna o objeto
+                <code>navigation</code> associado ao navegador mais próximo na árvore de componentes. Este objeto é a
+                interface primária para disparar ações de navegação, como ir para uma nova tela ou voltar. Essa é uma
+                novidade que estamos colocando na aplicação e seu uso vai ficar mais claro e intuitivo conforme
+                prosseguirmos com seu uso na disciplina.</p>
+            <p>A tipagem do objeto <code>navigation</code> é realizada através de
+                <code>NativeStackNavigationProp&lt;RootStackParamList, &#39;PokemonDetails&#39;&gt;</code>. Esta é uma
+                prática recomendada para garantir a segurança de tipo. <code>RootStackParamList</code> é um mapa que
+                define todas as rotas da nossa pilha de navegação e os parâmetros que cada rota espera receber (como
+                vimos na seção acima!). Já ao especificar <code>&#39;PokemonDetails&#39;</code> como o segundo argumento
+                genérico, informamos ao TypeScript que, ao usar <code>navigation.navigate</code> para a rota
+                <code>&#39;PokemonDetails&#39;</code>, esperamos (e o autocompletar sugerirá) os parâmetros definidos
+                para <code>&#39;PokemonDetails&#39;</code> em <code>RootStackParamList</code>.</p>
+            <p>Já a função <code>handlePress</code> é definida para encapsular a lógica de navegação. Quando chamada,
+                ela executa <code>navigation.navigate(&#39;PokemonDetails&#39;, { pokemonId: pokemon.id })</code>, sendo
+                que:</p>
+            <ul>
+                <li>
+                    <p>O primeiro argumento, <code>&#39;PokemonDetails&#39;</code>, é o nome da rota de destino, que
+                        deve corresponder exatamente a um dos nomes de tela (<code>Screen</code>) configurados no
+                        <code>StackNavigator</code>.</p>
+                </li>
+                <li>
+                    <p>O segundo argumento, <code>{ pokemonId: pokemon.id }</code>, é um objeto que representa os
+                        parâmetros passados para a tela de destino. A tela <code>PokemonDetailsScreen</code> poderá
+                        então acessar <code>pokemonId</code> através de suas <code>route.params</code> para buscar e
+                        exibir as informações detalhadas do Pokémon selecionado, possibilitando a implementação do
+                        Desafio!</p>
+                </li>
+            </ul>
+            <p>Estruturalmente, o <code>View</code> que anteriormente representava a totalidade do card agora é
+                envolvido por um <code>TouchableOpacity</code>. Para que a área tocável corresponda visualmente ao card
+                e para que os estilos sejam aplicados corretamente, alguns ajustes foram feitos:
+                * O <code>TouchableOpacity</code> (<code>touchableCard</code>) agora assume a responsabilidade pelo
+                <code>flex: 1</code> e pela <code>margin</code>. O <code>flex: 1</code> é importante se o
+                <code>PokemonCard</code> for renderizado dentro de um contêiner flexível (como uma <code>FlatList</code>
+                com <code>numColumns &gt; 1</code>), permitindo que o card se expanda para ocupar o espaço alocado. A
+                <code>margin</code> provê o espaçamento entre os cards. Basicamente, lógica de estilização para que
+                nosso aplicativo não quebre!
+                * Já o <code>View</code> interno (<code>cardInner</code>) retém os estilos visuais como
+                <code>backgroundColor</code>, <code>padding</code>, <code>borderRadius</code> e <code>alignItems</code>.
+                É importante notar que <code>cardInner</code> também recebe <code>flex: 1</code>, o que garante que o
+                conteúdo visual (o <code>View</code> interno) se expanda para preencher completamente as dimensões do
+                <code>TouchableOpacity</code> pai, assegurando que toda a área visual do card seja, de fato, tocável e
+                responda à interação do usuário.</p>
+            <p>Com estas modificações, cada <code>PokemonCard</code> na lista não apenas exibe informações resumidas,
+                mas também atua como um ponto de entrada interativo para uma visualização mais detalhada, melhorando a
+                usabilidade da Pokédex e nos permitindo trabalhar com cards interativos.</p>
+            <p>Agora, claro, temos que criar nossa <code>PokemonDetailsScreen</code> para poder de fato ver as
+                informações dos Pokémons.</p>
+            <h3><strong>2.2 Criando a Tela de Detalhes (<code>PokemonDetailsScreen.tsx</code>)</strong></h3>
+            <p>Agora, vamos criar o arquivo <code>screens/PokemonDetailsScreen.tsx</code>. Esta tela receberá o
+                <code>pokemonId</code> como parâmetro, buscará os dados detalhados do Pokémon (poderíamos expandir o
+                tipo <code>Pokemon</code> ou criar um <code>PokemonDetail</code> com mais campos em uma melhoria
+                futura!) e os exibirá.</p>
+            <p>Sabemos que a <code>PokeAPI</code> pode nos dar mais detalhes com base no ID, então vamos refinar nossas
+                funções em <code>services/api.ts</code> para buscar detalhes por ID.</p>
+            <p>Primeiro, atualizamos <code>services/api.ts</code>:</p>
+            <pre><code class="language-typescript">// services/api.ts
+import axios from &#39;axios&#39;;
+import { Pokemon, PokemonListItem } from &#39;../types/Pokemon&#39;; //
+
+const API_BASE = &#39;https://pokeapi.co/api/v2&#39;; //
+
+export async function getPokemons(limit: number): Promise&lt;PokemonListItem[]&gt; {
+  const res = await axios.get(`${API_BASE}/pokemon?limit=${limit}`);
+  return res.data.results;
+}
+
+export async function getPokemonDetails(url: string): Promise&lt;Pokemon&gt; {
+  const res = await axios.get(url);
+  return {
+    id: res.data.id,
+    name: res.data.name,
+    image: res.data.sprites.front_default,
+    types: res.data.types.map((t: any) =&gt; t.type.name),
+  };
+}
+
+export async function getPokemonById(id: number): Promise&lt;Pokemon&gt; { 
+  const res = await axios.get(`${API_BASE}/pokemon/${id}`);
+  return {
+    id: res.data.id,
+    name: res.data.name,
+    image: res.data.sprites.front_default,
+    types: res.data.types.map((t: any) =&gt; t.type.name),
+    // Aqui poderíamos buscar e mostrar dados opcionais, customizando nosso tipo Pokemon. 
+    // Por exemplo, poderíamos buscar:
+    // height: res.data.height,
+    // weight: res.data.weight,
+    // abilities: res.data.abilities.map((a: any) =&gt; a.ability.name),
+  };
+}
+</code></pre>
+            <p>Agora sim, implementamos nossa <code>PokemonDetailsScreen.tsx</code>:</p>
+            <pre><code class="language-tsx">// screens/PokemonDetailsScreen.tsx
+import React, { useEffect, useState } from &#39;react&#39;;
+import { View, Text, Image, StyleSheet, ActivityIndicator, ScrollView } from &#39;react-native&#39;;
+import { RouteProp, useRoute } from &#39;@react-navigation/native&#39;;
+import { RootStackParamList } from &#39;../types/Navigation&#39;;
+import { Pokemon } from &#39;../types/Pokemon&#39;; 
+import { getPokemonById } from &#39;../services/api&#39;;
+import { capitalize } from &#39;../utils/format&#39;; //
+
+// Tipo para a propriedade route da nossa tela específica
+type PokemonDetailsScreenRouteProp = RouteProp&lt;RootStackParamList, &#39;PokemonDetails&#39;&gt;;
+
+export const PokemonDetailsScreen = () =&gt; {
+  const route = useRoute&lt;PokemonDetailsScreenRouteProp&gt;();
+  const { pokemonId } = route.params; 
+
+  const [pokemon, setPokemon] = useState&lt;Pokemon | null&gt;(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState&lt;string | null&gt;(null);
+
+  useEffect(() =&gt; {
+    const fetchDetails = async () =&gt; {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const details = await getPokemonById(pokemonId);
+        setPokemon(details);
+      } catch (err) {
+        setError(&#39;Falha ao carregar detalhes do Pokémon.&#39;);
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDetails();
+  }, [pokemonId]);
+
+  if (isLoading) {
+    return &lt;ActivityIndicator size=&quot;large&quot; style={styles.centered} /&gt;;
+  }
+
+  if (error) {
+    return &lt;Text style={styles.errorText}&gt;{error}&lt;/Text&gt;;
+  }
+
+  if (!pokemon) {
+    return &lt;Text style={styles.centered}&gt;Pokémon não encontrado.&lt;/Text&gt;;
+  }
+
+  return (
+    &lt;ScrollView contentContainerStyle={styles.container}&gt;
+      &lt;Image source={{ uri: pokemon.image }} style={styles.image} /&gt;
+      &lt;Text style={styles.name}&gt;{capitalize(pokemon.name)}&lt;/Text&gt;
+      &lt;Text style={styles.idText}&gt;ID: #{pokemon.id}&lt;/Text&gt;
+      
+      &lt;View style={styles.typesContainer}&gt;
+        &lt;Text style={styles.sectionTitle}&gt;Tipos:&lt;/Text&gt;
+        {pokemon.types.map((type) =&gt; (
+          &lt;Text key={type} style={styles.typeText}&gt;{capitalize(type)}&lt;/Text&gt;
+        ))}
+      &lt;/View&gt;
+    &lt;/ScrollView&gt;
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 20,
+    alignItems: &#39;center&#39;,
+  },
+  centered: {
+    flex: 1,
+    justifyContent: &#39;center&#39;,
+    alignItems: &#39;center&#39;,
+  },
+  errorText: {
+    flex: 1,
+    justifyContent: &#39;center&#39;,
+    alignItems: &#39;center&#39;,
+    color: &#39;red&#39;,
+    fontSize: 16,
+  },
+  image: {
+    width: 200,
+    height: 200,
+    marginBottom: 16,
+    backgroundColor: &#39;#f0f0f0&#39;, 
+    borderRadius: 100,
+  },
+  name: {
+    fontSize: 28,
+    fontWeight: &#39;bold&#39;,
+    marginBottom: 8,
+  },
+  idText: {
+    fontSize: 16,
+    color: &#39;#666&#39;,
+    marginBottom: 16,
+  },
+  typesContainer: {
+    marginBottom: 16,
+    alignItems: &#39;center&#39;,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: &#39;600&#39;,
+    marginBottom: 8,
+  },
+  typeText: { 
+    fontSize: 16,
+    marginHorizontal: 4,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    backgroundColor: &#39;#ddd&#39;,
+    borderRadius: 4,
+    marginBottom: 4,
+  },
+  detailsSection: {
+    marginTop: 16,
+    alignItems: &#39;flex-start&#39;,
+    width: &#39;100%&#39;,
+  }
+});
+</code></pre>
+            <p>Nessa implementação nós:</p>
+            <ul>
+                <li>Usamos <code>useRoute&lt;PokemonDetailsScreenRouteProp&gt;()</code> para acessar os parâmetros
+                    passados para esta tela.</li>
+                <li><code>route.params.pokemonId</code> nos dá o ID do Pokémon.</li>
+                <li>O <code>useEffect</code> busca os detalhes do Pokémon usando <code>getPokemonById</code> quando o
+                    componente é montado ou o <code>pokemonId</code> muda.</li>
+                <li>Incluímos estados para <code>isLoading</code> e <code>error</code> para uma melhor experiência do
+                    usuário.</li>
+                <li>Renderizamos os detalhes básicos do Pokémon. O <code>ScrollView</code> é usado caso o conteúdo
+                    exceda a altura da tela.</li>
+            </ul>
+            <p>Agora, ao tocar em um Pokémon na <code>PokedexScreen</code>, o usuário será levado para
+                <code>PokemonDetailsScreen</code>, que exibirá mais informações sobre o Pokémon selecionado! ✨</p>
+            <p>Abaixo a demonstração de como está nossa Pokédex nesse estágio de implementação:</p>
+            <p><img src="images/pokedex_inicio_aula05.gif" alt="Demonstração do app no início da Aula 05"></p>
+            <p>Repare que <strong>ainda precisamos terminar a implementação das funcionalidades pedidas na Aula
+                    04.</strong> Você conseguiu implementá-las? 🤓</p>
+            <p>O mais difícil era o Desafio que acabamos de implementar! Então caso não tenha conseguido, tente, agora a
+                partir do código fornecido acima, fazer as implementações das melhorias pedidas nos exercícios 1 a 4 da
+                aula anterior. Irei gravar um vídeo que será disponibilizado no Moodle mostrando a implementação
+                completa (e o código-fonte será disponibilizado), mas tente fazer os exercícios pois a prática é o que
+                leva ao entendimento concreto do que estamos fazendo!</p>
+            <p>Dito isso, vamos prosseguir para um tema importante que ainda não abordamos de maneira suficiente até
+                aqui: arquitetura e modularização de nossas aplicações mobile.</p>
+            <hr>
+            <h2><strong>3. Modularização e Boas Práticas</strong></h2>
+            <p>Conforme o projeto cresce, manter uma estrutura organizada é importante para a manutenibilidade e
+                escalabilidade. Já iniciamos essa organização por meio de diretórios, mas é necessário entender como
+                avançar nesse sentido.</p>
+            <p>Podemos citar como boas práticas: a <strong>Separação de Componentes</strong>, o uso de uma
+                <strong>Camada de Serviço</strong>, a definição de <strong>Funções Utilitárias</strong> e definição de
+                <strong>Tipos Globais</strong>.</p>
+            <p>Nesse sentido, à medida que a aplicação cresce, precisamos reforçar a organização para garantir
+                manutenção e escala. Em nossa implementação, continuamos separando <strong>componentes de interface
+                    reutilizáveis</strong> (como o <code>PokemonCard</code>) dentro de <code>src/components</code>,
+                enquanto <strong>telas completas</strong> — <code>PokedexScreen</code>,
+                <code>PokemonDetailsScreen</code> — permanecem em <code>src/screens</code>. Se uma tela ficar muito
+                carregada, podemos dividi-la em subcomponentes, que podem &quot;morar&quot; numa subpasta própria dessa
+                tela (exemplo: <code>src/screens/Pokedex/components</code>) ou, se forem realmente genéricos, subir para
+                <code>src/components</code>. Um bom exemplo seria transformar a seção de detalhes do Pokémon em um
+                <code>PokemonDetailsView</code> independente!</p>
+            <p>Além disso, nossa comunicação com serviços externos continua centralizada em
+                <strong><code>services/api.ts</code></strong>. Sempre que precisarmos de novos dados, criamos ali
+                funções que devolvem <code>Promise</code> com tipos definidos — por exemplo
+                <code>Promise&lt;Pokemon[]&gt;</code> ou <code>Promise&lt;PokemonDetailed&gt;</code> — o que impede
+                surpresas em tempo de execução. Funções utilitárias puras, como <code>capitalize</code>, ficam em
+                <strong><code>utils/format.ts</code></strong>; esse arquivo também é o melhor lugar para futuras
+                formatações de datas, números ou outras strings.</p>
+            <p>Por fim, todo o contrato de tipos continua em <strong><code>src/types</code></strong>. Lá já temos
+                <code>Navigation.ts</code>, que descreve rotas e parâmetros; qualquer novo modelo global, como um futuro
+                <code>PokemonDetailed</code>, deve ser criado na mesma pasta para manter o autocompletar e as
+                verificações de tempo de compilação funcionando em todo o projeto.</p>
+            <p>Seguir essa divisão — componentes reaproveitáveis, telas, serviços, utilitários e tipos globais — garante
+                um código modular, facilita o trabalho em equipe e torna as próximas funcionalidades mais fáceis de
+                integrar. Isso contudo, diz respeito à decisões de &quot;baixo nível&quot;, ao Design concreto da nossa
+                aplicação. Vamos ver agora como proceder em relação às decisões de alto nível: a arquitetura de nossa
+                aplicação!</p>
+            <hr>
+            <h2><strong>4. Arquiteturas Comuns em Aplicativos Móveis</strong></h2>
+            <p>Além dessa questão de organização em diretórios, temos, até agora, construído nossa aplicação de forma
+                intuitiva, focando na componentização e na separação de responsabilidades (UI, serviços, tipos). À
+                medida que os aplicativos se tornam maiores e mais complexos, contudo, pensar em padrões de arquitetura
+                pode ajudar a gerenciar essa complexidade, melhorar a testabilidade e a manutenibilidade.</p>
+            <p>Quando falamos em <strong>padrões de arquitetura</strong> estamos descrevendo receitas reconhecidas pela
+                comunidade para organizar o código de uma aplicação. Eles surgiram depois de muitos projetos repetirem
+                os mesmos problemas (acoplamento excessivo, telas com “código-espaguete”, testes difíceis etc) e
+                perceberem que determinadas divisões de responsabilidade funcionavam melhor. Esses padrões não são
+                bibliotecas nem frameworks: são <strong>modelos mentais</strong> que dizem <em>“coloque esta parte dos
+                    dados aqui, aquela parte da interface ali, e deixe a ponte entre as duas em outro lugar”</em>. Por
+                fornecerem um “esqueleto”, reduzem discussões sobre estrutura, evitam reinventar a roda e deixam claro
+                onde cada novo pedaço de lógica deve entrar.</p>
+            <p>Vamos dar uma olhada rápida em alguns padrões arquiteturais comuns em aplicativos móveis e como eles
+                podem se relacionar com o React Native.</p>
+            <h3><strong>4.1 O que são Padrões de Arquitetura?</strong></h3>
+            <p>Como mencionamos, padrões de arquitetura oferecem uma estrutura organizacional para o código, garantindo
+                que as responsabilidades — como regras de negócio, lógica de apresentação e a interface do usuário (UI)
+                — sejam claramente separadas.</p>
+            <p>Vamos explorar três dos padrões mais influentes no desenvolvimento de aplicações mobile:
+                <strong>MVC</strong>, <strong>MVP</strong> e <strong>MVVM</strong>.</p>
+            <h3>MVC (Model-View-Controller)</h3>
+            <p>O MVC é um dos padrões mais antigos e fundamentais, estabelecendo a base para a separação de
+                responsabilidades.</p>
+            <ul>
+                <li>
+                    <p><strong>Conceito Central:</strong> A interação do usuário na <strong>View</strong> é capturada
+                        pelo <strong>Controller</strong>, que aciona atualizações no <strong>Model</strong>. As mudanças
+                        no Model, por sua vez, notificam a View para que ela se atualize e exiba os novos dados.</p>
+                </li>
+                <li>
+                    <p><strong>Responsabilidades dos Componentes:</strong></p>
+                    <ul>
+                        <li><strong>Model:</strong> Representa o coração da aplicação. Contém os dados (ex: uma lista de
+                            Pokémons), as regras de negócio (ex: validações, cálculos) e a lógica de acesso a dados (ex:
+                            chamadas de API). O Model é completamente independente da UI.</li>
+                        <li><strong>View:</strong> É a camada de apresentação visual. Sua única função é exibir os dados
+                            fornecidos pelo Model e encaminhar as ações do usuário (cliques, digitação) para o
+                            Controller. Idealmente, não possui lógica de negócio.</li>
+                        <li><strong>Controller:</strong> Atua como o intermediário. Ele recebe as entradas do usuário a
+                            partir da View, processa-as (invocando a lógica de negócio no Model) e, por fim, seleciona
+                            qual View deve ser renderizada em resposta.</li>
+                    </ul>
+                </li>
+            </ul>
+            <p>Nesse sentido, o <strong>Fluxo de Interação</strong> seria algo como:
+                1. O usuário digita uma String no campo de busca na tela (<code>View</code>).
+                2. A <code>View</code> (o componente React Native) não filtra a lista diretamente. Ela invoca uma função
+                do <code>Controller</code>.
+                3. O <code>Controller</code> recebe a chamada, interage com o <code>Model</code> para solicitar a
+                filtragem dos dados.
+                4. O <code>Model</code> retorna a lista filtrada para o <code>Controller</code>.
+                5. O <code>Controller</code> então passa essa lista de volta para a <code>View</code>, que simplesmente
+                a renderiza.</p>
+            <p>Em frameworks modernos como o React, a distinção entre View e Controller muitas vezes se torna turva. Um
+                componente React (por exemplo, nossa <code>PokedexScreen.tsx</code>) frequentemente contém tanto a
+                marcação JSX (<code>View</code>) quanto os manipuladores de eventos e a lógica de estado
+                (<code>useEffect</code>, <code>useState</code>), que são papéis do <code>Controller</code>. Isso pode
+                levar ao famoso problema do <strong>&quot;Massive View-Controller&quot;</strong>, onde o componente se
+                torna gigantesco, complexo e difícil de testar, pois a lógica de apresentação está fortemente acoplada
+                ao framework de renderização.</p>
+            <p>Portanto, o uso do MVC em aplicações Mobile com React Native é <strong>ideal</strong> para projetos
+                pequenos, protótipos rápidos ou cenários onde a simplicidade e a velocidade de desenvolvimento inicial
+                são mais importantes que a testabilidade rigorosa.</p>
+            <h3>MVP (Model-View-Presenter)</h3>
+            <p>Já o MVP surgiu como uma evolução do MVC, com o objetivo principal de resolver o problema do acoplamento
+                entre a View e o Controller, aumentando a testabilidade.</p>
+            <p>O conceito central é que a lógica de apresentação é movida do Controller para uma nova camada chamada
+                <strong>Presenter</strong>. O Presenter se comunica com a View através de uma <strong>interface
+                    (contrato)</strong>, tornando a View completamente &quot;burra&quot;.</p>
+            <p>Isso pode parecer contraintuitivo: afinal, a View não é a camada de apresentação? A chave para entender o
+                MVP está em diferenciar <strong>&quot;Lógica de Apresentação&quot;</strong> de <strong>&quot;Lógica de
+                    Renderização&quot;</strong>. A <strong>View</strong> fica responsável apenas pela <em>Lógica de
+                    Renderização</em>: ela sabe <em>como</em> desenhar componentes na tela (botões, listas), aplicar
+                estilos e capturar eventos brutos do usuário (<code>onClick</code>, <code>onChangeText</code>). Ela é o
+                &quot;o quê&quot; e o &quot;como&quot; da parte visual.</p>
+            <p>Já a <strong>&quot;Lógica de Apresentação&quot;</strong>, que é a responsabilidade do
+                <strong>Presenter</strong>, é a camada de decisão que responde ao &quot;porquê&quot; e ao
+                &quot;quando&quot;. Isso inclui gerenciar o estado da UI (decidir <em>quando</em> mostrar um
+                <code>loading</code>), formatar dados para exibição (transformar um objeto <code>Date</code> em uma
+                string &quot;10/06/2025&quot;) e aplicar regras condicionais (decidir se um botão de &#39;Salvar&#39;
+                deve estar habilitado ou desabilitado). Em suma, o Presenter é o cérebro que orquestra a cena, enquanto
+                a View é o palco que apenas exibe o que o cérebro comanda. Ao mover essa camada de decisão para uma
+                classe pura, a testamos de forma isolada, sem depender de renderização.</p>
+            <p>Nesse âmbito, as <strong>responsabilidades dos componentes</strong> passam a ser:</p>
+            <ul>
+                <li><strong>Model:</strong> Permanece o mesmo do MVC, contendo dados e regras de negócio.</li>
+                <li><strong>View:</strong> Torna-se uma camada passiva. Ela implementa uma interface definida pelo
+                    Presenter e sua única tarefa é chamar os métodos do Presenter em resposta a eventos de UI e
+                    renderizar os dados que o Presenter lhe entrega. Ela não toma decisões.</li>
+                <li><strong>Presenter:</strong> Orquestra tudo. Ele busca dados do Model, aplica a lógica de
+                    apresentação (formatação de datas, textos, etc.) e invoca métodos na View (via interface) para
+                    atualizar a UI (ex: <code>view.showLoading()</code>, <code>view.displayPokemons(...)</code>). Como o
+                    Presenter depende de uma abstração (<code>IView</code>) e não de uma implementação concreta, ele
+                    pode ser testado em total isolamento, sem a necessidade de renderizar um único pixel.</li>
+            </ul>
+            <p>Se estivéssemos falando da nossa Pokédex, o <strong>fluxo de interação</strong> seria algo como:</p>
+            <ol>
+                <li>A <code>PokedexScreen</code> (<code>View</code>) é criada e instancia o
+                    <code>PokedexPresenter</code>, passando a si mesma como a implementação da interface
+                    <code>IPokedexView</code>.</li>
+                <li>O usuário digita &quot;Charizard&quot; no campo de busca. A <code>View</code> não faz nada além de
+                    notificar o Presenter: <code>presenter.onSearchQueryChanged(&#39;Charizard&#39;)</code>.</li>
+                <li>O <code>Presenter</code> recebe a chamada, pede ao <code>Model</code> a lista de Pokémons filtrada.
+                </li>
+                <li>O <code>Model</code> retorna os dados brutos.</li>
+                <li>O <code>Presenter</code> formata esses dados (ex: capitaliza os nomes) e chama os métodos da
+                    interface implementada pela View: <code>view.showLoading()</code>,
+                    <code>view.displayFilteredPokemons(formattedData)</code>, <code>view.hideLoading()</code>.</li>
+                <li>A <code>View</code> simplesmente obedece a essas chamadas, atualizando seu estado interno para
+                    re-renderizar.</li>
+            </ol>
+            <p>O uso <strong>ideal</strong> para essa arquitetura se dá em aplicações corporativas onde a
+                <strong>testabilidade unitária</strong> da lógica de apresentação é um fator de grande importância, pois
+                permite que as regras de UI sejam validadas independentemente do framework visual, facilitando a
+                manutenção e a migração de plataforma.</p>
+            <h3>MVVM (Model-View-ViewModel)</h3>
+            <p>Já o MVVM é o padrão mais moderno dos três, projetado para se beneficiar de frameworks que suportam
+                <strong>Data Binding</strong> (vinculação de dados), como é o caso do React com Hooks. 😊</p>
+            <p>O conceito central desse padrão é o <strong>ViewModel</strong>, que expõe dados e comandos aos quais a
+                <strong>View</strong> se &quot;conecta&quot; (bind). Quando os dados no ViewModel mudam, a View reage e
+                se atualiza automaticamente, sem a necessidade de intervenção explícita como no MVP.</p>
+            <p>Nesse sentido, a <strong>responsabilidades dos componentes</strong> passa a ser:
+                * <strong>Model:</strong> Sem alterações, continua responsável pelos dados e regras de negócio.
+                * <strong>View:</strong> A camada visual. Ela é responsável por sua própria lógica de UI (animações,
+                transições) e se conecta (binds) às propriedades e comandos expostos pelo ViewModel. A comunicação é
+                majoritariamente declarativa.
+                * <strong>ViewModel:</strong> É o intermediário que prepara e expõe os dados do Model para a View de uma
+                forma que ela possa consumir facilmente. Ele não tem nenhuma referência à View. Em vez disso, ele expõe
+                <strong>propriedades observáveis</strong> (como estados do React) e <strong>comandos</strong> (funções
+                que a View pode invocar). Qualquer lógica de apresentação ou estado da UI (como <code>isLoading</code>,
+                <code>errorMessage</code>) vive aqui.</p>
+            <p>O <strong>fluxo de interação</strong> na nossa Pokédex seria algo como:
+                1. O componente <code>PokedexScreen</code> (<code>View</code>) utiliza um hook customizado:
+                <code>const { list, isLoading, searchQuery, setSearchQuery } = usePokedexViewModel();</code>. Fiquem
+                tranquilos: ainda abordaremos os hooks customizados.
+                2. A View &quot;amarra&quot; (binds) seus elementos a essas propriedades: um <code>FlatList</code>
+                renderiza a <code>list</code>, um <code>ActivityIndicator</code> é exibido quando <code>isLoading</code>
+                é <code>true</code>, e o <code>TextInput</code> tem seu valor vinculado a <code>searchQuery</code> e seu
+                <code>onChangeText</code> ao <code>setSearchQuery</code>.
+                3. Quando o usuário digita, o <code>onChangeText</code> invoca <code>setSearchQuery</code>.
+                4. Dentro do <code>usePokedexViewModel</code>, a alteração em <code>searchQuery</code> dispara um
+                <code>useEffect</code> que executa a lógica de filtragem, busca novos dados e atualiza os estados
+                <code>list</code> e <code>isLoading</code>.
+                5. Como a <code>View</code> está &quot;observando&quot; <code>list</code> e <code>isLoading</code>, o
+                React a re-renderiza automaticamente para refletir o novo estado: ou seja, a View não precisou ser
+                informada explicitamente!</p>
+            <p>Esse padrão de arquitetura é <strong>ideal</strong> para aplicações ricas em interatividade e com muitos
+                estados de UI. É o padrão mais alinhado com a filosofia de frameworks reativos como React, Vue e
+                Angular, promovendo um código declarativo, reutilizável (o mesmo ViewModel pode ser usado por múltiplas
+                Views) e testável.</p>
+            <h3>Tabela Comparativa</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th align="left">Característica</th>
+                        <th align="left">MVC (Model-View-Controller)</th>
+                        <th align="left">MVP (Model-View-Presenter)</th>
+                        <th align="left">MVVM (Model-View-ViewModel)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td align="left"><strong>Acoplamento View-Lógica</strong></td>
+                        <td align="left">Alto (View e Controller são interdependentes)</td>
+                        <td align="left">Baixo ( desacoplados via interface/contrato)</td>
+                        <td align="left">Muito Baixo (desacoplados via data binding)</td>
+                    </tr>
+                    <tr>
+                        <td align="left"><strong>Lógica de Apresentação</strong></td>
+                        <td align="left">No Controller, frequentemente misturada na View.</td>
+                        <td align="left">No Presenter.</td>
+                        <td align="left">No ViewModel.</td>
+                    </tr>
+                    <tr>
+                        <td align="left"><strong>Referência da Lógica para a View</strong></td>
+                        <td align="left">O Controller manipula diretamente a View.</td>
+                        <td align="left">O Presenter possui uma referência à View (via interface).</td>
+                        <td align="left">O ViewModel não tem nenhuma referência à View.</td>
+                    </tr>
+                    <tr>
+                        <td align="left"><strong>Testabilidade</strong></td>
+                        <td align="left">Moderada (difícil testar a UI)</td>
+                        <td align="left">Alta (Presenter é 100% testável)</td>
+                        <td align="left">Altíssima (ViewModel é 100% testável)</td>
+                    </tr>
+                    <tr>
+                        <td align="left"><strong>Mecanismo de Comunicação</strong></td>
+                        <td align="left">Chamadas de método diretas.</td>
+                        <td align="left">Métodos definidos em um contrato (interface).</td>
+                        <td align="left">Data Binding e Comandos.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3>E qual Padrão Escolher?</h3>
+            <p>A escolha não é sobre qual é o &quot;melhor&quot;, mas qual é o mais <strong>adequado para o seu
+                    contexto</strong>:</p>
+            <ul>
+                <li>Use <strong>MVC</strong> para começar rápido, em projetos simples ou provas de conceito, onde a
+                    estrutura formal pode ser um exagero.</li>
+                <li>Adote <strong>MVP</strong> quando a testabilidade rigorosa da lógica de apresentação é um requisito
+                    inegociável e você precisa de uma separação clara, mas ainda não está em um ecossistema totalmente
+                    reativo.</li>
+                <li>Prefira <strong>MVVM</strong> quando sua aplicação é construída sobre um framework reativo (como
+                    React Native, que estamos utilizando!), possui múltiplos estados de UI que precisam ser gerenciados
+                    e compartilhados, e a equipe busca um código declarativo e com alta capacidade de reuso.</li>
+            </ul>
+            <p>Independentemente da escolha, o princípio fundamental prevalece: o <strong>Model</strong> encapsula os
+                dados e as regras, a <strong>View</strong> exibe o que recebe, e uma <strong>camada
+                    intermediária</strong> bem definida orquestra a comunicação. Essa disciplina garante que sua
+                aplicação possa evoluir de forma organizada, robusta e preparada para o futuro.</p>
+            <p>Lembre-se: não existe &quot;bala de prata&quot;. A escolha depende do tamanho da equipe, da complexidade
+                do projeto e da familiaridade da equipe com os padrões. Para muitos projetos React Native, uma
+                arquitetura baseada em componentes, com lógica de apresentação em Custom Hooks e serviços bem definidos
+                para o Model, oferece um bom equilíbrio de simplicidade, testabilidade e escalabilidade, incorporando
+                princípios do MVVM.</p>
+            <p>O importante é sempre buscar:</p>
+            <ul>
+                <li><strong>Separação de Responsabilidades (SoC):</strong> Cada parte do código tem um papel claro.</li>
+                <li><strong>Testabilidade:</strong> Conseguir testar a lógica de negócios e de apresentação
+                    independentemente da UI.</li>
+                <li><strong>Manutenibilidade:</strong> Facilitar a compreensão, modificação e extensão do código.</li>
+            </ul>
+            <p>Nossa Pokédex, mesmo sem aderir rigidamente a um desses padrões formais, já aplica o princípio da
+                separação de responsabilidades ao ter componentes de UI, uma camada de serviço para dados e tipos
+                definidos. Conforme ela evoluir, poderemos introduzir Custom Hooks e outras técnicas para aprimorar
+                ainda mais sua estrutura e refatorá-la, eventualmente, para um desses padrões!</p>
+            <hr>
+            <h2>5. Conclusão</h2>
+            <p>Nesta aula, nossa Pokédex deu um salto de qualidade, evoluindo de uma aplicação de tela única para um
+                sistema de navegação interativo. A implementação da navegação com <code>react-navigation</code> não foi
+                apenas um exercício técnico; foi o catalisador que nos forçou a pensar sobre como gerenciar a
+                complexidade à medida que um aplicativo cresce.</p>
+            <p>Partimos da necessidade de exibir detalhes de um Pokémon e, no processo, aprendemos a:</p>
+            <ul>
+                <li><strong>Estruturar a navegação em pilha</strong>, um dos fluxos mais comuns em aplicativos móveis.
+                </li>
+                <li><strong>Tipar nossas rotas e parâmetros</strong> com <code>RootStackParamList</code>, garantindo
+                    segurança e previsibilidade ao passar dados entre telas.</li>
+                <li><strong>Transformar componentes estáticos em interativos</strong>, fazendo com que o
+                    <code>PokemonCard</code> se tornasse um ponto de entrada para uma nova experiência.</li>
+                <li><strong>Organizar a lógica de busca de dados</strong>, expandindo nossa camada de serviço
+                    (<code>api.ts</code>) para lidar com novas requisições de forma limpa e isolada.</li>
+            </ul>
+            <p>Também tivemos uma introdução aos <strong>padrões de arquitetura</strong>, ferramentas conceituais para
+                guiar nossas decisões, e entendemos que a escolha não é sobre encontrar a &quot;bala de prata&quot;, mas
+                sim sobre aplicar princípios sólidos de <strong>separação de responsabilidades</strong>,
+                <strong>testabilidade</strong> e <strong>manutenibilidade</strong> para construir software robusto e
+                manutenível.</p>
+            <p>Com essa base arquitetural e uma aplicação que já navega e busca dados de forma organizada, estamos
+                preparados para os próximos desafios, seja gerenciando um <strong>estado global</strong> (como uma lista
+                de Pokémons favoritos que funcione em todo o app), otimizando o desempenho com interações mais avançadas
+                ou <strong>persistindo dados localmente</strong> para uso offline, as fundações que construímos aqui
+                serão essenciais (Já sabe o que vamos ver nas próximas aulas, né? 🤩)</p>
+            <p>E, como já sabem, agora é hora dos nossos...</p>
+            <hr>
+            <h2>6. Exercícios</h2>
+            <h3><strong>Exercício 1: Análise Crítica da Arquitetura Atual</strong></h3>
+            <p>Avalie a estrutura de código existente da Pokédex, de forma a identificar pontos fortes e fracos, e
+                praticar a habilidade de ler e analisar criticamente uma base de código. Caso você não tenha conseguido
+                fazer os exercícios da Aula04, faça o checkout para o branch <code>Aula05</code> do projeto da Pokédex,
+                disponível em <a href="https://github.com/giovanidisperati/PokedexApp/">Repositório no GitHub –
+                    PokedexApp</a>, que contém a implementação completa da navegação e dos exercícios da aula anterior.
+            </p>
+            <p>Dedique um tempo para navegar por todos os arquivos e diretórios (<code>screens</code>,
+                <code>components</code>, <code>services</code>, <code>types</code>, <code>utils</code>). Após analisar o
+                projeto, crie um documento de texto ou markdown chamado <code>ANALISE_ARQUITETURA.md</code> e responda
+                às seguintes questões de forma detalhada:</p>
+            <ol>
+                <li>
+                    <p><strong>Estrutura de Diretórios:</strong> A organização atual dos arquivos em
+                        <code>screens</code>, <code>components</code>, <code>services</code>, etc., é clara para você?
+                        Você mudaria algum arquivo de lugar? Por quê?</p>
+                </li>
+                <li>
+                    <p><strong>Componentização:</strong> O <code>PokemonCard</code> é um bom exemplo de componente
+                        reutilizável? Analise a tela <code>PokemonDetailsScreen</code>. Que partes dela você extrairia
+                        para um novo componente reutilizável para manter a tela mais limpa?</p>
+                </li>
+                <li>
+                    <p><strong>Gerenciamento de Estado e Lógica:</strong></p>
+                    <ul>
+                        <li>Observe a <code>PokedexScreen</code>. Onde a lógica de busca e filtragem de dados está
+                            localizada?</li>
+                        <li>Observe a <code>PokemonDetailsScreen</code>. Onde está a lógica para buscar os detalhes de
+                            um Pokémon específico?</li>
+                        <li>Você considera essa abordagem (lógica de estado e de dados dentro dos componentes de tela)
+                            sustentável para um aplicativo que continua crescendo? Quais são os prós e contras que você
+                            observa?</li>
+                    </ul>
+                </li>
+                <li>
+                    <p><strong>Pontos Fortes e Fracos:</strong> Baseado em sua análise, liste pelo menos <strong>dois
+                            pontos fortes</strong> (o que foi bem feito) e <strong>dois pontos fracos</strong> (o que
+                        poderia ser melhorado) na arquitetura atual da aplicação. Justifique cada ponto.</p>
+                </li>
+            </ol>
+            <p><strong>Caso você tenha conseguido fazer a implementação dos exercícios</strong>, faça essa análise
+                crítica com base no repositório que você submeteu como entrega da Aula04.</p>
+            <h3><strong>Exercício 2: Proposta de Refatoração para MVP ou MVVM</strong></h3>
+            <p>Aqui a ideia é aplicar os conhecimentos teóricos sobre os padrões de arquitetura MVP e MVVM, planejando
+                uma refatoração estrutural da Pokédex sem, necessariamente, implementá-la por completo.</p>
+            <p>Para isso, escolha <strong>um</strong> dos padrões de arquitetura a seguir para a Pokédex:
+                <strong>MVP</strong> ou <strong>MVVM</strong>. Com base na sua escolha, crie um documento de texto ou
+                markdown chamado <code>PROPOSTA_REFATORACAO.md</code> e descreva como você reestruturaria a tela
+                <code>PokedexScreen</code>. Sua proposta deve incluir:</p>
+            <ol>
+                <li>
+                    <p><strong>Padrão Escolhido:</strong> Declare qual padrão você escolheu (MVP ou MVVM) e justifique
+                        brevemente por que o considera uma boa opção para este aplicativo.</p>
+                </li>
+                <li>
+                    <p><strong>Nova Estrutura de Arquivos:</strong> Desenhe a nova estrutura de diretórios para a tela
+                        da Pokédex. Mostre onde os novos arquivos (como <code>PokedexPresenter.ts</code> ou
+                        <code>usePokedexViewModel.ts</code>) estariam localizados.</p>
+                </li>
+            </ol>
+            <p><em>Por exemplo:</em></p>
+            <pre><code>PokedexApp/
+├─ screens/
+│  └─ Pokedex/
+│     ├─ PokedexScreen.tsx      (View)
+│     ├─ PokedexPresenter.ts    (Presenter)
+│     └─ IPokedexView.ts        (Contrato/Interface)
+...
+</code></pre>
+            <ol start="3">
+                <li>
+                    <p><strong>Divisão de Responsabilidades:</strong> Para a tela <code>PokedexScreen</code>, descreva
+                        claramente:</p>
+                    <ul>
+                        <li>
+                            <p><strong>(Se MVP) O que ficaria na <code>View</code>
+                                    (<code>PokedexScreen.tsx</code>)?</strong> Quais métodos o <code>Presenter</code>
+                                chamaria nela (defina a interface <code>IPokedexView</code>)?</p>
+                        </li>
+                        <li>
+                            <p><strong>(Se MVP) O que ficaria no <code>Presenter</code>?</strong> Quais lógicas (busca
+                                de dados, filtro, formatação) ele conteria?</p>
+                        </li>
+                        <li>
+                            <p><strong>(Se MVVM) O que ficaria na <code>View</code>
+                                    (<code>PokedexScreen.tsx</code>)?</strong> Como ela consumiria o
+                                <code>ViewModel</code>?</p>
+                        </li>
+                        <li>
+                            <p><strong>(Se MVVM) O que ficaria no <code>ViewModel</code> (ex:
+                                    <code>usePokedexViewModel</code>)?</strong> Quais estados (<code>list</code>,
+                                <code>isLoading</code>) e funções (<code>setSearchQuery</code>) ele exporia?</p>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <p><strong>Fluxo de Dados:</strong> Descreva em texto ou com um diagrama simples o fluxo de uma
+                        interação do usuário. Por exemplo: &quot;O que acontece passo a passo quando o usuário digita no
+                        campo de busca na nova arquitetura?&quot;.</p>
+                </li>
+            </ol>
+            <p><em>Exemplo de passo a passo para MVVM:</em>
+                &gt; 1. Usuário digita na <code>TextInput</code> da <code>View</code>.
+                &gt; 2. O <code>onChangeText</code> da <code>View</code> chama a função <code>setSearchQuery</code>
+                exposta pelo <code>ViewModel</code>.
+                &gt; 3. Dentro do <code>ViewModel</code>, a mudança no estado de busca dispara um <code>useEffect</code>
+                que...
+                &gt; 4. ... etc.</p>
+            <p>Este exercício não exige a implementação do código, mas sim o planejamento e a documentação da
+                arquitetura, que é uma habilidade importante para qualquer desenvolvedor. 🧠</p>
+            <p>&quot;Pô, professor, pra que eu preciso saber disso?&quot;</p>
+            <p>As inteligências artificiais ‘programam’ cada vez melhor. O nosso diferencial está em analisar
+                criticamente as decisões de design e arquitetura, entendendo &quot;o que&quot; deve ser feito e
+                &quot;por quê&quot;. Saber apenas &quot;como&quot; implementar não basta, por isso precisamos exercitar
+                o raciocínio crítico desde cedo!</p>
+            <h1><strong>Bom trabalho! 🔨</strong></h1>
+
+
+
+
+
+
+
+
+
+
+        </div>
+
+    </div>
+    <footer class="footer mt-auto py-3">
+        <div class="container-fluid">
+            <span>
+                <p class="text-center text-light">Instituto Federal de Educação, Ciência e Tecnologia de São Paulo,
+                    Câmpus Guarulhos. Desenvolvimento Mobile - Prof. Giovani.</p>
+            </span>
+        </div>
+    </footer>
+
+
+    <script src="js/prism.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
