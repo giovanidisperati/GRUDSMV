@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/estilo.css">
+    <link rel="stylesheet" href="css/prism.css">
+
+    <title>Desenvolvimento Mobile - Aula 04</title>
+</head>
+
+<body>
+    <div class="wrapper d-flex align-items-stretch">
+        <nav id="sidebar">
+            <div class="custom-menu">
+                <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                    <i class="fa fa-bars"></i>
+                    <span class="sr-only">Toggle Menu</span>
+                </button>
+            </div>
+            <h1><a href="index.html" class="logo text-center">AULAS</a></h1>
+            <ul class="list-unstyled components mb-5">
+                <li>
+                    <a href="Aula01.html"><span class="mr-1"></span>01 - Introdução e Panorama Mobile</a>
+                </li>
+                <li>
+                    <a href="Aula02.html"><span class="mr-0"></span>02 - Revisão de JavaScript e TypeScript</a>
+                </li>
+                <li>
+                    <a href="Aula03.html"><span class="mr-0"></span>03 - Começando com React: Componentes, JSX e
+                        Hooks</a>
+                </li>
+                <li>
+                    <a href="Aula04.html"><span class="mr-0"></span>04 - Interfaces Visuais em React Native</a>
+                </li>
+                <li>
+                    <a href="Aula05.html"><span class="mr-0"></span>05 - Navegação com React Navigation</a>
+                </li class="active">
+                <li>
+                    <a href="Aula06.html"><span class="mr-0"></span>06 - MVVM, Hooks Customizados, Armazenamento e Estado Global</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>07 - Armazenamento e Estado Global</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>08 - Recursos Nativos (Câmera, Localização)</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>09 - Boas Práticas e Arquitetura</a>
+                </li>
+                <li>
+                    <a href=""><span class="mr-0"></span>10 - Build, Publicação e Projeto Final</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div id="content" class="p-4 p-md-5 pt-5">
+
+
+            <h1><strong>Aula 06 – Estado Global, Persistência de Dados e Arquitetura MVVM na Prática</strong></h1>
+            <p>Depois de cinco aulas, vimos desde os fundamentos do Javascript/TypeScript até a construção de interfaces
+                com React Native. Evoluímos de uma listagem simples de Pokémons para uma Pokédex navegável, e agora
+                vamos dar um passo além. Até aqui, focamos em componentes isolados e na navegação básica; nessa aula
+                começaremos a encarar problemas típicos de aplicativos “de verdade”: compartilhar informações entre
+                telas, manter dados salvos mesmo depois que o app fecha e organizar melhor a lógica para não virar
+                bagunça quando o projeto crescer.</p>
+            <hr>
+            <h3><strong>1. Introdução: O Próximo Nível da Nossa Aplicação</strong></h3>
+            <p>Nas aulas anteriores, construímos uma Pokédex funcional, evoluindo de uma única tela para uma aplicação
+                com navegação e uma estrutura de arquivos bem definida.</p>
+            <p>Aprendemos a buscar dados de uma API com <code>useEffect</code> e a gerenciar o estado local de
+                componentes com <code>useState</code>. Na última aula, mergulhamos na teoria de arquitetura de software,
+                discutindo padrões como MVC, MVP e MVVM, que nos preparam para pensar em como organizar aplicações
+                complexas.</p>
+            <p>Para ter acesso ao código implementado na última aula (antes dos exercícios), acesse o <a
+                    href="https://github.com/giovanidisperati/PokedexApp/tree/Aula05">Branch <strong>Aula05</strong> –
+                    PokedexApp</a>.</p>
+            <p>No estágio atual nossa aplicação, apesar de simples, está longe de ser perfeita:</p>
+            <ul>
+                <li>
+                    <p><strong>A performance é impactada por um problema de N+1 nas chamadas de API.</strong> A função
+                        <code>getPokemons</code> busca a lista e depois faz uma requisição individual para cada Pokémon,
+                        resultando em 31 chamadas de rede apenas para carregar a primeira página, com 30 Pokémons. Isso
+                        é conhecido como um problema N+1, onde para buscar uma lista de N itens, você acaba fazendo N+1
+                        requisições à rede. Desnecessário dizer que isso torna nosso carregamento inicial lento e
+                        consome um volume desnecessário de dados;</p>
+                </li>
+                <li>
+                    <p><strong>A funcionalidade de busca é limitada.</strong> O campo de busca na
+                        <code>PokedexScreen</code> filtra apenas os Pokémon que já foram carregados na memória do
+                        aplicativo. Um usuário não consegue encontrar um Pokémon que ainda não tenha aparecido na
+                        rolagem infinita, o que limita a utilidade da busca;</p>
+                </li>
+            </ul>
+            <p>Além disso, também há certa redundância de dados, onde a tela de detalhes
+                (<code>PokemonDetailsScreen</code>) busca novamente informações que já foram carregadas na tela
+                anterior, como nome e imagem, causando uma chamada de API desnecessária.</p>
+            <p>Todas essas questões merecem atenção e serão devidamente resolvidas em momento oportuno. Trazer luz a
+                essas questões meramente nos mostra o quanto temos que nos esmerar quando queremos construir uma
+                aplicação correta e que, de fato, possa ser colocada em produção!</p>
+            <p>Por ora, entretanto, vamos &quot;assumir nosso débito técnico&quot; e avançar com os aspectos conceituais
+                do desenvolvimento da nossa aplicação, que possui limitações importantes que são comuns em projetos que
+                estão amadurecendo:</p>
+            <ul>
+                <li><strong>A primeira limitação é que o estado é local</strong>: Por exemplo, se quisermos marcar um
+                    Pokémon como favorito em uma tela, essa informação não estará disponível em outra.</li>
+                <li><strong>Além disso, os dados são voláteis</strong>: Se o usuário fechar e reabrir o aplicativo,
+                    todas as interações (exemplo: uma lista de favoritos), serão perdidas.</li>
+            </ul>
+            <p>Nesta aula, vamos partir desse ponto e adereçar essas limitações, abordando dois pilares do
+                desenvolvimento de aplicativos robustos:</p>
+            <ol>
+                <li><strong>Gerenciamento de Estado Global:</strong> Como compartilhar dados entre componentes e telas
+                    que não têm uma relação direta de pai e filho.</li>
+                <li><strong>Persistência de Dados Locais:</strong> Como salvar informações no dispositivo para que elas
+                    sobrevivam entre as sessões do aplicativo.</li>
+            </ol>
+            <p>Para isso, implementaremos a funcionalidade de &quot;Favoritos&quot; em nossa Pokédex (por essa
+                introdução nem dava para saber que faríamos isso, né? kkk).</p>
+            <p>Ah! E também faremos isso aplicando na prática os conceitos de arquitetura da aula anterior: vamos
+                aproveitar e já transformar a teoria do MVVM em código!</p>
+            <p>Um vídeo será linkado no Moodle para relembrarmos onde paramos na aula anterior.</p>
+            <h3><strong>1.1. Recapitulando a Jornada: Da Interface à Navegação e Teoria de Arquitetura (Aula
+                    05)</strong></h3>
+            <p>Até aqui, nossa jornada no desenvolvimento mobile foi marcada por uma evolução clara e progressiva.
+                Partimos dos fundamentos do React na Aula 03, onde aprendemos a gerenciar o estado local com
+                <code>useState</code> e a buscar dados externos de APIs com <code>useEffect</code>. Em seguida, na Aula
+                04, aplicamos esse conhecimento para construir nossa primeira interface visual com React Native,
+                dominando componentes como <code>View</code>, <code>Text</code>, <code>FlatList</code> e aprendendo a
+                organizar o layout da tela com Flexbox e <code>StyleSheet</code>.</p>
+            <p>Na Aula 05, demos um salto significativo ao implementar a navegação com a biblioteca
+                <code>react-navigation</code>, transformando nossa Pokédex de tela única em uma aplicação com um fluxo
+                de múltiplas telas, onde o usuário pode navegar de uma lista para uma tela de detalhes. Além da parte
+                técnica, iniciamos uma discussão sobre <strong>arquitetura de software</strong>, explorando os padrões
+                MVC, MVP e MVVM e a importância da <strong>separação de responsabilidades</strong> para criar um código
+                que seja manutenível e escalável.</p>
+            <p>Chegamos, portanto, a um ponto onde temos uma aplicação que não apenas exibe dados, mas também permite
+                que o usuário navegue entre diferentes contextos. É exatamente essa nova complexidade que revela as
+                limitações que abordaremos a seguir.</p>
+            <h3><strong>1.2. O Problema Atual: Estado Local Isolado e Dados Voláteis</strong></h3>
+            <p>A arquitetura que construímos, embora funcional, expõe duas fraquezas fundamentais que impedem nosso
+                aplicativo de oferecer uma experiência de usuário coesa e duradoura.</p>
+            <p><strong>1. Estado Local Isolado</strong></p>
+            <p>O hook <code>useState</code> que utilizamos até agora cria um estado que &quot;vive e morre&quot; dentro
+                de um único componente. Ele não foi projetado para ser compartilhado facilmente através de telas que não
+                têm uma relação direta.</p>
+            <p>Imagine que o usuário está na <code>PokemonDetailsScreen</code> e clica em um botão para favoritar o
+                Charmander. Como a <code>PokedexScreen</code> (a tela da lista) saberá que deve exibir uma estrela ⭐ ao
+                lado do Charmander? Atualmente, ela não tem como saber. A informação sobre o &quot;favorito&quot; está
+                presa dentro da tela de detalhes. Essa comunicação entre telas distantes exigiria passar dados e funções
+                através de múltiplas camadas de <code>props</code>, um padrão conhecido como <em><strong>prop
+                        drilling</strong></em> que rapidamente se torna complexo e insustentável.</p>
+            <p><strong>2. Dados Voláteis</strong></p>
+            <p>Qualquer estado que mantemos em memória com <code>useState</code> é, por natureza,
+                <strong>volátil</strong>. Se o usuário gastar tempo montando sua lista de Pokémons favoritos, ele espera
+                que essa lista esteja lá quando ele reabrir o aplicativo no dia seguinte. Com nossa implementação atual,
+                toda a lista de favoritos desaparece no momento em que o app é fechado.</p>
+            <p>Isso quebra a confiança do usuário e torna qualquer funcionalidade de personalização inútil a longo
+                prazo, fazendo com que a aplicação pareça incompleta ou pouco profissional.</p>
+            <p>Esses dois desafios — <strong>estado isolado</strong> e <strong>dados voláteis</strong> — são exatamente
+                o que vamos resolver nesta aula. Primeiro, aprenderemos a criar um estado global e, em seguida, a
+                torná-lo permanente.</p>
+            <h3><strong>1.3. Objetivos da Aula: Implementar um sistema de &quot;Favoritos&quot; global, persistente e
+                    utilizando os conceitos de MVVM na prática</strong></h3>
+            <p>Para superar os desafios do estado isolado e da volatilidade dos dados, vamos construir um sistema de
+                &quot;Favoritos&quot; completo para a nossa Pokédex.</p>
+            <p>Ao final desta aula, teremos abordado:</p>
+            <ul>
+                <li><strong>Criar um estado global</strong> utilizando a <strong>Context API</strong> do React,
+                    permitindo que a lista de favoritos seja acessível e modificável de qualquer tela do nosso
+                    aplicativo.</li>
+                <li><strong>Integrar o AsyncStorage</strong> para salvar os favoritos do usuário no dispositivo,
+                    garantindo que a informação não se perca quando o aplicativo for fechado e reaberto.</li>
+                <li><strong>Aplicar na prática o padrão de arquitetura MVVM</strong>, refatorando nossa lógica de estado
+                    em um <strong>Custom Hook</strong> (<code>useFavorites</code>). Este hook atuará como nosso
+                    <em>ViewModel</em>, separando a lógica de negócio da nossa interface (a <em>View</em>).</li>
+            </ul>
+            <p>Passemos, então, ao conteúdo! 🦾</p>
+            <hr>
+            <h2><strong>2. Do Estado Local ao Global: A Context API do React</strong></h2>
+            <p>Como vimos, o grande obstáculo para compartilhar informações, como a nossa lista de favoritos, é que o
+                <code>useState</code> confina o estado a um único componente. A alternativa seria passar dados de
+                componente em componente (<code>props</code>), uma prática que, além de verbosa, acopla
+                desnecessariamente toda a árvore de componentes. É o que chamamos de <em>prop drilling</em>.</p>
+            <p>Para resolver isso de forma elegante, o React nos oferece uma ferramenta poderosa e nativa: a
+                <strong>Context API</strong>.</p>
+            <p>Pense na Context API como uma espécie de &quot;provedor de dados&quot; global para uma parte da sua
+                aplicação. Em vez de cada componente pedir informações ao seu &quot;pai&quot; direto, ele pode consumir
+                os dados diretamente dessa fonte central, não importa o quão fundo ele esteja na árvore de componentes.
+            </p>
+            <p>A seguir, vamos desmembrar como criar, prover e consumir um contexto, estabelecendo a base para o nosso
+                sistema de favoritos global.</p>
+            <h3><strong>2.1. A Limitação do <code>useState</code> e o Desafio do &quot;Prop Drilling&quot;</strong></h3>
+            <p>O hook <code>useState</code> é a ferramenta fundamental para gerenciar o estado <em>dentro</em> de um
+                componente. Ele é simples, eficiente e o principal mecanismo que faz com que nossas interfaces reajam e
+                se atualizem. Sua principal característica, que é também sua limitação, é o <strong>escopo
+                    local</strong>: o estado declarado com <code>useState</code> pertence exclusivamente à instância do
+                componente onde ele foi criado.</p>
+            <p>Isso funciona perfeitamente para dados que só interessam àquele componente, como o texto de um campo de
+                busca ou o estado de &quot;aberto/fechado&quot; de um modal.</p>
+            <p>O problema surge quando múltiplas telas ou componentes distantes na hierarquia precisam acessar ou
+                modificar a mesma informação. Se o estado <code>favoritos</code> estivesse no componente
+                <code>App</code> (o mais alto na hierarquia), como faríamos para que um <code>PokemonCard</code> (que
+                pode estar vários níveis abaixo) pudesse adicionar um novo favorito?</p>
+            <p>A única solução usando apenas <code>useState</code> seria passar a função de atualização de estado
+                (<code>setFavoritos</code>) como <code>prop</code> de pai para filho, repetidamente:</p>
+            <ol>
+                <li><code>App</code> passaria <code>setFavoritos</code> para <code>PokedexScreen</code>.</li>
+                <li><code>PokedexScreen</code>, mesmo sem usar a função, a passaria para <code>FlatList</code>.</li>
+                <li><code>FlatList</code> a passaria para cada <code>PokemonCard</code>.</li>
+            </ol>
+            <p>Esse processo de &quot;perfurar&quot; a árvore de componentes com propriedades que não são usadas pelos
+                componentes intermediários é conhecido como <strong>Prop Drilling</strong>. Ele traz várias
+                desvantagens:</p>
+            <ul>
+                <li><strong>Código Acoplado e Verboso:</strong> Os componentes intermediários se tornam meros
+                    &quot;repassadores&quot; de <code>props</code>, tornando o código poluído e difícil de ler.</li>
+                <li><strong>Difícil Manutenção:</strong> Se a <code>prop</code> precisar ser renomeada ou seu formato
+                    alterado, é necessário modificar todos os componentes no caminho.</li>
+                <li><strong>Baixa Reutilização:</strong> Um componente se torna menos reutilizável se ele depende de
+                    <code>props</code> que só existem para serem passadas adiante.</li>
+            </ul>
+            <p>Fica claro, portanto, que <code>useState</code> combinado com a passagem de <code>props</code> não é uma
+                solução escalável para gerenciar dados que precisam ser acessados por diversas partes da aplicação.
+                Precisamos de um mecanismo que permita &quot;teletransportar&quot; o estado diretamente para onde ele é
+                necessário, sem intermediários. É exatamente essa a função da Context API, que veremos a seguir.</p>
+            <h3><strong>2.2. A Solução Nativa: Introdução à Context API (<code>createContext</code>,
+                    <code>Provider</code>, <code>useContext</code>)</strong></h3>
+            <p>Para evitar o <em>prop drilling</em> e fornecer um meio mais limpo e direto de compartilhar estado, o
+                React oferece uma solução nativa: a <strong>Context API</strong>.</p>
+            <p>Imagine a Context API como uma rede Wi-Fi para seus dados. Você cria um &quot;roteador&quot; (o
+                <code>Provider</code>) que transmite um sinal (o estado). Qualquer componente que precise desses dados,
+                não importa onde esteja na árvore de componentes, pode simplesmente &quot;conectar-se&quot; a essa rede
+                (usando <code>useContext</code>) para receber o sinal, sem a necessidade de &quot;cabos&quot;
+                (<code>props</code>) passando por todos os cômodos (componentes intermediários).</p>
+            <p>O funcionamento da Context API se baseia em três pilares:</p>
+            <p><strong>1. <code>createContext</code></strong></p>
+            <p>É a função que inicia o processo. Ela cria um objeto de &quot;contexto&quot; que os componentes irão ler.
+                Pense nisso como criar uma nova &quot;frequência de rádio&quot; ou o &quot;nome da sua rede Wi-Fi&quot;.
+            </p>
+            <pre><code class="language-javascript">// A criação do contexto geralmente é feita em um arquivo separado
+const FavoritesContext = createContext(null);
+</code></pre>
+            <p>O valor passado para <code>createContext</code> (neste caso, <code>null</code>) é o valor padrão, usado
+                apenas se um componente tentar consumir o contexto sem que haja um <code>Provider</code> acima dele na
+                árvore.</p>
+            <p><strong>2. O Componente <code>Provider</code></strong></p>
+            <p>Todo contexto criado com <code>createContext</code> vem com um componente <code>Provider</code>. A função
+                dele é envolver a parte da sua aplicação que precisa ter acesso aos dados globais. Este é o nosso
+                &quot;roteador&quot; ou a &quot;antena transmissora&quot;.</p>
+            <p>Ele aceita uma <code>prop</code> obrigatória chamada <code>value</code>, onde você passa os dados que
+                deseja disponibilizar para todos os componentes filhos.</p>
+            <pre><code class="language-javascript">// Geralmente no topo da aplicação, como em App.tsx
+&lt;FavoritesContext.Provider value={{ favorites, addFavorite }}&gt;
+  {/* Todos os componentes aqui dentro podem acessar &#39;favorites&#39; e &#39;addFavorite&#39; */}
+  &lt;MinhaAplicacao /&gt;
+&lt;/FavoritesContext.Provider&gt;
+</code></pre>
+            <p><strong>3. O Hook <code>useContext</code></strong></p>
+            <p>Esta é a forma como os componentes &quot;se inscrevem&quot; ou &quot;ouvem&quot; o contexto para consumir
+                os dados. É o nosso &quot;rádio&quot; ou o &quot;dispositivo se conectando ao Wi-Fi&quot;.</p>
+            <p>O hook <code>useContext</code> recebe o objeto de contexto como argumento (o que foi criado com
+                <code>createContext</code>) e retorna o valor que foi passado para a <code>prop</code>
+                <code>value</code> do <code>Provider</code> mais próximo. O mais importante: qualquer componente que use
+                <code>useContext</code> será automaticamente re-renderizado sempre que o valor do <code>Provider</code>
+                mudar.</p>
+            <pre><code class="language-javascript">// Dentro de qualquer componente filho do Provider
+const { favorites, addFavorite } = useContext(FavoritesContext);
+</code></pre>
+            <p>Em resumo, o fluxo é simples:</p>
+            <ol>
+                <li><strong>Crie</strong> o contexto com <code>createContext</code>.</li>
+                <li><strong>Proveja</strong> o estado com o componente <code>&lt;Context.Provider&gt;</code> em um ponto
+                    alto da sua aplicação.</li>
+                <li><strong>Consuma</strong> o estado onde for necessário com o hook <code>useContext</code>.</li>
+            </ol>
+            <p>Compreendido o plano de ação, vamos para a prática!</p>
+            <hr>
+            <h2><strong>3. Implementando o Gerenciamento de Favoritos com a Context API</strong></h2>
+            <p>Agora que entendemos a teoria por trás da Context API — criar, prover e consumir um estado — é hora de
+                colocar a mão na massa. Vamos implementar nosso sistema de &quot;Favoritos&quot; na Pokédex, aplicando
+                esses conceitos para resolver o problema da comunicação entre telas.</p>
+            <p>Nosso plano de ação será dividido em três etapas claras:</p>
+            <ol>
+                <li>Primeiro, vamos <strong>criar</strong> nosso contexto. Isso envolverá definir a &quot;forma&quot;
+                    dos nossos dados globais (quais informações ele guardará e quais funções ele oferecerá) e
+                    inicializar o contexto com <code>createContext</code>.</li>
+                <li>Em seguida, vamos <strong>prover</strong> esse estado para toda a aplicação. Faremos isso criando um
+                    componente <code>Provider</code> que irá gerenciar o estado dos favoritos e o envolverá em torno da
+                    nossa estrutura de navegação no <code>App.tsx</code>.</li>
+                <li>Por fim, vamos <strong>consumir</strong> o estado em nossos componentes. Modificaremos o
+                    <code>PokemonCard</code> e o <code>PokemonDetailsScreen</code> para que eles possam ler a lista de
+                    favoritos e chamar as funções para adicionar ou remover um Pokémon, tudo através do hook
+                    <code>useContext</code>.</li>
+            </ol>
+            <h3><strong>3.1. Estruturando o Contexto: Definição da Interface e Criação do
+                    <code>FavoritesContext</code></strong></h3>
+            <p>O primeiro passo para criar nosso estado global é definir exatamente o que ele irá conter e quais
+                operações ele permitirá. No nosso caso, queremos gerenciar uma lista de IDs de Pokémons favoritos.</p>
+            <p>Para manter nosso projeto organizado, vamos criar uma nova pasta <code>src/contexts</code> e, dentro
+                dela, um novo arquivo chamado <code>FavoritesContext.tsx</code>.</p>
+            <p>Dentro deste arquivo, a primeira coisa que faremos é definir uma interface TypeScript para o nosso
+                contexto. Essa interface é o &quot;contrato&quot;: ela descreve a forma dos dados e das funções que
+                nosso contexto irá fornecer.</p>
+            <pre><code class="language-typescript">interface FavoritesContextData {
+  favorites: number[]; // Armazenaremos os IDs dos Pokémons favoritos
+  addFavorite: (pokemonId: number) =&gt; void;
+  removeFavorite: (pokemonId: number) =&gt; void;
+  isFavorite: (pokemonId: number) =&gt; boolean;
+}
+</code></pre>
+            <p>Analisando o contrato, temos:</p>
+            <ul>
+                <li><code>favorites: number[]</code>: Uma lista contendo apenas o <code>id</code> de cada Pokémon
+                    favoritado.</li>
+                <li><code>addFavorite</code>: Uma função para adicionar um novo <code>id</code> à lista.</li>
+                <li><code>removeFavorite</code>: Uma função para remover um <code>id</code> da lista.</li>
+                <li><code>isFavorite</code>: Uma função auxiliar para verificar rapidamente se um <code>id</code> já
+                    está na lista, retornando <code>true</code> or <code>false</code>.</li>
+            </ul>
+            <p>Com o contrato definido, agora podemos criar o contexto em si usando a função <code>createContext</code>
+                do React.</p>
+            <pre><code class="language-typescript">// src/contexts/FavoritesContext.tsx
+import React, { createContext } from &#39;react&#39;;
+
+// 1. Definindo a interface (o contrato)
+interface FavoritesContextData {
+  favorites: number[];
+  addFavorite: (pokemonId: number) =&gt; void;
+  removeFavorite: (pokemonId: number) =&gt; void;
+  isFavorite: (pokemonId: number) =&gt; boolean;
+}
+
+// 2. Criando o contexto com o contrato e um valor padrão
+export const FavoritesContext = createContext&lt;FavoritesContextData&gt;({} as FavoritesContextData);
+</code></pre>
+            <p>Aqui, passamos nossa interface <code>FavoritesContextData</code> como um tipo genérico
+                (<code>&lt;...&gt;</code>) para que o <code>createContext</code> saiba qual é a forma dos dados. O
+                <code>({} as FavoritesContextData)</code> é uma maneira de fornecer um valor inicial que satisfaça o
+                TypeScript, já que o valor real e funcional será injetado pelo <code>Provider</code>, que criaremos a
+                seguir. Estamos essencialmente dizendo ao TypeScript: &quot;Confie em mim, quando este contexto for
+                usado, ele terá todas essas propriedades&quot;.</p>
+            <p>Com nosso contexto criado e devidamente tipado, o próximo passo é criar o <code>Provider</code>, o
+                componente que irá de fato gerenciar o estado e disponibilizá-lo para o resto da aplicação.</p>
+            <h3><strong>3.2. Criando o Provedor: O Componente <code>FavoritesProvider</code> e seu estado
+                    interno</strong></h3>
+            <p>Criamos o <code>FavoritesContext</code>! No entanto, ele é apenas um &quot;recipiente&quot; vazio, um
+                contrato. Agora, precisamos criar o componente que irá, de fato, gerenciar o estado e &quot;prover&quot;
+                (fornecer) esse estado para a nossa aplicação. Esse componente é o nosso <code>Provider</code>.</p>
+            <p>O <code>FavoritesProvider</code> será um componente React normal que fará o seguinte:</p>
+            <ol>
+                <li>Usará o hook <code>useState</code> para armazenar a lista de IDs dos Pokémons favoritos.</li>
+                <li>Implementará a lógica das funções que definimos na interface <code>FavoritesContextData</code>
+                    (<code>addFavorite</code>, <code>removeFavorite</code>, <code>isFavorite</code>).</li>
+                <li>Usará o <code>&lt;FavoritesContext.Provider&gt;</code> para passar o estado e as funções para seus
+                    componentes filhos.</li>
+            </ol>
+            <p>Vamos adicionar este código ao nosso arquivo <code>src/contexts/FavoritesContext.tsx</code>, logo abaixo
+                da criação do contexto:</p>
+            <pre><code class="language-typescript">// src/contexts/FavoritesContext.tsx
+import React, { createContext, useState, ReactNode } from &#39;react&#39;;
+
+// 1. A interface (contrato) que já tínhamos
+interface FavoritesContextData {
+  favorites: number[];
+  addFavorite: (pokemonId: number) =&gt; void;
+  removeFavorite: (pokemonId: number) =&gt; void;
+  isFavorite: (pokemonId: number) =&gt; boolean;
+}
+
+// 2. O contexto que já tínhamos
+export const FavoritesContext = createContext&lt;FavoritesContextData&gt;({} as FavoritesContextData);
+
+// 3. O novo componente Provider
+export const FavoritesProvider = ({ children }: { children: ReactNode }) =&gt; {
+  // Estado que irá armazenar os IDs dos pokémons favoritos
+  const [favorites, setFavorites] = useState&lt;number[]&gt;([]);
+
+  // Função para adicionar um favorito, garantindo que não haja duplicados
+  const addFavorite = (pokemonId: number) =&gt; {
+    if (!favorites.includes(pokemonId)) {
+      setFavorites(prevFavorites =&gt; [...prevFavorites, pokemonId]);
+    }
+  };
+
+  // Função para remover um favorito
+  const removeFavorite = (pokemonId: number) =&gt; {
+    setFavorites(prevFavorites =&gt; prevFavorites.filter(id =&gt; id !== pokemonId));
+  };
+
+  // Função para checar se um pokémon é favorito
+  const isFavorite = (pokemonId: number) =&gt; {
+    return favorites.includes(pokemonId);
+  };
+
+  // Retornamos o Provider do nosso contexto, passando o estado e as funções no &#39;value&#39;
+  return (
+    &lt;FavoritesContext.Provider 
+      value={{ favorites, addFavorite, removeFavorite, isFavorite }}
+    &gt;
+      {children}
+    &lt;/FavoritesContext.Provider&gt;
+  );
+};
+</code></pre>
+            <p>Pode parecer que há muitos detalhes nesse código, mas é importante notar que ele segue as práticas mais
+                modernas e recomendadas para o desenvolvimento com React e TypeScript. Toda a lógica está contida em um
+                <strong>componente funcional</strong> e utiliza <strong>hooks</strong>, que é a abordagem padrão no
+                ecossistema React atual por sua clareza e flexibilidade.</p>
+            <p>Um dos conceitos mais importantes aplicados aqui é a <strong>imutabilidade</strong>. Observe que nunca
+                modificamos o array de favoritos diretamente. Para adicionar um item, usamos
+                <code>setFavorites(prev =&gt; [...prev, pokemonId])</code>, que cria um <strong>novo array</strong> em
+                vez de mutar o original com <code>.push()</code>. Da mesma forma, <code>.filter()</code> para remover um
+                item também retorna uma nova cópia. O uso da forma de callback (<code>prev =&gt; ...</code>) é outra boa
+                prática que garante que nossas atualizações sejam baseadas no estado mais recente, evitando bugs em
+                cenários mais complexos.</p>
+            <p>A <strong>tipagem forte com TypeScript</strong>, através da interface <code>FavoritesContextData</code> e
+                da declaração <code>useState&lt;number[]&gt;()</code>, nos dá segurança, autocompletar e um
+                &quot;contrato&quot; explícito do que nosso contexto oferece. Por fim, a estrutura do
+                <code>FavoritesProvider</code> que recebe e renderiza <code>{children}</code> é o padrão idiomático para
+                criar componentes provedores que podem &quot;abraçar&quot; qualquer parte da nossa aplicação, tornando a
+                ferramenta flexível e desacoplada.</p>
+            <p>Com nosso <code>FavoritesProvider</code> pronto e bem estruturado, o próximo passo é posicioná-lo no topo
+                da nossa árvore de componentes, em <code>App.tsx</code>, para que todas as telas tenham acesso a ele.
+            </p>
+            <h3><strong>3.3. Disponibilizando o Estado: Integrando o <code>FavoritesProvider</code></strong></h3>
+            <p>Criamos nosso <code>FavoritesProvider</code>, mas, por enquanto, ele não está sendo usado em lugar
+                nenhum. Para que o estado global de favoritos seja acessível por todas as as telas da nossa aplicação,
+                precisamos &quot;envolver&quot; nossa árvore de componentes com ele.</p>
+            <p>O local ideal para fazer isso é no ponto mais alto da nossa aplicação, que é o arquivo
+                <code>App.tsx</code>. Ao posicionar o <code>Provider</code> no topo, garantimos que qualquer componente
+                filho — não importa o quão aninhado esteja — possa se conectar e consumir o contexto.</p>
+            <p>Vamos abrir o arquivo <code>App.tsx</code> e fazer duas pequenas alterações:</p>
+            <ol>
+                <li>Importar nosso <code>FavoritesProvider</code>.</li>
+                <li>Envolver o <code>NavigationContainer</code> com o <code>FavoritesProvider</code>.</li>
+            </ol>
+            <p>O arquivo <code>App.tsx</code> ficará assim:</p>
+            <pre><code class="language-typescript">// App.tsx
+import React from &#39;react&#39;;
+import { NavigationContainer } from &#39;@react-navigation/native&#39;;
+import { createNativeStackNavigator } from &#39;@react-navigation/native-stack&#39;;
+import { SafeAreaProvider } from &#39;react-native-safe-area-context&#39;;
+
+import { PokedexScreen } from &#39;./screens/PokedexScreen&#39;;
+import { PokemonDetailsScreen } from &#39;./screens/PokemonDetailsScreen&#39;;
+import { RootStackParamList } from &#39;./types/Navigation&#39;;
+
+// Importamos nosso novo Provider
+import { FavoritesProvider } from &#39;./contexts/FavoritesContext&#39;;
+
+const Stack = createNativeStackNavigator&lt;RootStackParamList&gt;();
+
+export default function App() {
+  return (
+    &lt;SafeAreaProvider&gt;
+      {/* O Provider envolve a navegação e todas as telas */}
+      &lt;FavoritesProvider&gt;
+        &lt;NavigationContainer&gt;
+          &lt;Stack.Navigator initialRouteName=&quot;Pokedex&quot;&gt;
+            &lt;Stack.Screen 
+              name=&quot;Pokedex&quot; 
+              component={PokedexScreen} 
+              options={{ title: &#39;Pokédex&#39; }}
+            /&gt;
+            &lt;Stack.Screen 
+              name=&quot;PokemonDetails&quot; 
+              component={PokemonDetailsScreen} 
+              options={{ title: &#39;Detalhes do Pokémon&#39; }} 
+            /&gt;
+          &lt;/Stack.Navigator&gt;
+        &lt;/NavigationContainer&gt;
+      &lt;/FavoritesProvider&gt;
+    &lt;/SafeAreaProvider&gt;
+  );
+}
+</code></pre>
+            <p>Esta simples alteração no <code>App.tsx</code> é, na verdade, um passo arquitetural fundamental, e é
+                importante entender por que essa abordagem segue as melhores práticas modernas. Ao posicionar o
+                <code>FavoritesProvider</code> envolvendo o <code>NavigationContainer</code>, estamos aplicando o
+                princípio de <strong>centralização do estado</strong>. Isso reforça a <strong>separação de
+                    responsabilidades</strong>: nosso <code>App.tsx</code> agora atua como uma <strong>raiz de
+                    composição</strong>, cujo único trabalho é orquestrar os diferentes provedores que dão superpoderes
+                à nossa aplicação (<code>SafeAreaProvider</code> para layout, <code>FavoritesProvider</code> para
+                estado, <code>NavigationContainer</code> para rotas).</p>
+            <p>Esse padrão é bastante <strong>escalável</strong>, pois se no futuro precisarmos de um estado global para
+                autenticação ou temas, bastaria adicionar um novo <code>Provider</code> nesta mesma estrutura. Como
+                resultado, nossas telas se tornam <strong>desacopladas</strong> da implementação do estado, facilitando
+                a manutenção e os testes.</p>
+            <p>Com nosso estado agora sendo provido de forma central, a etapa final é aprender a &quot;sintonizar&quot;
+                essa frequência em nossos componentes e, de fato, consumir os dados. É o que faremos a seguir.</p>
+            <h3><strong>3.4. Consumindo o Estado: Utilizando o Contexto nos Componentes</strong></h3>
+            <p>Com nosso <code>FavoritesProvider</code> posicionado corretamente no <code>App.tsx</code>, o estado
+                global de favoritos já está &quot;no ar&quot;. Agora, qualquer componente dentro da nossa aplicação pode
+                &quot;sintonizar&quot; e usar esses dados. Vamos ver como fazer isso na prática, modificando nossos
+                componentes para que eles interajam com a lista de favoritos.</p>
+            <p>Para manter nosso código limpo e reutilizável, a melhor prática é criar um <strong>hook
+                    customizado</strong> que encapsula a chamada <code>useContext</code>. Isso torna o consumo do
+                contexto mais simples e legível.</p>
+            <p>Adicione o seguinte hook ao final do seu arquivo <code>src/contexts/FavoritesContext.tsx</code>:</p>
+            <pre><code class="language-typescript">// Adicionar ao final de src/contexts/FavoritesContext.tsx
+import { useContext } from &#39;react&#39;;
+// ... (código anterior do arquivo) ...
+
+// Hook customizado para consumir o contexto de favoritos
+export function useFavorites(): FavoritesContextData {
+  const context = useContext(FavoritesContext);
+
+  // Garante que o hook só seja usado dentro de um FavoritesProvider
+  if (!context) {
+    throw new Error(&#39;useFavorites deve ser usado dentro de um FavoritesProvider&#39;);
+  }
+
+  return context;
+}
+</code></pre>
+            <p>Agora, em vez de importar <code>useContext</code> e <code>FavoritesContext</code> em cada componente,
+                podemos simplesmente importar e usar nosso novo hook <code>useFavorites</code>.</p>
+            <h4>Modificando o <code>PokemonCard.tsx</code></h4>
+            <p>Vamos alterar nosso card para que ele mostre um ícone de estrela e permita ao usuário favoritar ou
+                desfavoritar um Pokémon.</p>
+            <pre><code class="language-typescript">// components/PokemonCard.tsx
+import React from &#39;react&#39;;
+import { View, Text, Image, StyleSheet, TouchableOpacity } from &#39;react-native&#39;;
+import { Pokemon } from &#39;../types/Pokemon&#39;;
+import { useNavigation } from &#39;@react-navigation/native&#39;;
+import { NativeStackNavigationProp } from &#39;@react-navigation/native-stack&#39;;
+import { RootStackParamList } from &#39;../types/Navigation&#39;;
+import { capitalize } from &#39;../utils/format&#39;;
+import { useFavorites } from &#39;../contexts/FavoritesContext&#39;; // 1. Importar o hook
+
+type PokemonCardNavigationProp = NativeStackNavigationProp&lt;RootStackParamList, &#39;PokemonDetails&#39;&gt;;
+
+export const PokemonCard = ({ pokemon }: { pokemon: Pokemon }) =&gt; {
+  const navigation = useNavigation&lt;PokemonCardNavigationProp&gt;();
+  
+  // 2. Consumir o contexto de favoritos
+  const { addFavorite, removeFavorite, isFavorite } = useFavorites();
+  const favorite = isFavorite(pokemon.id);
+
+  const handleToggleFavorite = () =&gt; {
+    if (favorite) {
+      removeFavorite(pokemon.id);
+    } else {
+      addFavorite(pokemon.id);
+    }
+  };
+
+  return (
+    &lt;TouchableOpacity
+      onPress={() =&gt; navigation.navigate(&#39;PokemonDetails&#39;, { pokemonId: pokemon.id })}
+      style={styles.touchableCard}
+    &gt;
+      &lt;View style={[styles.cardInner, favorite &amp;&amp; styles.cardFavorite]}&gt;
+        {/* Ícone de favorito no topo do card */}
+        &lt;TouchableOpacity onPress={handleToggleFavorite} style={styles.favoriteButton}&gt;
+          &lt;Text style={styles.favoriteIcon}&gt;{favorite ? &#39;⭐&#39; : &#39;☆&#39;}&lt;/Text&gt;
+        &lt;/TouchableOpacity&gt;
+        
+        &lt;Image source={{ uri: pokemon.image }} style={styles.image} /&gt;
+        &lt;Text style={styles.name}&gt;{capitalize(pokemon.name)}&lt;/Text&gt;
+      &lt;/View&gt;
+    &lt;/TouchableOpacity&gt;
+  );
+};
+
+const styles = StyleSheet.create({
+  touchableCard: {
+    flex: 1,
+    margin: 8,
+  },
+  cardInner: {
+    backgroundColor: &#39;#f0f0f0&#39;,
+    padding: 12,
+    borderRadius: 12,
+    alignItems: &#39;center&#39;,
+    flex: 1,
+    position: &#39;relative&#39;, // Para posicionar o botão de favorito
+  },
+  cardFavorite: {
+    backgroundColor: &#39;#fffbe6&#39;, // Cor de fundo para favoritos
+    borderColor: &#39;#facc15&#39;,
+    borderWidth: 2,
+  },
+  image: { width: 80, height: 80 },
+  name: { marginTop: 8, fontWeight: &#39;bold&#39; },
+  favoriteButton: {
+    position: &#39;absolute&#39;,
+    top: 8,
+    right: 8,
+    zIndex: 1,
+  },
+  favoriteIcon: {
+    fontSize: 24,
+  },
+});
+</code></pre>
+            <h4>Modificando o <code>PokemonDetailsScreen.tsx</code></h4>
+            <p>Para demonstrar o poder do estado global, vamos adicionar a mesma funcionalidade à tela de detalhes.</p>
+            <pre><code class="language-typescript">// screens/PokemonDetailsScreen.tsx
+import React, { useEffect, useState } from &#39;react&#39;;
+import { View, Text, Image, StyleSheet, ActivityIndicator, ScrollView, TouchableOpacity } from &#39;react-native&#39;;
+import { RouteProp, useRoute } from &#39;@react-navigation/native&#39;;
+import { RootStackParamList } from &#39;../types/Navigation&#39;;
+import { Pokemon } from &#39;../types/Pokemon&#39;;
+import { getPokemonById } from &#39;../services/api&#39;;
+import { capitalize } from &#39;../utils/format&#39;;
+import { useFavorites } from &#39;../contexts/FavoritesContext&#39;; // 1. Importar o hook
+
+type PokemonDetailsScreenRouteProp = RouteProp&lt;RootStackParamList, &#39;PokemonDetails&#39;&gt;;
+
+export const PokemonDetailsScreen = () =&gt; {
+  const route = useRoute&lt;PokemonDetailsScreenRouteProp&gt;();
+  const { pokemonId } = route.params;
+
+  const [pokemon, setPokemon] = useState&lt;Pokemon | null&gt;(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState&lt;string | null&gt;(null);
+  
+  // 2. Consumir o contexto de favoritos
+  const { addFavorite, removeFavorite, isFavorite } = useFavorites();
+  
+  // Verifica se o pokémon atual é um favorito (só executa se &#39;pokemon&#39; existir)
+  const favorite = pokemon ? isFavorite(pokemon.id) : false;
+
+  const handleToggleFavorite = () =&gt; {
+    if (pokemon) {
+      if (favorite) {
+        removeFavorite(pokemon.id);
+      } else {
+        addFavorite(pokemon.id);
+      }
+    }
+  };
+
+  useEffect(() =&gt; {
+    const fetchDetails = async () =&gt; {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const details = await getPokemonById(pokemonId);
+        setPokemon(details);
+      } catch (err) {
+        setError(&#39;Falha ao carregar detalhes do Pokémon.&#39;);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDetails();
+  }, [pokemonId]);
+
+  if (isLoading) {
+    return &lt;ActivityIndicator size=&quot;large&quot; style={styles.centered} /&gt;;
+  }
+
+  if (error) {
+    return &lt;Text style={styles.errorText}&gt;{error}&lt;/Text&gt;;
+  }
+
+  if (!pokemon) {
+    return &lt;Text style={styles.centered}&gt;Pokémon não encontrado.&lt;/Text&gt;;
+  }
+
+  return (
+    &lt;ScrollView contentContainerStyle={styles.container}&gt;
+      {/* 3. Botão para favoritar */}
+      &lt;TouchableOpacity onPress={handleToggleFavorite} style={styles.favoriteButton}&gt;
+        &lt;Text style={styles.favoriteIcon}&gt;{favorite ? &#39;⭐&#39; : &#39;☆&#39;}&lt;/Text&gt;
+      &lt;/TouchableOpacity&gt;
+
+      &lt;Image source={{ uri: pokemon.image }} style={styles.image} /&gt;
+      &lt;Text style={styles.name}&gt;{capitalize(pokemon.name)}&lt;/Text&gt;
+      &lt;Text style={styles.idText}&gt;ID: #{pokemon.id}&lt;/Text&gt;
+      
+      &lt;View style={styles.typesContainer}&gt;
+        &lt;Text style={styles.sectionTitle}&gt;Tipos:&lt;/Text&gt;
+        {pokemon.types.map((type) =&gt; (
+          &lt;Text key={type} style={styles.typeText}&gt;{capitalize(type)}&lt;/Text&gt;
+        ))}
+      &lt;/View&gt;
+    &lt;/ScrollView&gt;
+  );
+};
+
+// 4. Adicionar novos estilos e ajustar os existentes
+const styles = StyleSheet.create({
+  container: {
+    padding: 20,
+    alignItems: &#39;center&#39;,
+  },
+  centered: {
+    flex: 1,
+    justifyContent: &#39;center&#39;,
+    alignItems: &#39;center&#39;,
+  },
+  errorText: {
+    flex: 1,
+    textAlign: &#39;center&#39;,
+    marginTop: 20,
+    color: &#39;red&#39;,
+    fontSize: 16,
+  },
+  image: {
+    width: 200,
+    height: 200,
+    marginBottom: 16,
+    backgroundColor: &#39;#f0f0f0&#39;,
+    borderRadius: 100,
+  },
+  name: {
+    fontSize: 28,
+    fontWeight: &#39;bold&#39;,
+    marginBottom: 8,
+  },
+  idText: {
+    fontSize: 16,
+    color: &#39;#666&#39;,
+    marginBottom: 16,
+  },
+  typesContainer: {
+    marginBottom: 16,
+    alignItems: &#39;center&#39;,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: &#39;600&#39;,
+    marginBottom: 8,
+  },
+  typeText: { 
+    fontSize: 16,
+    marginHorizontal: 4,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    backgroundColor: &#39;#ddd&#39;,
+    borderRadius: 4,
+    marginBottom: 4,
+    textTransform: &#39;capitalize&#39;,
+  },
+  favoriteButton: {
+    position: &#39;absolute&#39;,
+    top: 20,
+    right: 20,
+    zIndex: 1,
+  },
+  favoriteIcon: {
+    fontSize: 32,
+  },
+});
+</code></pre>
+            <p>Pronto! Com essas modificações, os componentes <code>PokemonCard</code> e
+                <code>PokemonDetailsScreen</code> agora compartilham o mesmo estado de favoritos. Se você favoritar um
+                Pokémon na tela de detalhes, a estrela aparecerá imediatamente na lista da <code>PokedexScreen</code> (e
+                vice-versa). O problema do estado isolado está resolvido!</p>
+            <p>É fundamental notar que a abordagem utilizada para consumir o contexto, através do hook customizado
+                <code>useFavorites</code>, representa um padrão moderno e altamente recomendado. Em vez de cada
+                componente chamar <code>useContext(FavoritesContext)</code> diretamente, nós criamos essa camada de
+                abstração que torna o código mais profissional e manutenível. Isso desacopla nossos componentes da
+                implementação específica do contexto; se um dia decidirmos trocar a forma como o estado é gerenciado, só
+                precisamos alterar o hook <code>useFavorites</code>, e todos os componentes que o utilizam continuarão
+                funcionando sem nenhuma modificação.</p>
+            <p>Essa prática reforça a <strong>Separação de Responsabilidades (SoC)</strong> e nos alinha com o padrão
+                <strong>MVVM</strong> discutido na aula anterior. Nossos componentes visuais (<code>PokemonCard</code>,
+                <code>PokemonDetailsScreen</code>) atuam como a <em>View</em>: sua única preocupação é exibir a
+                interface de forma <strong>declarativa</strong> (mostrando &#39;⭐&#39; se <code>favorite</code> for
+                <code>true</code>) e delegar as ações do usuário. O hook <code>useFavorites</code> funciona como nosso
+                <em>ViewModel</em>: ele encapsula a lógica de negócio e fornece os dados e as funções necessárias para a
+                <em>View</em>.
+                A verificação <code>if (!context)</code> dentro do hook é outra prática de desenvolvimento defensivo que
+                previne erros e torna o debugging mais simples.</p>
+            <p>Portanto, a solução implementada não apenas resolve o problema de compartilhar estado, mas o faz de uma
+                maneira que promove um código mais limpo, desacoplado, testável e fácil de dar manutenção — todos os
+                pilares de uma aplicação React Native moderna e bem-arquiteturada.</p>
+            <hr>
+            <h2><strong>4. Tornando o Estado Persistente com AsyncStorage</strong></h2>
+            <p>No tópico anterior, resolvemos o desafio do estado isolado. Nossa lista de favoritos agora é global e
+                consistente entre as telas. No entanto, ainda enfrentamos a segunda limitação que discutimos na
+                introdução: os <strong>dados são voláteis</strong>.</p>
+            <p>Isso significa que, se o usuário fechar e reabrir a Pokédex, toda a sua lista de Pokémon favoritos terá
+                desaparecido. Para uma aplicação profissional, essa é uma falha grave na experiência do usuário, pois o
+                trabalho de personalização dele não é respeitado.</p>
+            <p>Para tornar nossos dados permanentes, precisamos salvá-los no armazenamento local do dispositivo. No
+                ecossistema React Native, a ferramenta padrão para isso é o
+                <strong><code>@react-native-async-storage/async-storage</code></strong>, comumente chamado de
+                <strong>AsyncStorage</strong>.</p>
+            <p>Ele funciona como um sistema de armazenamento de chave-valor, e, como o nome sugere, todas as suas
+                operações (salvar, ler, remover) são <strong>assíncronas</strong>, retornando <code>Promises</code>. É
+                importante saber que o AsyncStorage armazena apenas dados no formato de <strong>string</strong>.
+                Portanto, para salvar objetos ou arrays, como a nossa lista de favoritos, precisaremos convertê-los para
+                string (usando <code>JSON.stringify</code>) e, ao lê-los, fazer o processo inverso (com
+                <code>JSON.parse</code>).</p>
+            <p>Nesta seção, vamos instalar essa biblioteca, integrá-la ao nosso <code>FavoritesContext</code> e criar um
+                fluxo onde os favoritos são carregados do disco quando o app abre e salvos automaticamente sempre que o
+                usuário faz uma alteração.</p>
+            <h3><strong>4.1. Por que Salvar Dados Localmente? Introdução ao Armazenamento no Dispositivo</strong></h3>
+            <p>Um dos pilares de uma boa experiência do usuário em aplicativos móveis é a <strong>continuidade</strong>.
+                O usuário espera que o aplicativo &quot;lembre&quot; de suas ações, preferências e personalizações entre
+                diferentes sessões de uso.</p>
+            <p>Como vimos, o estado gerenciado pelo <code>useState</code> ou pela <code>Context API</code> vive apenas
+                na memória RAM do dispositivo. Isso significa que no momento em que o sistema operacional fecha o
+                aplicativo (seja por ação do usuário ou para liberar recursos), todo o nosso trabalho é perdido. No
+                nosso caso, o usuário pode passar vários minutos navegando, selecionando cuidadosamente seus Pokémons
+                favoritos, apenas para descobrir que, ao reabrir o app, sua lista de favoritos está vazia. Essa
+                experiência é frustrante e quebra a percepção de que o aplicativo é um espaço pessoal e customizável.
+            </p>
+            <p>É aqui que entra a <strong>persistência de dados locais</strong>: a capacidade de salvar informações
+                diretamente no armazenamento do dispositivo (seja um celular ou tablet) para que possam ser recuperadas
+                em sessões futuras. No universo React Native, a principal ferramenta para armazenamento simples de dados
+                é o <strong><code>@react-native-async-storage/async-storage</code></strong> (ou simplesmente
+                <strong>AsyncStorage</strong>).</p>
+            <p>Ele oferece uma API de armazenamento de <strong>chave-valor</strong>, ideal para dados não-estruturados
+                ou de pequeno a médio volume, como preferências de usuário, tokens de autenticação ou, no nosso caso,
+                uma lista de IDs de favoritos. Não se trata de um banco de dados relacional como o SQLite.</p>
+            <p>É fundamental entender que todas as operações com o AsyncStorage são <strong>assíncronas</strong>. Isso
+                significa que as funções para ler ou salvar dados retornam <code>Promises</code>, e devemos sempre usar
+                <code>async/await</code> ou <code>.then()</code> para lidar com elas, garantindo que a interface do
+                usuário não seja bloqueada durante as operações de disco.</p>
+            <p>A seguir, vamos instalar esta biblioteca e prepará-la para ser integrada ao nosso
+                <code>FavoritesContext</code>.</p>
+            <h3><strong>4.2. Instalando e Conhecendo o <code>@react-native-async-storage/async-storage</code></strong>
+            </h3>
+            <p>Antes de integrarmos a persistência ao nosso contexto, o primeiro passo é adicionar a biblioteca
+                <code>AsyncStorage</code> ao nosso projeto. Por se tratar de uma biblioteca que interage com o sistema
+                nativo do dispositivo, a forma recomendada de instalação em projetos Expo é utilizando o comando:</p>
+            <pre><code class="language-bash">npx expo install @react-native-async-storage/async-storage
+</code></pre>
+            <p>Este comando garante que será instalada uma versão da biblioteca que é compatível com a versão do Expo
+                SDK do nosso projeto, evitando possíveis conflitos.</p>
+            <h4>Entendendo a API do AsyncStorage</h4>
+            <p>O <code>AsyncStorage</code> possui uma API simples e assíncrona baseada em três métodos principais:</p>
+            <p><strong>1. <code>setItem(key, value)</code></strong></p>
+            <p>Para salvar um dado, usamos <code>setItem</code>. Ele recebe dois argumentos: uma <code>chave</code>
+                (key) e um <code>valor</code> (value). <strong>Ambos devem ser strings.</strong></p>
+            <pre><code class="language-javascript">// Exemplo de como salvar nossa lista de favoritos
+// Lembre-se que o array precisa ser convertido para string com JSON.stringify
+
+const listaDeIds = [1, 4, 7];
+const dadosEmString = JSON.stringify(listaDeIds);
+
+await AsyncStorage.setItem(&#39;@PokedexApp:favorites&#39;, dadosEmString);
+</code></pre>
+            <p><strong>2. <code>getItem(key)</code></strong></p>
+            <p>Para ler um dado salvo, usamos <code>getItem</code>, que recebe a <code>chave</code> do item desejado.
+                Ele retorna uma <code>Promise</code> que resolve para o valor em string, ou <code>null</code> se a chave
+                não existir.</p>
+            <pre><code class="language-javascript">const dadosSalvos = await AsyncStorage.getItem(&#39;@PokedexApp:favorites&#39;);
+
+if (dadosSalvos !== null) {
+  // O valor volta como string, então precisamos convertê-lo de volta para um array
+  const listaDeIds = JSON.parse(dadosSalvos);
+  console.log(listaDeIds); // Exibirá: [1, 4, 7]
+}
+</code></pre>
+            <p><strong>3. <code>removeItem(key)</code></strong></p>
+            <p>Para remover um item do armazenamento, usamos <code>removeItem</code>, passando a chave que queremos
+                apagar.</p>
+            <pre><code class="language-javascript">await AsyncStorage.removeItem(&#39;@PokedexApp:favorites&#39;);
+</code></pre>
+            <p>Com a biblioteca instalada e seus métodos básicos compreendidos, estamos prontos para a parte mais
+                importante: integrar essa lógica de salvar e carregar dados diretamente no nosso
+                <code>FavoritesContext</code>.</p>
+            <h3><strong>4.3. Integrando a Persistência ao <code>FavoritesContext</code></strong></h3>
+            <p>Com o <code>AsyncStorage</code> instalado, o passo final é conectar sua funcionalidade ao nosso
+                <code>FavoritesContext</code>. A lógica é a seguinte:</p>
+            <ol>
+                <li><strong>Ao iniciar a aplicação:</strong> Precisamos verificar se já existe uma lista de favoritos
+                    salva no <code>AsyncStorage</code>. Se houver, carregamos essa lista para o nosso estado
+                    <code>favorites</code>.</li>
+                <li><strong>Sempre que a lista de favoritos for alterada:</strong> Precisamos salvar a nova versão da
+                    lista no <code>AsyncStorage</code>, sobrescrevendo a anterior.</li>
+            </ol>
+            <p>Para executar essas ações no momento certo (ao montar o componente e a cada atualização do estado),
+                usaremos o hook <code>useEffect</code>.</p>
+            <p>Vamos modificar nosso arquivo <code>src/contexts/FavoritesContext.tsx</code> para incluir essa lógica:
+            </p>
+            <pre><code class="language-typescript">// src/contexts/FavoritesContext.tsx
+import React, { createContext, useState, useEffect, ReactNode, useContext } from &#39;react&#39;;
+import AsyncStorage from &#39;@react-native-async-storage/async-storage&#39;;
+
+const FAVORITES_KEY = &#39;@PokedexApp:favorites&#39;;
+
+interface FavoritesContextData {
+  favorites: number[];
+  addFavorite: (pokemonId: number) =&gt; void;
+  removeFavorite: (pokemonId: number) =&gt; void;
+  isFavorite: (pokemonId: number) =&gt; boolean;
+}
+
+export const FavoritesContext = createContext&lt;FavoritesContextData&gt;({} as FavoritesContextData);
+
+export const FavoritesProvider = ({ children }: { children: ReactNode }) =&gt; {
+  const [favorites, setFavorites] = useState&lt;number[]&gt;([]);
+  // Adicionamos um estado de &#39;loading&#39; para o carregamento inicial
+  const [loading, setLoading] = useState(true);
+
+  // Efeito para CARREGAR os favoritos do AsyncStorage na inicialização
+  useEffect(() =&gt; {
+    async function loadFavorites() {
+      try {
+        const storedFavorites = await AsyncStorage.getItem(FAVORITES_KEY);
+        if (storedFavorites) {
+          setFavorites(JSON.parse(storedFavorites));
+        }
+      } catch (e) {
+        console.error(&quot;Falha ao carregar os favoritos do armazenamento.&quot;, e);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadFavorites();
+  }, []);
+
+  // Efeito para SALVAR os favoritos no AsyncStorage sempre que a lista mudar
+  useEffect(() =&gt; {
+    // Evitamos salvar no primeiro render, antes dos dados serem carregados
+    if (!loading) {
+      async function saveFavorites() {
+        try {
+          await AsyncStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+        } catch (e) {
+          console.error(&quot;Falha ao salvar os favoritos no armazenamento.&quot;, e);
+        }
+      }
+      saveFavorites();
+    }
+  }, [favorites, loading]);
+
+  const addFavorite = (pokemonId: number) =&gt; {
+    if (!favorites.includes(pokemonId)) {
+      setFavorites(prev =&gt; [...prev, pokemonId]);
+    }
+  };
+
+  const removeFavorite = (pokemonId: number) =&gt; {
+    setFavorites(prev =&gt; prev.filter(id =&gt; id !== pokemonId));
+  };
+
+  const isFavorite = (pokemonId: number) =&gt; {
+    return favorites.includes(pokemonId);
+  };
+
+  // Evita renderizar a aplicação antes que os favoritos sejam carregados
+  if (loading) {
+    return null;
+  }
+
+  return (
+    &lt;FavoritesContext.Provider value={{ favorites, addFavorite, removeFavorite, isFavorite }}&gt;
+      {children}
+    &lt;/FavoritesContext.Provider&gt;
+  );
+};
+
+// Hook customizado para facilitar o consumo do contexto
+export function useFavorites(): FavoritesContextData {
+  const context = useContext(FavoritesContext);
+  if (!context) {
+    throw new Error(&#39;useFavorites deve ser usado dentro de um FavoritesProvider&#39;);
+  }
+  return context;
+}
+</code></pre>
+            <h4>O que fizemos aqui?</h4>
+            <ul>
+                <li><strong>Estado de Carregamento:</strong> Adicionamos um novo estado <code>loading</code> para
+                    sabermos quando a busca inicial no <code>AsyncStorage</code> terminou. Isso é importante para evitar
+                    que a lista vazia inicial (<code>[]</code>) seja salva no disco antes de carregarmos os dados reais.
+                </li>
+                <li><strong>Primeiro <code>useEffect</code> (Carregar Dados):</strong> Este efeito roda <strong>apenas
+                        uma vez</strong> quando o <code>Provider</code> é montado (note o array de dependências vazio
+                    <code>[]</code>). Ele tenta ler a chave <code>@PokedexApp:favorites</code> do disco. Se encontrar
+                    dados, usa <code>JSON.parse</code> para convertê-los de volta em um array e atualiza nosso estado
+                    com <code>setFavorites</code>.</li>
+                <li><strong>Segundo <code>useEffect</code> (Salvar Dados):</strong> Este efeito é acionado sempre que o
+                    estado <code>favorites</code> (ou <code>loading</code>) muda. A condição <code>if (!loading)</code>
+                    garante que só tentaremos salvar os dados <strong>após</strong> o carregamento inicial ter sido
+                    concluído. Ele pega o array atual de <code>favorites</code>, converte-o para uma string com
+                    <code>JSON.stringify</code> e o salva no disco.</li>
+            </ul>
+            <p>E está feito! Com esta integração, nosso <code>FavoritesContext</code> agora é totalmente persistente. O
+                usuário pode fechar o aplicativo e, ao abri-lo novamente, sua lista de Pokémons favoritos estará
+                exatamente como ele deixou.</p>
+            <p>É importante destacar que esta implementação não é apenas uma solução que funciona, mas um exemplo de
+                como construir funcionalidades resilientes e bem-arquiteturadas em React Native. A principal virtude
+                desta abordagem é o <strong>encapsulamento total da lógica de persistência</strong>. Nossos componentes,
+                como o <code>PokemonCard</code>, continuam a interagir apenas com o hook <code>useFavorites</code>,
+                completamente alheios ao fato de que os dados estão sendo salvos no <code>AsyncStorage</code>. Essa
+                <strong>separação de responsabilidades</strong> é de grande importância: se no futuro decidirmos usar um
+                banco de dados mais complexo, a única parte do código que precisará de alteração será o
+                <code>FavoritesProvider</code>. A interface do usuário permanecerá intacta.</p>
+            <p>O uso de dois <code>useEffect</code>s distintos, um para carregar e outro para salvar, demonstra um
+                <strong>gerenciamento de ciclo de vida claro e deliberado</strong>. A introdução de um estado de
+                <code>loading</code> é o que torna a solução <strong>resiliente</strong>: ela previne que a interface
+                exiba um estado inconsistente (uma lista vazia que &quot;pisca&quot; na tela) e, através da verificação
+                <code>if (!loading)</code>, evita uma condição de corrida onde o estado inicial vazio poderia
+                sobrescrever os dados já salvos. Além disso, os blocos <code>try/catch</code> garantem que, mesmo que a
+                leitura ou escrita no disco falhe, a aplicação não irá quebrar.</p>
+            <p>Em resumo, a solução implementada lida com a natureza assíncrona do armazenamento, trata possíveis erros
+                e gerencia estados intermediários — detalhes que separam uma aplicação de protótipo de uma aplicação
+                pronta para produção. A seguir, vamos analisar como toda essa estrutura se encaixa no padrão de
+                arquitetura MVVM.</p>
+            <h3><strong>4.3.1. Carregando os Dados do <code>AsyncStorage</code> na Inicialização do App
+                    (<code>useEffect</code>)</strong></h3>
+            <p>A primeira parte da nossa integração com o <code>AsyncStorage</code> é a <strong>leitura dos
+                    dados</strong>. Queremos que, assim que o nosso <code>FavoritesProvider</code> for montado, ele
+                verifique se há uma lista de favoritos salva no disco e, em caso afirmativo, a carregue для o estado da
+                nossa aplicação.</p>
+            <p>Para executar uma ação apenas uma vez, no momento em que o componente é &quot;montado&quot; (ou seja,
+                aparece na tela pela primeira vez), usamos o hook <code>useEffect</code> com um array de dependências
+                vazio (<code>[]</code>).</p>
+            <p>Vamos adicionar o estado de <code>loading</code> e o <code>useEffect</code> de carregamento ao nosso
+                <code>FavoritesProvider</code> no arquivo <code>src/contexts/FavoritesContext.tsx</code>:</p>
+            <pre><code class="language-typescript">// Dentro do componente FavoritesProvider...
+const [favorites, setFavorites] = useState&lt;number[]&gt;([]);
+const [loading, setLoading] = useState(true); // Novo estado para o carregamento inicial
+
+useEffect(() =&gt; {
+  async function loadFavorites() {
+    try {
+      // 1. Tenta ler o item salvo com a nossa chave
+      const storedFavorites = await AsyncStorage.getItem(FAVORITES_KEY);
+      
+      // 2. Se houver dados, converte de string para array e atualiza o estado
+      if (storedFavorites) {
+        setFavorites(JSON.parse(storedFavorites));
+      }
+    } catch (e) {
+      console.error(&quot;Falha ao carregar os favoritos do armazenamento.&quot;, e);
+    } finally {
+      // 3. Independentemente do resultado, finaliza o estado de carregamento
+      setLoading(false);
+    }
+  }
+  
+  loadFavorites();
+}, []); // O array vazio garante que isso rode apenas uma vez
+</code></pre>
+            <h4>Análise do código:</h4>
+            <ol>
+                <li><strong>Leitura Assíncrona:</strong> A linha <code>await AsyncStorage.getItem(FAVORITES_KEY)</code>
+                    pausa a execução da função <code>loadFavorites</code> até que a operação de leitura no disco seja
+                    concluída. O resultado será a string salva ou <code>null</code> caso a chave não exista.</li>
+                <li><strong>Atualização do Estado:</strong> Se <code>storedFavorites</code> não for <code>null</code>,
+                    significa que encontramos dados. Usamos <code>JSON.parse()</code> para transformar a string de volta
+                    em um array de números e o passamos para <code>setFavorites</code>, preenchendo nosso estado global
+                    com os dados persistidos.</li>
+                <li><strong>Controle de Carregamento:</strong> O bloco <code>finally</code> garante que
+                    <code>setLoading(false)</code> seja chamado independentemente de a operação ter sucesso ou falhar.
+                    Isso é necessário para que nossa aplicação saiba quando pode parar de exibir um indicador de
+                    carregamento e mostrar o conteúdo principal.</li>
+            </ol>
+            <p>Esta estrutura não é acidental; ela representa um padrão moderno e profissional. A utilização do
+                <code>useEffect</code> com um array de dependências vazio (<code>[]</code>) é a forma canônica de
+                garantir que a busca no <code>AsyncStorage</code> ocorra apenas uma vez. Da mesma forma, a criação de
+                uma função <code>async</code> interna é o padrão correto para lidar com operações assíncronas dentro de
+                um efeito. O que realmente eleva a qualidade do código é a sua <strong>robustez</strong>: o bloco
+                <code>try...catch...finally</code> nos protege contra falhas na leitura do disco, enquanto o estado de
+                <code>loading</code> e a chamada <code>setLoading(false)</code> no <code>finally</code> garantem uma
+                experiência de usuário fluida, sem telas &quot;congeladas&quot; ou &quot;piscando&quot; com conteúdo
+                incorreto.</p>
+            <p>Com esta lógica, nossa aplicação já é capaz de carregar o estado persistido. Agora, precisamos
+                implementar a outra metade do ciclo: salvar as alterações de volta para o disco sempre que o usuário
+                favoritar ou desfavoritar um Pokémon.</p>
+            <h3><strong>4.3.2. Salvando as Alterações Automaticamente a cada Modificação
+                    (<code>useEffect</code>)</strong></h3>
+            <p>Com a lógica de carregamento pronta, precisamos agora implementar a outra metade do ciclo: <strong>salvar
+                    os dados</strong>. O objetivo é que, toda vez que o usuário adicionar ou remover um Pokémon dos
+                favoritos, a nova lista seja automaticamente salva no <code>AsyncStorage</code>.</p>
+            <p>Para isso, usaremos outro hook <code>useEffect</code>, mas desta vez, vamos configurá-lo para ser
+                executado sempre que o nosso estado <code>favorites</code> for modificado. Fazemos isso passando
+                <code>favorites</code> no array de dependências.</p>
+            <p>Adicione este segundo <code>useEffect</code> ao nosso <code>FavoritesProvider</code>, logo após o
+                primeiro:</p>
+            <pre><code class="language-typescript">// Efeito para SALVAR os favoritos no AsyncStorage sempre que a lista mudar
+useEffect(() =&gt; {
+  // 1. Evitamos salvar no primeiro render, antes dos dados serem carregados
+  if (!loading) {
+    async function saveFavorites() {
+      try {
+        // 2. Converte o array para string e salva com a nossa chave
+        const dadosEmString = JSON.stringify(favorites);
+        await AsyncStorage.setItem(FAVORITES_KEY, dadosEmString);
+      } catch (e) {
+        console.error(&quot;Falha ao salvar os favoritos no armazenamento.&quot;, e);
+      }
+    }
+    saveFavorites();
+  }
+}, [favorites, loading]); // 3. O efeito é disparado quando &#39;favorites&#39; ou &#39;loading&#39; mudam
+</code></pre>
+            <h4>Análise do código:</h4>
+            <ol>
+                <li><strong>Prevenindo a Condição de Corrida (<code>if (!loading)</code>):</strong> Esta verificação é
+                    muito importante! O primeiro <code>useEffect</code> (de carregamento) é assíncrono. Enquanto ele
+                    está lendo os dados do disco, o nosso estado <code>favorites</code> ainda é um array vazio
+                    <code>[]</code>. Sem o <code>if (!loading)</code>, este segundo <code>useEffect</code> (de
+                    salvamento) poderia ser executado imediatamente na primeira renderização, pegando o array vazio e o
+                    salvando no disco, efetivamente <strong>apagando</strong> os favoritos que estávamos tentando
+                    carregar. Ao esperar que <code>loading</code> seja <code>false</code>, garantimos que só começaremos
+                    a salvar as alterações <strong>após</strong> o carregamento inicial ter sido concluído.</li>
+                <li><strong>Salvando os Dados:</strong> Dentro da função, convertemos nosso array <code>favorites</code>
+                    para uma string JSON com <code>JSON.stringify</code> e usamos <code>AsyncStorage.setItem</code> para
+                    gravá-lo no dispositivo sob a nossa chave.</li>
+                <li><strong>O Array de Dependências (<code>[favorites, loading]</code>):</strong> Este
+                    <code>useEffect</code> será re-executado sempre que o array <code>favorites</code> mudar (um item
+                    foi adicionado/removido). Incluímos <code>loading</code> na dependência para garantir que a lógica
+                    seja reavaliada assim que o carregamento inicial terminar, habilitando o mecanismo de salvamento.
+                </li>
+            </ol>
+            <p>Com os dois efeitos trabalhando em conjunto — um para ler e outro para escrever — nosso
+                <code>FavoritesContext</code> agora gerencia um estado que é não apenas global, mas também persistente,
+                criando um ciclo completo e robusto de gerenciamento de dados.</p>
+            <h3><strong>4.4. Nosso Código Até Aqui: O <code>FavoritesContext</code> Completo</strong></h3>
+            <p>Após as integrações que fizemos, o nosso arquivo <code>FavoritesContext.tsx</code> tornou-se o coração do
+                nosso sistema de favoritos. Ele agora é responsável por gerenciar o estado, compartilhar os dados com
+                toda a aplicação e, crucialmente, persistir essas informações no disco do dispositivo.</p>
+            <p>Para referência, a estrutura de pastas do nosso projeto agora se parece com isto:</p>
+            <pre><code>pokedex-app/
+└── src/
+    ├── components/
+    ├── contexts/
+    │   └── FavoritesContext.tsx  &lt;-- Nosso novo arquivo completo
+    ├── screens/
+    ├── services/
+    └── types/
+</code></pre>
+            <p>Abaixo está o código completo e final do arquivo <code>src/contexts/FavoritesContext.tsx</code>, reunindo
+                tudo o que construímos nos tópicos 3 e 4.</p>
+            <pre><code class="language-typescript">// src/contexts/FavoritesContext.tsx
+
+import React, { 
+  createContext, 
+  useState, 
+  useEffect, 
+  ReactNode, 
+  useContext 
+} from &#39;react&#39;;
+import AsyncStorage from &#39;@react-native-async-storage/async-storage&#39;;
+
+// Chave única para salvar os dados no AsyncStorage
+const FAVORITES_KEY = &#39;@PokedexApp:favorites&#39;;
+
+// Interface que define o &quot;contrato&quot; do nosso contexto
+interface FavoritesContextData {
+  favorites: number[];
+  addFavorite: (pokemonId: number) =&gt; void;
+  removeFavorite: (pokemonId: number) =&gt; void;
+  isFavorite: (pokemonId: number) =&gt; boolean;
+}
+
+// Criação do contexto com um valor padrão inicial
+export const FavoritesContext = createContext&lt;FavoritesContextData&gt;({} as FavoritesContextData);
+
+// Componente Provedor que gerencia e distribui o estado
+export const FavoritesProvider = ({ children }: { children: ReactNode }) =&gt; {
+  const [favorites, setFavorites] = useState&lt;number[]&gt;([]);
+  const [loading, setLoading] = useState(true);
+
+  // Efeito para CARREGAR os favoritos do disco na inicialização
+  useEffect(() =&gt; {
+    async function loadFavorites() {
+      try {
+        const storedFavorites = await AsyncStorage.getItem(FAVORITES_KEY);
+        if (storedFavorites) {
+          setFavorites(JSON.parse(storedFavorites));
+        }
+      } catch (e) {
+        console.error(&quot;Falha ao carregar os favoritos do armazenamento.&quot;, e);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadFavorites();
+  }, []);
+
+  // Efeito para SALVAR os favoritos no disco sempre que a lista mudar
+  useEffect(() =&gt; {
+    if (!loading) {
+      async function saveFavorites() {
+        try {
+          await AsyncStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+        } catch (e) {
+          console.error(&quot;Falha ao salvar os favoritos no armazenamento.&quot;, e);
+        }
+      }
+      saveFavorites();
+    }
+  }, [favorites, loading]);
+
+  const addFavorite = (pokemonId: number) =&gt; {
+    if (!favorites.includes(pokemonId)) {
+      setFavorites(prev =&gt; [...prev, pokemonId]);
+    }
+  };
+
+  const removeFavorite = (pokemonId: number) =&gt; {
+    setFavorites(prev =&gt; prev.filter(id =&gt; id !== pokemonId));
+  };
+
+  const isFavorite = (pokemonId: number) =&gt; {
+    return favorites.includes(pokemonId);
+  };
+
+  // Evita renderizar a aplicação antes que os favoritos sejam carregados
+  if (loading) {
+    return null;
+  }
+
+  return (
+    &lt;FavoritesContext.Provider value={{ favorites, addFavorite, removeFavorite, isFavorite }}&gt;
+      {children}
+    &lt;/FavoritesContext.Provider&gt;
+  );
+};
+
+// Hook customizado para facilitar o consumo do contexto
+export function useFavorites(): FavoritesContextData {
+  const context = useContext(FavoritesContext);
+  if (!context) {
+    throw new Error(&#39;useFavorites deve ser usado dentro de um FavoritesProvider&#39;);
+  }
+  return context;
+}
+</code></pre>
+            <p>Com este arquivo, toda a lógica complexa de estado global e persistência está encapsulada em um só lugar.
+                Nossos componentes de UI podem simplesmente usar o hook <code>useFavorites</code> sem se preocupar com
+                os detalhes da implementação.</p>
+            <p>Agora que temos um sistema de dados funcional, podemos dar um passo atrás e analisar como essa estrutura
+                se encaixa no padrão de arquitetura MVVM, que será o tema da nossa próxima seção.</p>
+            <hr>
+            <h2><strong>5. Refatoração e Arquitetura: Aplicando o Padrão MVVM na Prática</strong></h2>
+            <p>Até agora, focamos na implementação técnica para resolver nossos problemas: usamos a
+                <code>Context API</code> para o estado global e o <code>AsyncStorage</code> para a persistência. No
+                entanto, sem perceber, a estrutura que criamos ao fazer isso nos alinhou naturalmente com um dos padrões
+                de arquitetura mais importantes para aplicações React: o <strong>MVVM (Model-View-ViewModel)</strong>.
+            </p>
+            <p>Na Aula 05, discutimos o MVVM de forma teórica, como um modelo para separar as responsabilidades da nossa
+                aplicação. Agora, vamos analisar como o nosso sistema de favoritos já é uma implementação prática desse
+                padrão. As peças se encaixam da seguinte forma:</p>
+            <ul>
+                <li><strong>Model:</strong> Continua sendo nossa camada de serviços (<code>services/api.ts</code>),
+                    responsável por buscar os dados brutos da PokéAPI.</li>
+                <li><strong>View:</strong> São nossos componentes de interface, como o <code>PokemonCard</code> e a
+                    <code>PokedexScreen</code>. A responsabilidade deles é apenas exibir os dados e capturar as
+                    interações do usuário.</li>
+                <li><strong>ViewModel:</strong> É o nosso hook customizado <code>useFavorites</code>! Ele é o
+                    intermediário que prepara os dados para a <code>View</code> e contém toda a lógica de negócio
+                    (adicionar, remover, salvar no disco), sem nunca conhecer os detalhes da interface.</li>
+            </ul>
+            <p>Nesta seção, vamos aprofundar essa conexão, explorando como essa arquitetura torna nosso código mais
+                limpo, testável e fácil de evoluir.</p>
+            <h3><strong>5.1. Revisitando o MVVM: Hooks Customizados como <em>ViewModels</em></strong></h3>
+            <p>Na Aula 05, introduzimos o padrão de arquitetura MVVM (Model-View-ViewModel) como um modelo ideal para
+                aplicações reativas, como as que construímos com React Native. Naquela ocasião, mencionamos que a
+                filosofia do MVVM se alinha perfeitamente com o uso de <strong>Hooks Customizados</strong> para servir
+                como o <em>ViewModel</em>.</p>
+            <p>Antes de passarmos ao uso dos Hooks Customizados, entretanto, é importante abordarmos esse conceito (como
+                prometido na aula anterior!)</p>
+            <h4><strong>O que é um Hook Customizado?</strong></h4>
+            <p>Até agora, nós utilizamos Hooks que o próprio React nos fornece, como <code>useState</code> e
+                <code>useEffect</code>. No entanto, o verdadeiro poder do ecossistema de Hooks está na capacidade de
+                <strong>criar os nossos próprios</strong>.</p>
+            <p>Um <strong>Hook Customizado</strong> é, essencialmente, uma <strong>função JavaScript
+                    reutilizável</strong> cujo nome, por convenção, sempre começa com a palavra <code>use</code> (ex:
+                <code>useFavorites</code>). A sua principal característica é que ela pode <strong>chamar outros
+                    Hooks</strong> dentro dela (como <code>useState</code>, <code>useEffect</code> ou até mesmo outros
+                hooks customizados).</p>
+            <p><strong>Por que criar um Hook Customizado?</strong></p>
+            <p>O objetivo é <strong>extrair e compartilhar lógica com estado</strong> entre diferentes componentes.</p>
+            <p>Imagine que vários componentes no nosso app precisam buscar dados de uma API. Em cada um deles,
+                provavelmente repetiríamos a mesma lógica:</p>
+            <ul>
+                <li>Um <code>useState</code> para guardar os dados.</li>
+                <li>Um <code>useState</code> para controlar o estado de <code>loading</code>.</li>
+                <li>Um <code>useState</code> para armazenar uma mensagem de <code>error</code>.</li>
+                <li>Um <code>useEffect</code> para fazer a chamada <code>fetch</code> quando o componente monta.</li>
+            </ul>
+            <p>Isso é repetitivo e propenso a erros. Com um Hook Customizado, como um hipotético
+                <code>useFetch(url)</code>, poderíamos encapsular toda essa lógica em um só lugar. Assim, em vez de
+                reescrever tudo, um componente simplesmente faria:</p>
+            <pre><code class="language-javascript">const { data, loading, error } = useFetch(&#39;https://pokeapi.co/api/v2/pokemon/pikachu&#39;);
+</code></pre>
+            <p>O componente recebe os dados prontos para usar, sem se preocupar com os detalhes de como eles foram
+                buscados ou gerenciados.</p>
+            <p><strong>As Regras de Ouro dos Hooks Customizados:</strong></p>
+            <ol>
+                <li><strong>O nome deve começar com <code>use</code>:</strong> Isso não é apenas uma convenção. É o que
+                    permite que o linter do React verifique se as &quot;Regras dos Hooks&quot; (como não chamar hooks
+                    dentro de condicionais) estão sendo seguidas.</li>
+                <li><strong>Eles compartilham lógica, não estado:</strong> Cada vez que um componente diferente chama o
+                    mesmo hook customizado, ele recebe sua <strong>própria versão isolada do estado</strong>. O
+                    <code>useFetch</code> para o &quot;Pikachu&quot; e o <code>useFetch</code> para o
+                    &quot;Charmander&quot; terão seus próprios estados de <code>data</code>, <code>loading</code> e
+                    <code>error</code>, independentes um do outro.</li>
+            </ol>
+            <p>É exatamente por essa capacidade de encapsular lógica e estado que os Hooks Customizados se tornam a
+                ferramenta perfeita para implementar o padrão <strong>ViewModel</strong> no React. O hook se torna o
+                nosso ViewModel, e o componente que o utiliza se torna a nossa View.</p>
+            <h4><strong>Uso dos Hooks Customizados para refatoração da aplicação em MVVM</strong></h4>
+            <p>Vamos relembrar rapidamente as responsabilidades de um <em>ViewModel</em> no padrão MVVM:</p>
+            <ul>
+                <li>Ele prepara e expõe os dados do <em>Model</em> para a <em>View</em>.</li>
+                <li>Ele contém a lógica de apresentação e o estado da UI (como <code>isLoading</code>,
+                    <code>errorMessage</code>, etc.).</li>
+                <li>Ele expõe &quot;comandos&quot; (funções) que a <em>View</em> pode invocar.</li>
+                <li>Ele não tem nenhuma referência direta à <em>View</em>, o que o torna testável e reutilizável.</li>
+            </ul>
+            <p>Agora, vamos analisar o hook <code>useFavorites</code> que criamos. Ele cumpre exatamente todas essas
+                responsabilidades:</p>
+            <ul>
+                <li><strong>Expõe Dados e Estado:</strong> O nosso hook gerencia os estados internos
+                    (<code>favorites</code>, <code>loading</code>) e os expõe para qualquer componente que o consuma.
+                </li>
+                <li><strong>Contém a Lógica de Negócio:</strong> Toda a lógica complexa — como adicionar, remover,
+                    checar se um item é favorito e, mais importante, a interação com o <code>AsyncStorage</code> — está
+                    contida dentro do <code>FavoritesProvider</code> e é gerenciada pelo hook. A <em>View</em> não tem
+                    ideia de como essa mágica acontece.</li>
+                <li><strong>Expõe Comandos (Funções):</strong> O hook expõe &quot;comandos&quot; na forma das funções
+                    <code>addFavorite</code> e <code>removeFavorite</code>. Os componentes da <em>View</em> simplesmente
+                    invocam essas funções em resposta a eventos do usuário (como um <code>onPress</code>), sem se
+                    preocupar com a implementação.</li>
+                <li><strong>É Desacoplado da View:</strong> O hook <code>useFavorites</code> não importa nem conhece
+                    nenhum componente visual. Ele poderia ser usado na <code>PokedexScreen</code>, no
+                    <code>PokemonCard</code> ou em qualquer outra tela. Essa independência é o que o torna um
+                    <em>ViewModel</em> perfeito: ele é reutilizável e pode ser testado de forma isolada.</li>
+            </ul>
+            <p>Portanto, ao criar um hook customizado que encapsula um estado (seja local ou de um contexto) e a lógica
+                para manipulá-lo, estamos, na prática, implementando o padrão ViewModel. Essa é uma das formas mais
+                poderosas e elegantes de estruturar aplicações React Native, resultando em um código mais organizado e
+                fácil de manter.</p>
+            <h3><strong>5.2. Criando o <code>useFavorites</code>: Nosso Primeiro <em>ViewModel</em></strong></h3>
+            <p>A partir do trabalho que acabamos de desenvolver, estabelecemos a conexão teórica: um Hook Customizado
+                pode funcionar como um <em>ViewModel</em>. Agora, vamos formalizar isso e analisar como nosso hook
+                <code>useFavorites</code>, que já está em nosso arquivo <code>src/contexts/FavoritesContext.tsx</code>,
+                é, na prática, o nosso primeiro ViewModel.</p>
+            <p>Vamos rever o código do nosso hook:</p>
+            <pre><code class="language-typescript">// Em src/contexts/FavoritesContext.tsx...
+
+export function useFavorites(): FavoritesContextData {
+  const context = useContext(FavoritesContext);
+  if (!context) {
+    throw new Error(&#39;useFavorites deve ser usado dentro de um FavoritesProvider&#39;);
+  }
+  return context;
+}
+</code></pre>
+            <p>Este simples hook encapsula toda a complexidade de interagir com o <code>FavoritesContext</code>.
+                Qualquer componente que o chame não precisa saber sobre <code>useContext</code> ou sobre a estrutura
+                interna do provedor. Ele apenas pede: &quot;me dê a lógica de favoritos&quot;.</p>
+            <p>Ele cumpre perfeitamente o papel do ViewModel, como discutido na Aula 05:</p>
+            <ul>
+                <li><strong>Expõe o estado:</strong> Através da propriedade <code>favorites</code>.</li>
+                <li><strong>Expõe os comandos:</strong> Através das funções <code>addFavorite</code>,
+                    <code>removeFavorite</code> e <code>isFavorite</code>.</li>
+            </ul>
+            <p>Lembre-se do exemplo hipotético da Aula 05, onde imaginamos um <code>usePokedexViewModel</code>. O nosso
+                <code>useFavorites</code> é a primeira implementação real desse conceito em nosso projeto. Estamos
+                efetivamente separando a lógica de estado do componente de visualização.</p>
+            <p>Ao adotar este padrão, a lógica de negócio se torna centralizada e reutilizável. A seguir, veremos o
+                resultado direto dessa organização: nossos componentes de <em>View</em> se tornarão muito mais simples,
+                limpos e focados apenas em sua tarefa de apresentação.</p>
+            <h3><strong>5.3. A <em>View</em> Simplificada: Componentes Limpos e Declarativos e a Abordagem do
+                    &quot;Component-as-ViewModel&quot;</strong></h3>
+            <p>O grande benefício de encapsular nossa lógica no hook <code>useFavorites</code> é que nossos componentes
+                de interface — as <em>Views</em>, no jargão do MVVM — se tornam incrivelmente mais simples e
+                declarativos.</p>
+            <p>Como discutido na Aula 05, a responsabilidade da <em>View</em> é apenas <strong>exibir os dados</strong>
+                que recebe e <strong>delegar as ações do usuário</strong> para o <em>ViewModel</em>. Ela não precisa
+                saber <em>como</em> as coisas funcionam por baixo dos panos.</p>
+            <p>Vamos ver como o nosso <code>PokemonCard</code> fica após adotar o <code>useFavorites</code>:</p>
+            <pre><code class="language-typescript">// components/PokemonCard.tsx
+import React from &#39;react&#39;;
+import { View, Text, Image, StyleSheet, TouchableOpacity } from &#39;react-native&#39;;
+import { useNavigation } from &#39;@react-navigation/native&#39;;
+import { Pokemon } from &#39;../types/Pokemon&#39;;
+import { RootStackParamList } from &#39;../types/Navigation&#39;;
+import { NativeStackNavigationProp } from &#39;@react-navigation/native-stack&#39;;
+import { capitalize } from &#39;../utils/format&#39;;
+
+// 1. Apenas importamos o hook, que é a nossa interface com a lógica
+import { useFavorites } from &#39;../contexts/FavoritesContext&#39;;
+
+type PokemonCardNavigationProp = NativeStackNavigationProp&lt;RootStackParamList, &#39;PokemonDetails&#39;&gt;;
+
+export const PokemonCard = ({ pokemon }: { pokemon: Pokemon }) =&gt; {
+  const navigation = useNavigation&lt;PokemonCardNavigationProp&gt;();
+
+  // 2. Consumimos o ViewModel para obter o estado e os comandos
+  const { addFavorite, removeFavorite, isFavorite } = useFavorites();
+  const favorite = isFavorite(pokemon.id);
+
+  // 3. A função de handle apenas delega a ação para o ViewModel
+  const handleToggleFavorite = () =&gt; {
+    if (favorite) {
+      removeFavorite(pokemon.id);
+    } else {
+      addFavorite(pokemon.id);
+    }
+  };
+
+  return (
+    &lt;TouchableOpacity
+      onPress={() =&gt; navigation.navigate(&#39;PokemonDetails&#39;, { pokemonId: pokemon.id })}
+      style={styles.touchableCard}
+    &gt;
+      &lt;View style={[styles.cardInner, favorite &amp;&amp; styles.cardFavorite]}&gt;
+        &lt;TouchableOpacity onPress={handleToggleFavorite} style={styles.favoriteButton}&gt;
+          &lt;Text style={styles.favoriteIcon}&gt;{favorite ? &#39;⭐&#39; : &#39;☆&#39;}&lt;/Text&gt;
+        &lt;/TouchableOpacity&gt;
+        
+        &lt;Image source={{ uri: pokemon.image }} style={styles.image} /&gt;
+        &lt;Text style={styles.name}&gt;{capitalize(pokemon.name)}&lt;/Text&gt;
+      &lt;/View&gt;
+    &lt;/TouchableOpacity&gt;
+  );
+};
+
+// ... (estilos permanecem os mesmos)
+const styles = StyleSheet.create({
+    touchableCard: {
+    flex: 1,
+    margin: 8,
+  },
+  cardInner: {
+    backgroundColor: &#39;#f0f0f0&#39;,
+    padding: 12,
+    borderRadius: 12,
+    alignItems: &#39;center&#39;,
+    flex: 1,
+    position: &#39;relative&#39;,
+  },
+  cardFavorite: {
+    backgroundColor: &#39;#fffbe6&#39;,
+    borderColor: &#39;#facc15&#39;,
+    borderWidth: 2,
+  },
+  image: { width: 80, height: 80 },
+  name: { marginTop: 8, fontWeight: &#39;bold&#39; },
+  favoriteButton: {
+    position: &#39;absolute&#39;,
+    top: 8,
+    right: 8,
+    zIndex: 1,
+  },
+  favoriteIcon: {
+    fontSize: 24,
+  },
+});
+</code></pre>
+            <p>Observe como o <code>PokemonCard</code> agora ficou mais limpo. Ele não tem <code>useState</code>, não
+                tem <code>useEffect</code> e não tem conhecimento sobre <code>AsyncStorage</code>. Ele apenas:</p>
+            <ol>
+                <li>Pergunta ao <code>useFavorites</code> se o Pokémon atual é um favorito.</li>
+                <li>Exibe uma estrela com base na resposta.</li>
+                <li>Chama a função correspondente (<code>addFavorite</code> ou <code>removeFavorite</code>) quando o
+                    usuário clica.</li>
+            </ol>
+            <p>A mesma lógica se aplica à tela <code>PokemonDetailsScreen</code>. O componente
+                <code>PokemonDetailsScreen</code> também utiliza o <code>useFavorites</code> para interagir com a lógica
+                de favoritos, mantendo-se sincronizado com o estado global.</p>
+            <p><strong>Uma Nota Importante sobre a &quot;View&quot; em React Native e o MVVM:</strong></p>
+            <p>É fundamental reconhecer que, em React Native, a linha entre <strong>View</strong> e
+                <strong>ViewModel</strong> pode ser mais fluida do que em implementações puristas de MVVM em outras
+                plataformas. Isso ocorre porque os componentes funcionais do React, como <code>PokemonCard</code> e
+                <code>PokemonDetailsScreen</code>, são naturalmente responsáveis por <strong>ambas as tarefas</strong>:
+                definir a interface do usuário (o JSX) <em>e</em> conter a lógica de apresentação e o estado local
+                necessário para essa interface (através de <code>useState</code> e <code>useEffect</code>, por exemplo,
+                para o carregamento dos detalhes do Pokémon).</p>
+            <p>Essa abordagem é comumente referida como <strong>&quot;Component-as-ViewModel&quot;</strong> ou uma
+                interpretação <strong>pragmática</strong> do MVVM. Em vez de ter uma classe de ViewModel totalmente
+                separada e uma classe de View totalmente separada, o próprio componente React atua como a View que
+                renderiza o JSX <em>e</em> como a ViewModel que gerencia o estado e a lógica específica da tela (como o
+                <code>isLoading</code>, <code>error</code>, e o <code>pokemon</code> carregado na
+                <code>PokemonDetailsScreen</code>).</p>
+            <p>A chave para manter a separação de responsabilidades no MVVM, mesmo com essa fusão de View e ViewModel em
+                um único componente React, está em:</p>
+            <ol>
+                <li><strong>Delegar a lógica de negócios complexa e compartilhada para Hooks Customizados ou Contextos
+                        específicos (como <code>useFavorites</code>):</strong> Isso garante que essa lógica possa ser
+                    reutilizada e testada isoladamente, sem acoplar-se a componentes de UI específicos.</li>
+                <li><strong>Manter a lógica do componente de tela (View/ViewModel) focada apenas na apresentação e no
+                        estado necessário para <em>aquela</em> tela específica:</strong> Evitando que ele se torne um
+                    &quot;Deus Objeto&quot; que lida com tudo.</li>
+            </ol>
+            <p>Essa simplicidade torna o componente reutilizável e fácil de testar visualmente. A mesma lógica se aplica
+                à tela <code>PokemonDetailsScreen</code>, que também pode usar o <code>useFavorites</code> da mesma
+                forma para se manter sincronizada.</p>
+            <p>Essa separação clara entre a <em>View</em> (o que o usuário vê) e o <em>ViewModel</em> (a lógica por
+                trás) é a essência do MVVM e a chave para construir aplicações que sejam fáceis de entender e
+                economicamente viáveis de se modificar. Em sequência, vamos explorar os benefícios diretos dessa
+                arquitetura em termos de testabilidade e manutenção.</p>
+            <h3><strong>5.4. Benefícios Visíveis: Testabilidade e Separação de Responsabilidades (SoC)</strong></h3>
+            <p>A refatoração que fizemos, separando nossa lógica no hook <code>useFavorites</code> (nosso
+                <em>ViewModel</em>), não é apenas uma questão de organização. Ela traz dois benefícios práticos
+                imediatos que são pilares no desenvolvimento de software de qualidade: a <strong>testabilidade</strong>
+                e uma clara <strong>separação de responsabilidades</strong>.</p>
+            <h4>Separação de Responsabilidades (SoC) na Prática</h4>
+            <p>Com a nova estrutura, cada parte da nossa aplicação tem um papel único e bem definido:</p>
+            <ul>
+                <li><strong>View (<code>PokemonCard</code>, <code>PokedexScreen</code>):</strong> Sua única tarefa é
+                    exibir a interface e notificar o <em>ViewModel</em> sobre as ações do usuário. Ela é
+                    &quot;burra&quot; e não sabe como os favoritos são salvos ou gerenciados.</li>
+                <li><strong>ViewModel (<code>useFavorites</code>):</strong> Contém toda a lógica de negócio — adicionar,
+                    remover, persistir dados. Ele serve os dados e as funções para a <code>View</code>, mas não se
+                    importa com a aparência dela (se é um botão, um texto, etc.).</li>
+            </ul>
+            <p>Essa separação torna o código muito mais fácil de entender. Se houver um bug visual, sabemos que o
+                problema está na <em>View</em>. Se os favoritos não estão sendo salvos corretamente, o problema está no
+                <em>ViewModel</em>. Isso simplifica drasticamente a depuração e a manutenção.</p>
+            <h4>Testabilidade Aprimorada</h4>
+            <p>Este é talvez o benefício mais poderoso. Como nosso <em>ViewModel</em> (<code>useFavorites</code>) é um
+                hook customizado — que é apenas uma função JavaScript — podemos testar toda a sua lógica de forma
+                isolada, sem precisar renderizar um único componente visual.</p>
+            <p>Por exemplo, podemos escrever testes automatizados para verificar:</p>
+            <ul>
+                <li>Se <code>addFavorite</code> realmente adiciona um ID ao array.</li>
+                <li>Se <code>removeFavorite</code> o remove corretamente.</li>
+                <li>Se <code>isFavorite</code> retorna <code>true</code> ou <code>false</code> como esperado.</li>
+                <li>Se a lógica de interação com o <code>AsyncStorage</code> está funcionando.</li>
+            </ul>
+            <p>Isso está perfeitamente alinhado com o que vimos na Aula 05: o MVVM proporciona uma testabilidade
+                altíssima porque a lógica de apresentação e de negócio é completamente desacoplada da camada de
+                renderização.</p>
+            <p>Ao adotar esse padrão, não estamos apenas escrevendo código que funciona hoje, mas construindo uma base
+                sólida que pode crescer, ser modificada e, acima de tudo, ser testada com confiança, garantindo a
+                qualidade da nossa aplicação a longo prazo.</p>
+            <hr>
+            <h2><strong>6. Conclusão e Próximos Passos</strong></h2>
+            <p>Nesta aula, demos um passo importante na transição de um protótipo para uma aplicação mais robusta e com
+                melhor experiência de usuário.</p>
+            <p>Aprendemos a superar as limitações do estado local utilizando a <strong>Context API</strong>, o que nos
+                permitiu criar um estado de &quot;Favoritos&quot; que é compartilhado e consistente em todas as telas da
+                nossa Pokédex. Fomos além, garantindo que as escolhas do usuário não sejam perdidas; com o
+                <strong>AsyncStorage</strong>, implementamos a persistência de dados, fazendo com que a lista de
+                favoritos sobreviva ao fechamento do aplicativo.</p>
+            <p>E, talvez o mais importante, conectamos a teoria com a prática ao aplicar o padrão de arquitetura
+                <strong>MVVM</strong>. Vimos como um <strong>Hook Customizado</strong> (<code>useFavorites</code>)
+                funciona como um <em>ViewModel</em>, encapsulando a lógica de negócio e tornando nossos componentes de
+                <em>View</em> mais limpos, declarativos e testáveis.</p>
+            <p>As técnicas que você aprendeu aqui — gerenciamento de estado global, persistência e arquitetura
+                desacoplada — são a base para construir funcionalidades complexas em qualquer aplicativo real, como
+                sistemas de login, carrinhos de compra, configurações de usuário e muito mais!</p>
+            <p>Para ter acesso ao código implementado nessa aula, acesse o <a
+                    href="https://github.com/giovanidisperati/PokedexApp/tree/Aula06">Branch <strong>Aula06</strong> –
+                    PokedexApp</a>.</p>
+            <p>Posteriormente vou disponibilizar uma Branch &quot;Aula06 - MVVM&quot; para mostrar como ficaria a
+                implementação &quot;purista&quot; (seguindo a definição teórica de maneira mais estrita) do MVVM com
+                esse nosso aplicativo React Native.</p>
+            <hr>
+            <h2><strong>7. Exercícios Práticos</strong></h2>
+            <p>Essa semana não teremos exercícios, podem aproveitar o feriado 🤩</p>
+            <p>Lembrando que há atividades do Projeto a serem feitas. Na próxima semana, retornamos com os exercícios!
+            </p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+
+    </div>
+    <footer class="footer mt-auto py-3">
+        <div class="container-fluid">
+            <span>
+                <p class="text-center text-light">Instituto Federal de Educação, Ciência e Tecnologia de São Paulo,
+                    Câmpus Guarulhos. Desenvolvimento Mobile - Prof. Giovani.</p>
+            </span>
+        </div>
+    </footer>
+
+
+    <script src="js/prism.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
