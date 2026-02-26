@@ -18,8 +18,8 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: APIs e Microsserviços
-description: Material didático para apoio à disciplina de APIS e Microsserviços do IFSP Campus Guarulhos.
+title: Desenvolvimento Mobile
+description: Material didático para apoio à disciplina de Desenvolvimento Mobile do IFSP Campus Guarulhos.
 # baseurl: "" # the subpath of your site, e.g. /blog
 # url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
@@ -30,7 +30,7 @@ search_enabled: true
 heading_anchors: true # Cria links automáticos nos títulos h1, h2...
 
 url: "https://giovanidisperati.github.io"
-baseurl: "/GRUAPIM"
+baseurl: "/GRUDSMV"
 
 # # Auxiliares
 # kramdown:

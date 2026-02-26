@@ -1,76 +1,84 @@
 ---
 layout: default
-title: Introdução ao curso
+title: Início
 nav_order: 1
-description: "Material de apoio para as aulas de APIs e Microservices com Spring Boot."
+description: "Material de apoio para as aulas de Desenvolvimento Mobile com React Native e Expo."
 permalink: /
 ---
 
-# **Bem-vindo ao Curso de APIs e Microserviços**
-Bem-vindos à disciplina de **APIs e Microsserviços**! Nesta matéria, vamos explorar a construção de sistemas distribuídos utilizando APIs e arquiteturas baseadas em microsserviços. O objetivo ao longo do semestre é fornecer uma compreensão sólida sobre como projetar, desenvolver e implantar aplicações modernas escaláveis, seguras e eficientes.
+## **Apresentação da Disciplina: Desenvolvimento de Aplicações Mobile com React Native e Expo 📱**
 
-Ao longo do curso, discutiremos a transição de arquiteturas monolíticas para microsserviços, abordando suas vantagens e desafios. Aprenderemos sobre **padrões arquiteturais, autenticação e autorização, boas práticas de desenvolvimento, testes, conteinerização e escalabilidade**, de forma a apresentar cenários reais do mercado de tecnologia.
+Bem-vindos à disciplina de Desenvolvimento Mobile! Nesta matéria, vamos mergulhar no universo da criação de aplicações móveis modernas, utilizando o ecossistema **React Native com Expo**. O objetivo ao longo do semestre é proporcionar uma base sólida para o desenvolvimento de apps multiplataforma (iOS e Android), aliando produtividade, boas práticas e uso de tecnologias amplamente adotadas pelo mercado.
 
-Ao término do curso é esperado que vocês estejam aptos a compreender os desafios que envolvem o desenvolvimento de aplicações robustas e escaláveis, e que sejam capazes de enfrentá-los por meio da adoção de práticas estabelecidas na literatura de desenvolvimento de software. A disciplina será **prática e orientada a projetos**, proporcionando experiências aplicadas ao desenvolvimento de APIs e microsserviços.
+Ao longo do curso, exploraremos a evolução do desenvolvimento mobile, analisando as diferenças entre abordagens nativas, híbridas e web. Em seguida, aprenderemos a criar aplicativos reais utilizando React Native, com foco na estruturação de interfaces, gerenciamento de estado, navegação, consumo de APIs e uso de recursos nativos como câmera, geolocalização e notificações.
 
-### **Conteúdo Programático da Disciplina**
-
-1.  **Construção de APIs REST e uso de verbos HTTP**
-    
-    *   Arquitetura e fundamentos das APIs REST
-    *   Padrões e boas práticas de desenvolvimento
-    *   Estratégias de autenticação e autorização
-    *   Testes unitários, funcionais e de integração
-    *   Refatoração e reúso de código
-  
-2.  **Construção de aplicações baseadas em microsserviços**
-    
-    *   Arquiteturas para construção de microsserviços
-    *   Boas práticas de codificação
-    *   Desenvolvimento de Projeto baseado em microsserviços
-  
-3.  **Conteinerização de microsserviços**
-    
-    *   Uso de contêineres para empacotamento e execução
-    *   Benefícios e desafios da conteinerização
-  
-4.  **Deploy de microsserviços**
-    
-    * Estratégias de implantação
-    *  Automação de deploy
-  
-5.  **Conceitos de orquestração e coreografia de coleções de microsserviços**
-    
-    * Gerenciamento e coordenação de microsserviços
-  
-6.  **Introdução ao CI/CD, Load Balance, Bancos de Dados Distribuídos e Serviços de Cache**
-    * Automação de integração e entrega contínua
-    * Balanceamento de carga e otimização de desempenho
-    * Gerenciamento de dados em ambientes distribuídos
-  
-7.  **Segurança em aplicações baseadas em microsserviços**
-    
-    * Estratégias de proteção contra vulnerabilidades
-    * Boas práticas de segurança
-  
-8.  **Tópicos de escalabilidade nas aplicações de microsserviços**
-    
-    * Estratégias para lidar com alta demanda e crescimento
-    * Arquiteturas resilientes e eficientes
-
-Essa disciplina será desenvolvida utilizando **Java e Spring Boot** como principais tecnologias, permitindo que vocês experimentem na prática a construção e o gerenciamento de microsserviços. Livro base:
-
-* NEWMAN, Sam. Criando microsserviços: projetando sistemas com componentes menores e mais especializados. 2. ed. São Paulo: Novatec, 2022. 688 p. ISBN 978-65-86057-88-1.
-
-Preparem-se para um curso **repleto de desafios!** 
+Ao término do curso, espera-se que vocês estejam aptos a desenvolver aplicações móveis completas, com atenção à arquitetura, manutenibilidade e experiência do usuário. A disciplina será prática e orientada a projetos, permitindo que cada aluno construa seu próprio app do zero.
 
 ---
 
-## Estrutura do Curso
+## **Conteúdo Programático da Disciplina 🛠️**
 
-Este material está organizado em módulos práticos. Utilize o menu lateral para navegar entre as aulas.
+### Fundamentos do Desenvolvimento Mobile
 
-### O que vamos ver:
-* **Fundamentos:** Revisão de Java, POO e HTTP.
-* **Spring Boot:** Criação de APIs RESTful.
-* **Arquitetura:** Camadas, DTOs, e Padrões de Projeto.
+* Panorama histórico e evolução das plataformas móveis
+* Comparação entre aplicações nativas, híbridas e web
+* Arquiteturas mobile e seus trade-offs
+
+### Ambiente de Desenvolvimento com Expo
+
+* Configuração de ambiente com Node.js, Git e Expo CLI
+* Uso do Expo Go e emuladores
+* Organização inicial de projetos React Native com TypeScript
+
+### Estruturação de Aplicações em React Native
+
+* Conceitos de componentes, JSX e hooks
+* Boas práticas de layout e responsividade
+* Estilização com StyleSheet e bibliotecas externas
+
+### Gerenciamento de Estado e Navegação
+
+* Estado local com `useState` e `useEffect`
+* Context API e hooks customizados
+* Navegação entre telas com React Navigation
+
+### Consumo de APIs e Integração com Serviços Externos
+
+* Fetch de dados remotos com `fetch` e `axios`
+* Integração com REST APIs e manipulação de JSON
+* Armazenamento local com AsyncStorage
+
+### Acesso a Recursos Nativos via Expo
+
+* Uso de câmera, localização, sensores e notificações
+* Permissões e segurança no uso de funcionalidades do dispositivo
+* Expo Modules e alternativas avançadas
+
+### Introdução a Boas Práticas de Arquitetura
+
+* Organização de pastas e arquivos
+* Separação de lógica de apresentação e dados
+* Padrões simples como Container/Presenter e Hooks Reutilizáveis
+
+### Testes e Depuração
+
+* Debug com o Metro Bundler
+* Testes manuais, logs e inspeção com React Native Debugger
+
+### Publicação e Distribuição
+
+* Build com EAS Build (Expo Application Services)
+* Geração de APK/IPA para Android e iOS
+* Publicação na Play Store e App Store (visão geral)
+
+---
+
+Essa disciplina será desenvolvida utilizando **TypeScript, React Native e Expo** como tecnologias principais. Isso permitirá que vocês experimentem o desenvolvimento mobile moderno com ferramentas leves, acessíveis e amplamente utilizadas por startups e grandes empresas.
+
+**Documentação oficial recomendada:**
+
+* [React Native Docs](https://reactnative.dev/)
+* [Expo Documentation](https://docs.expo.dev/)
+* [React Navigation](https://reactnavigation.org/)
+
+Preparem-se para um curso **mão na massa**, repleto de desafios e com aplicabilidade imediata no mundo real! 🚀📲
