@@ -1,7 +1,7 @@
 ---
 layout: aula
-title: "8 & 9. Considerações Finais e Exercícios"
-parent: Aula 03 - React: Componentes, Props e Hooks
+title: "5. Hooks - useState e useEffect"
+parent: Aula 03 - Introdução ao React (Componentes, Props e Hooks)
 nav_order: 5
 ---
 

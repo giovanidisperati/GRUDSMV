@@ -1,6 +1,6 @@
 ---
 layout: aula
-title: Aula 03 - React: Componentes, Props e Hooks
+title: Aula 03 - Introdução ao React (Componentes, Props e Hooks)
 nav_order: 4
 has_children: true
 permalink: /aula03

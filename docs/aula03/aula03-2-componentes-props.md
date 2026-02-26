@@ -1,7 +1,7 @@
 ---
 layout: aula
-title: "3 & 4. Componentes e Props"
-parent: Aula 03 - React: Componentes, Props e Hooks
+title: "2. O JSX"
+parent: Aula 03 - Introdução ao React (Componentes, Props e Hooks)
 nav_order: 2
 ---
 

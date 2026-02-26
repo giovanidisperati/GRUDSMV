@@ -1,7 +1,7 @@
 ---
 layout: aula
-title: "5 & 6. useState e useEffect"
-parent: Aula 03 - React: Componentes, Props e Hooks
+title: "3. Componentes"
+parent: Aula 03 - Introdução ao React (Componentes, Props e Hooks)
 nav_order: 3
 ---
 

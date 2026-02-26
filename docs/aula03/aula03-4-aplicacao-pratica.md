@@ -1,7 +1,7 @@
 ---
 layout: aula
-title: "7. Aplicação Prática – PokéAPI"
-parent: Aula 03 - React: Componentes, Props e Hooks
+title: "Entendo as Props"
+parent: Aula 03 - Introdução ao React (Componentes, Props e Hooks)
 nav_order: 4
 ---
 
