@@ -1,6 +1,6 @@
 ---
 layout: aula
-title: "1. JavaScript Moderno (ES6+)"
+title: "1. Uma breve revisão sobre JavaScript Moderno"
 parent: Aula 02 - JavaScript Moderno e TypeScript
 nav_order: 1
 ---
@@ -9,11 +9,19 @@ nav_order: 1
 
 ## 1.1 Declaração de Variáveis: `let`, `const` e Escopo
 
-Até a padronização trazida pelo ECMAScript 2015 (ES6), a única forma de declarar variáveis em JavaScript era por meio da palavra-chave `var`. Essa forma de declaração apresenta características que hoje são consideradas problemáticas, principalmente pelo escopo limitado a funções e pelo comportamento conhecido como **hoisting**, que pode levar a resultados inesperados e difíceis de depurar. Com a evolução da linguagem e das aplicações web e móveis, tornou-se essencial adotar um modelo mais previsível e seguro. Foi nesse contexto que surgiram `let` e `const`, duas palavras-chave que oferecem controle mais rigoroso sobre escopo e mutabilidade, e que passaram a ser padrão no desenvolvimento moderno — tanto em JavaScript quanto em TypeScript.
+Até a padronização trazida pelo ECMAScript 2015 (ES6), a única forma de declarar variáveis em JavaScript era por meio da palavra-chave `var`. 
+
+Essa forma de declaração apresenta características que hoje são consideradas problemáticas, principalmente pelo escopo limitado a funções e pelo comportamento conhecido como **hoisting**, que pode levar a resultados inesperados e difíceis de depurar. 
+
+Com a evolução da linguagem e das aplicações web, e posteriormente móveis, tornou-se essencial adotar um modelo mais previsível e seguro. Foi nesse contexto que surgiram as declarações de variáveis com `let` e `const`, duas palavras-chave que oferecem controle mais rigoroso sobre escopo e mutabilidade, e que passaram a ser padrão no desenvolvimento moderno, tanto em JavaScript quanto em TypeScript.
 
 ### Escopo de função e escopo de bloco
 
-Variáveis declaradas com `var` têm **escopo de função**, ou seja, são visíveis em toda a função onde foram declaradas, mesmo que isso ocorra dentro de um bloco como `if`, `for` ou `while`. Já `let` e `const` têm **escopo de bloco**, ficando visíveis apenas dentro do bloco em que foram definidas. Essa mudança reduz a chance de conflitos de nomes e facilita a manutenção do código.
+Variáveis declaradas com `var` têm **escopo de função**. Isso significa que essas variáveis são visíveis em toda a função onde foram declaradas, mesmo que isso ocorra dentro de um bloco como `if`, `for` ou `while`. 
+
+Já `let` e `const` têm **escopo de bloco**, ficando visíveis apenas dentro do bloco em que foram definidas. Esse é o mesmo comportamento que já estamos acostumados em linguagens como C ou Java, e essa mudança reduz a chance de conflitos de nomes e facilita a manutenção do código.
+
+Observe o exemplo abaixo:
 
 ```javascript
 function exemplo() {
@@ -29,13 +37,15 @@ function exemplo() {
 }
 ```
 
-No exemplo acima, `a` permanece acessível fora do bloco `if`, enquanto `b` e `c` não, porque foram declaradas com escopo de bloco. Esse comportamento é mais intuitivo e compatível com o que se espera ao declarar variáveis locais em linguagens como Java, C# ou Swift.
+Nesse exemplo, `a` permanece acessível mesmo fora do bloco `if`, onde foi declarada, enquanto `b` e `c` não, porque foram declaradas com escopo de bloco. Esse comportamento é mais intuitivo e compatível com o que se espera ao declarar variáveis locais.
 
 ### Hoisting e zona morta temporal
 
-**Hoisting** é o comportamento do JavaScript que consiste em **elevar as declarações de variáveis para o topo do escopo onde foram definidas**, antes mesmo da execução do código. Esse processo ocorre durante a fase de compilação da linguagem, e se aplica a variáveis (`var`, `let`, `const`), funções e classes — embora com regras diferentes para cada caso.
+**Hoisting** é o comportamento do JavaScript que consiste em **elevar as declarações de variáveis para o topo do escopo onde foram definidas**, antes mesmo da execução do código. Esse processo ocorre durante a fase de compilação da linguagem, e se aplica a variáveis (`var`, `let`, `const`), funções e classes, embora com regras diferentes para cada caso.
 
-No caso de variáveis declaradas com `var`, o nome da variável é elevado ao topo do escopo da função (ou do escopo global, se fora de uma função) e seu valor inicial é definido como `undefined`. Isso permite que a variável seja acessada antes de sua linha de declaração, embora ainda não tenha recebido o valor atribuído.
+No caso de variáveis declaradas com `var`, o nome da variável é elevado ao topo do escopo da função (ou do escopo global, se fora de uma função) e seu valor inicial é definido como `undefined`. Isso permite que a variável seja acessada ANTES de sua linha de declaração, mesmo que ainda não tenha recebido o valor atribuído.
+
+Por exemplo:
 
 ```javascript
 function exemploVar() {
@@ -46,15 +56,15 @@ function exemploVar() {
 
 Esse comportamento pode causar confusão, especialmente em funções longas ou mal estruturadas, pois a variável "parece existir" antes mesmo de ser declarada, o que pode levar a interpretações erradas sobre a ordem lógica do código.
 
-Já no caso de `let` e `const`, embora também sofram hoisting (ou seja, seus nomes são registrados internamente no topo do escopo), o acesso a essas variáveis **antes da linha de declaração é bloqueado**. Isso ocorre porque elas permanecem em um estado especial chamado **zona morta temporal** (*temporal dead zone*), que se estende desde o início do bloco até a linha em que a variável é declarada. Qualquer tentativa de acessar a variável nesse período resulta em erro.
+Já no caso de `let` e `const`, embora também sofram hoisting (ou seja, seus nomes são registrados internamente no topo do escopo), o acesso a essas variáveis **antes da linha de declaração é bloqueado**. Isso ocorre porque elas permanecem em um estado especial chamado **zona morta temporal** (*temporal dead zone*), que se estende desde o início do bloco até a linha em que a variável é declarada. Qualquer tentativa de acessar a variável nesse período resulta em erro. Observe os códigos abaixo:
 
 ```javascript
-console.log(contador); // ReferenceError
+console.log(contador); // Aqui teremos um ReferenceError
 let contador = 1;
 ```
 
 ```javascript
-console.log(apiUrl); // ReferenceError
+console.log(apiUrl); // E aqui também teremos um ReferenceError
 const apiUrl = "https://meuapp.dev";
 ```
 
@@ -68,7 +78,7 @@ Esse comportamento mais restritivo torna o código mais seguro e previsível, e 
 
 ### Mutabilidade e constância
 
-Outro ponto importante é a **mutabilidade**. Variáveis declaradas com `let` podem ter seus valores reatribuídos, enquanto aquelas declaradas com `const` **não podem**. Isso não significa que `const` cria valores imutáveis, mas sim que a referência não pode ser alterada. Quando se trata de objetos ou arrays, o conteúdo interno ainda pode ser modificado.
+Outro ponto importante a se considerar ao usar as variáveis em Javascript é a **mutabilidade**. Variáveis declaradas com `let` podem ter seus valores reatribuídos, enquanto aquelas declaradas com `const` **não podem**. Isso não significa que `const` cria valores imutáveis, mas sim que a referência não pode ser alterada. Quando se trata de objetos ou arrays, o conteúdo interno ainda pode ser modificado.
 
 ```javascript
 const usuario = { nome: "Ana" };
@@ -80,7 +90,7 @@ lista.push(4); // permitido
 lista = [10, 20]; // erro
 ```
 
-Esse comportamento é relevante para o React Native, onde frequentemente utilizamos `const` para definir estados e funções auxiliares, mesmo quando o conteúdo pode ser atualizado por meio de mecanismos controlados, como o `useState`. 🧑‍💻
+Esse comportamento é relevante para o React Native, onde frequentemente utilizamos `const` para definir estados e funções auxiliares, mesmo quando o conteúdo pode ser atualizado por meio de mecanismos controlados, como o hook `useState`. 🧑‍💻
 
 ```tsx
 const [tarefas, setTarefas] = useState(["Estudar"]);
@@ -400,5 +410,3 @@ Esse recurso se conecta diretamente com padrões usados em formulários, eventos
 ### Em suma!
 
 Template literals representam uma evolução significativa na forma de lidar com strings em JavaScript. Eles tornam o código mais legível, expressivo e menos sujeito a erros, além de oferecer suporte nativo para interpolação de valores e strings multilinha. Seu uso é amplamente adotado no desenvolvimento moderno, especialmente quando se trabalha com interfaces dinâmicas e comunicação textual em aplicações React Native.
-
----

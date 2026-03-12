@@ -1,11 +1,11 @@
 ---
 layout: aula
-title: "2. TypeScript"
+title: "2. Operações com Arrays"
 parent: Aula 02 - JavaScript Moderno e TypeScript
 nav_order: 2
 ---
 
-## 1.4 Desestruturação de Arrays
+## 2. Desestruturação de Arrays
 
 A **desestruturação** (ou *destructuring*) é um recurso introduzido no ES6 que permite extrair valores de arrays ou propriedades de objetos diretamente em variáveis, usando uma sintaxe concisa e legível. No caso dos **arrays**, a desestruturação é útil quando queremos extrair **valores por posição**, sem precisar acessar manualmente cada índice.
 
@@ -192,7 +192,7 @@ Seja em hooks, funções utilitárias ou dados externos, combinar desestruturaç
 
 ---
 
-## 1.5 Desestruturação de Objetos
+## 2.1 Desestruturação de Objetos
 
 A **desestruturação de objetos** é um recurso introduzido no ES6 que permite extrair valores diretamente de propriedades de objetos em variáveis locais, com uma sintaxe declarativa e mais concisa. Diferentemente da desestruturação de arrays, que usa a **posição** dos elementos, a desestruturação de objetos se baseia em **nomes de propriedades**.
 
@@ -326,7 +326,7 @@ A desestruturação de objetos melhora a legibilidade e reduz a verbosidade ao a
 
 ---
 
-## 1.6 Operador Spread e Rest (`...`)
+## 2.2 Operador Spread e Rest (`...`)
 
 O operador `...`, introduzido no ES6, serve para dois propósitos distintos, dependendo do contexto:
 
@@ -477,7 +477,7 @@ O operador `...` é uma das ferramentas mais versáteis do JavaScript moderno. S
 
 ---
 
-## 1.7 Métodos de Array: `map`, `filter`, `reduce`, `find`
+## 2.3 Métodos de Array: `map`, `filter`, `reduce`, `find`
 
 No desenvolvimento moderno com JavaScript — especialmente em frameworks como React e React Native — há uma forte valorização de princípios da **programação funcional**. Esse paradigma promove o uso de **funções puras**, **imutabilidade**, **composição** e **ausência de efeitos colaterais**, resultando em código mais previsível, legível e fácil de testar.
 
@@ -744,3 +744,17 @@ Os métodos `map`, `filter`, `reduce` e `find` são ferramentas poderosas e expr
 A utilização de métodos como `map`, `filter`, `reduce` e `find` não é apenas uma conveniência sintática — ela representa uma **mudança de estilo**: do imperativo para o funcional. Essa mudança torna o código mais legível, modular e confiável, além de estar perfeitamente alinhada aos princípios do React e do TypeScript moderno. Compreender e adotar essas práticas é um passo essencial para escrever software mais limpo, previsível e escalável.
 
 ---
+
+## 2.4 Resumão sobre os Fundamentos Modernos de JavaScript
+
+Nesta primeira parte da aula, revisamos os principais recursos do JavaScript moderno que moldam a forma como escrevemos código atualmente — especialmente no contexto do desenvolvimento com React e React Native.
+
+Recursos como `let` e `const`, desestruturação, template literals e arrow functions nos permitem **expressar intenções de forma mais clara e segura**, enquanto operadores como spread/rest e métodos como `map`, `filter` e `reduce` nos colocam em sintonia com os princípios da **programação funcional**, favorecendo **imutabilidade, composição e previsibilidade**.
+
+Além disso, vimos como essas construções estão presentes o tempo todo na prática cotidiana: em funções de manipulação de estado, passagem de props, renderização de listas, configuração de objetos, e até na maneira como modelamos dados vindos de APIs ou transformamos entradas do usuário.
+
+A familiaridade com essas ferramentas é fundamental — elas formam o vocabulário básico da programação JavaScript moderna e, consequentemente, da base sobre a qual construiremos nossas aplicações móveis com React Native.
+
+Agora que revisitamos os fundamentos modernos do JavaScript, é hora de dar um passo adiante e conhecer o que o **TypeScript** adiciona a essa base. Como dissemos inicialmente, TypeScript não substitui JavaScript — ele **estende** sua sintaxe e funcionalidades, permitindo que possamos **tipar dados, funções e objetos de forma explícita**. Isso nos ajuda a detectar erros antes da execução, documentar melhor nossas intenções e tornar o código mais previsível e confiável.
+
+Na próxima seção, vamos explorar de forma prática os principais recursos da linguagem, como tipos primitivos, interfaces, generics e inferência, sempre com foco em como isso melhora a qualidade do código no desenvolvimento mobile. 🚀

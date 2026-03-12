@@ -1,29 +1,13 @@
 ---
 layout: aula
-title: "3. Resolução dos Exercícios da Aula 01"
+title: "3. Introdução ao TypeScript"
 parent: Aula 02 - JavaScript Moderno e TypeScript
 nav_order: 3
 ---
 
-## 1.8 Resumão sobre os Fundamentos Modernos de JavaScript
+## 3. TypeScript
 
-Nesta primeira parte da aula, revisamos os principais recursos do JavaScript moderno que moldam a forma como escrevemos código atualmente — especialmente no contexto do desenvolvimento com React e React Native.
-
-Recursos como `let` e `const`, desestruturação, template literals e arrow functions nos permitem **expressar intenções de forma mais clara e segura**, enquanto operadores como spread/rest e métodos como `map`, `filter` e `reduce` nos colocam em sintonia com os princípios da **programação funcional**, favorecendo **imutabilidade, composição e previsibilidade**.
-
-Além disso, vimos como essas construções estão presentes o tempo todo na prática cotidiana: em funções de manipulação de estado, passagem de props, renderização de listas, configuração de objetos, e até na maneira como modelamos dados vindos de APIs ou transformamos entradas do usuário.
-
-A familiaridade com essas ferramentas é fundamental — elas formam o vocabulário básico da programação JavaScript moderna e, consequentemente, da base sobre a qual construiremos nossas aplicações móveis com React Native.
-
-Agora que revisitamos os fundamentos modernos do JavaScript, é hora de dar um passo adiante e conhecer o que o **TypeScript** adiciona a essa base. Como dissemos inicialmente, TypeScript não substitui JavaScript — ele **estende** sua sintaxe e funcionalidades, permitindo que possamos **tipar dados, funções e objetos de forma explícita**. Isso nos ajuda a detectar erros antes da execução, documentar melhor nossas intenções e tornar o código mais previsível e confiável.
-
-Na próxima seção, vamos explorar de forma prática os principais recursos da linguagem, como tipos primitivos, interfaces, generics e inferência, sempre com foco em como isso melhora a qualidade do código no desenvolvimento mobile. 🚀
-
----
-
-## 2. TypeScript
-
-## 2.1 Tipos Primitivos e Anotação de Tipos
+## 3.1 Tipos Primitivos e Anotação de Tipos
 
 O TypeScript é um superconjunto do JavaScript que adiciona **tipagem estática opcional** à linguagem. Isso significa que podemos **declarar explicitamente o tipo de cada variável, parâmetro de função, retorno e estrutura de dados** — e o compilador verifica se os usos estão coerentes com os tipos declarados.
 
@@ -136,7 +120,7 @@ Essa base é necessária para explorarmos, nas próximas seções, tipos compost
 
 ---
 
-## 2.2 Tipos Compostos: Arrays, Tuplas e União de Tipos
+## 3.2 Tipos Compostos: Arrays, Tuplas e União de Tipos
 
 Após dominar os **tipos primitivos**, é natural expandirmos para **estruturas compostas**, que representam **coleções de dados** ou **valores alternativos possíveis**. No TypeScript, isso é feito com os tipos de **arrays**, **tuplas** e **uniões**.
 
