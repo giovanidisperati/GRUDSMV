@@ -148,6 +148,21 @@ div.highlighter-rouge div.highlight {
   color: #bd93f9 !important;
 }
 
+/* Delimitadores de string (as aspas em si) → Amarelo Pastel */
+.highlight .dl {
+  color: #f1fa8c !important;
+}
+
+/* Interpolação / Expressões JSX ({nome}, {tipo}) → Branco */
+.highlight .si {
+  color: #f8f8f2 !important;
+}
+
+/* Symbol strings → Laranja */
+.highlight .ss {
+  color: #ffb86c !important;
+}
+
 /* =========================================
    4. NAVEGAÇÃO DE RODAPÉ (PREV / NEXT)
    ========================================= */
