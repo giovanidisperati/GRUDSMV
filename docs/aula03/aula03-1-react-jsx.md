@@ -90,4 +90,3 @@ E até aqui, exploramos JavaScript, TypeScript e até criamos uma pequena Pokede
 
 Esses são os fundamentos da programação em React e dominá-los é essencial antes de trabalhar com botões, listas, imagens e chamadas a API no mundo mobile com React Native. 🧑‍💻
 
----

@@ -149,5 +149,3 @@ Este é um componente funcional em React chamado App. Ele:
 ### **2.5 Em resumo...**
 
 O JSX é a porta de entrada para a construção de interfaces em React e React Native. Ele combina a expressividade do JavaScript com a clareza visual de uma linguagem de marcação. Entender suas regras e saber como combiná-lo com lógica dinâmica é o primeiro passo para criar interfaces ricas e interativas. Ah, e não se preocupe: **no final do Aula vamos construir a PokéDex completa** 🤩
-
----

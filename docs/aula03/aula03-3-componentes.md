@@ -130,5 +130,3 @@ Como vimos, a componentização é um dos pilares do React e traz diversos benef
 ### **✅ 3.5 Conclusão**
 
 Compreender o conceito de **componentes** é essencial para qualquer desenvolvimento com React. Eles são mais do que blocos visuais — são estruturas lógicas reutilizáveis que tornam o código modular, testável e escalável. A partir do próximo tópico, veremos como **passar dados para os componentes** usando **props**, o que nos permitirá criar componentes verdadeiramente dinâmicos e reutilizáveis, como o nosso `PokemonCard` exibindo informações de diferentes Pokémon. 🤠
-
----

@@ -1,6 +1,6 @@
 ---
 layout: aula
-title: "Entendo as Props"
+title: "4. Entendendo as Props"
 parent: Aula 03 - Introdução ao React (Componentes, Props e Hooks)
 nav_order: 4
 ---
@@ -401,5 +401,3 @@ Portanto, ao dominar o conceito de props, você consegue:
 - Implementar padrões de design que facilitam a manutenção do código
 
 Na próxima seção, exploraremos um tema central na construção de aplicativos interativos: o **gerenciamento de estado local com `useState`**.
-
----
