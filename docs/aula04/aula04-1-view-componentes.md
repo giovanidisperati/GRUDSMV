@@ -5,7 +5,7 @@ parent:  Aula 04 - Começando o desenvolvimento mobile com React Native!
 nav_order: 1
 ---
 
-## **1.1 O papel da View: containers e composição de layout**
+## **1 O papel da View: containers e composição de layout**
 
 No React Native, todos os elementos visuais são baseados em componentes. O mais fundamental deles é o `View`, que serve como **container genérico** para agrupar e posicionar outros componentes na tela. É possível imaginar o `View` como o "div" do React Native — ou, em termos mais conceituais, como um bloco visual que organiza outros blocos.
 
@@ -27,7 +27,7 @@ Nesse exemplo, o componente `App` renderiza uma `View` que contém um `Text`. Me
 
 Também é importante ter em mente que a construção de telas em React Native é baseada na **composição de componentes**. Ou seja, em vez de criar estruturas grandes e monolíticas, o ideal é dividir a interface em partes menores e reutilizáveis. Essa abordagem modular traz legibilidade, reutilização e facilita a manutenção do código.
 
-### **1.2 Ciclo visual de construção de interfaces**
+### **1.1 Ciclo visual de construção de interfaces**
 
 Criar a parte visual de um app usualmente não é um processo linear, que acontece de uma vez. Assim como nas demais atividades de desenvolvimento de Software, a abordagem iterativa é comum: testes, ajustes e refinamentos vão acontecendo aos poucos e intercaladamente, o que ajuda a obtermos resultados mais sólidos e funcionais. Abaixo estão as etapas mais comuns desse processo:
 

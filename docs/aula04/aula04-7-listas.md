@@ -1,6 +1,6 @@
 ---
 layout: aula
-title: "6. Trabalhando com listas"
+title: "7. Trabalhando com listas"
 parent:  Aula 04 - Começando o desenvolvimento mobile com React Native!
 nav_order: 7
 ---

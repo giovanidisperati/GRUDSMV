@@ -1,6 +1,6 @@
 ---
 layout: aula
-title: "6. Interagindo com o app"
+title: "6. Interagindo com o APP!"
 parent:  Aula 04 - Começando o desenvolvimento mobile com React Native!
 nav_order: 6
 ---

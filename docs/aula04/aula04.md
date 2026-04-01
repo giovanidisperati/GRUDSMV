@@ -8,7 +8,7 @@ permalink: /aula04
 
 # Aula 04 – Construção de Interfaces Visuais com React Native
 
-## **1. Introdução à Construção de Interfaces em React Native**
+## **Introdução à Construção de Interfaces em React Native**
 
 Na Aula 03, vimos os fundamentos essenciais do React, abordando de forma prática os conceitos de JSX, componentes funcionais, props, estado com `useState` e efeitos colaterais com `useEffect`. Para consolidar esses conhecimentos, desenvolvemos uma versão web da nossa PokéDex, utilizando dados da PokéAPI e implementando funcionalidades interativas.
 
