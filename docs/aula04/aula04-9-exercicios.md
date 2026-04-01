@@ -1,7 +1,7 @@
 ---
 layout: aula
 title: "9. Exercícios"
-parent: Aula 04 - Interfaces, Estilização e Listas no React Native
+parent:  Aula 04 - Começando o desenvolvimento mobile com React Native!
 nav_order: 9
 ---
 

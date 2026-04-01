@@ -1,11 +1,11 @@
 ---
 layout: aula
 title: "3. Estilizando com... CSS?"
-parent: Aula 04 - Interfaces, Estilização e Listas no React Native
+parent:  Aula 04 - Começando o desenvolvimento mobile com React Native!
 nav_order: 3
 ---
 
-# **3. Estilização com StyleSheet**
+## **3. Estilização com StyleSheet**
 
 A aparência dos componentes visuais em React Native é definida por meio de objetos JavaScript que descrevem propriedades de estilo **semelhantes** às do CSS. Embora a ideia geral seja familiar para quem já trabalhou com a web, existem diferenças significativas de sintaxe, comportamento e organização dos estilos em ambientes móveis.
 

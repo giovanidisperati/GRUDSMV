@@ -1,7 +1,7 @@
 ---
 layout: aula
 title: "4. Layout com Flexbox!"
-parent: Aula 04 - Interfaces, Estilização e Listas no React Native
+parent:  Aula 04 - Começando o desenvolvimento mobile com React Native!
 nav_order: 4
 ---
 

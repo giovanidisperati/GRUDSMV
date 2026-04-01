@@ -1,7 +1,7 @@
 ---
 layout: aula
 title: "6. Trabalhando com listas"
-parent: Aula 04 - Interfaces, Estilização e Listas no React Native
+parent:  Aula 04 - Começando o desenvolvimento mobile com React Native!
 nav_order: 7
 ---
 
