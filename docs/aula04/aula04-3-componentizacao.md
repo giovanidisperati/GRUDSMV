@@ -1,13 +1,13 @@
 ---
 layout: aula
-title: "5. Componentização e Reutilização"
+title: "3. Estilizando com... CSS?"
 parent: Aula 04 - Interfaces, Estilização e Listas no React Native
 nav_order: 3
 ---
 
-## **3. Estilização com StyleSheet**
+# **3. Estilização com StyleSheet**
 
-A aparência dos componentes visuais em React Native é definida por meio de objetos JavaScript que descrevem propriedades de estilo semelhantes às do CSS. Embora a ideia geral seja familiar para quem já trabalhou com a web, existem diferenças significativas de sintaxe, comportamento e organização dos estilos em ambientes móveis.
+A aparência dos componentes visuais em React Native é definida por meio de objetos JavaScript que descrevem propriedades de estilo **semelhantes** às do CSS. Embora a ideia geral seja familiar para quem já trabalhou com a web, existem diferenças significativas de sintaxe, comportamento e organização dos estilos em ambientes móveis.
 
 A ferramenta principal utilizada para estilização é o `StyleSheet.create`, que permite definir estilos de forma estruturada, segura e eficiente em termos de performance. A seguir, vamos examinar como ele funciona, por que é recomendado e quais boas práticas podem ser adotadas para manter a coesão visual do projeto.
 
@@ -178,5 +178,3 @@ A estilização com `StyleSheet` é um ponto de grande importância na construç
 Para projetos maiores, é possível integrar bibliotecas como [NativeWind](https://www.nativewind.dev/) ou [Styled Components](https://styled-components.com/) para lidar com temas, responsividade e composição de estilos — temas que serão explorados nas próximas aulas.
 
 Com a base de estilização consolidada, seguimos agora para o modelo de layout mais utilizado no React Native: o **Flexbox**, responsável por controlar alinhamentos, espaçamentos e organização responsiva dos elementos na tela.
-
----

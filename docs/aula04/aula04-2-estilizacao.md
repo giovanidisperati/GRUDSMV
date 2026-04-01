@@ -1,6 +1,6 @@
 ---
 layout: aula
-title: "3 & 4. StyleSheet e Flexbox"
+title: "2. Construção de interfaces!"
 parent: Aula 04 - Interfaces, Estilização e Listas no React Native
 nav_order: 2
 ---
@@ -220,5 +220,3 @@ export function BotaoPrimario({ titulo, onPress }: PropsBotao) {
 ```
 
 Esse botão pode ser reutilizado em diversos lugares da aplicação, com títulos e ações diferentes, mantendo o mesmo estilo visual e comportamento consistente. Essa abordagem modular facilita a manutenção e a evolução da interface conforme o projeto avança!
-
----

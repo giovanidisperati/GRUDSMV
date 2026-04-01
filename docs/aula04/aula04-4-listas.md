@@ -1,6 +1,6 @@
 ---
 layout: aula
-title: "7. Listas e FlatList"
+title: "4. Layout com Flexbox!"
 parent: Aula 04 - Interfaces, Estilização e Listas no React Native
 nav_order: 4
 ---
@@ -155,5 +155,3 @@ Abaixo resumimos as principais propriedades do FlexBox no React Native 🤠
 | Quebra de linha                 | Permite várias linhas                            | `flexWrap` (`nowrap`, `wrap`)                                      |
 | Várias linhas                   | Distribuição das linhas geradas por `wrap`       | `alignContent`                                                     |
 | Espaços (RN ≥ 0.72)             | Gaps uniformes entre linhas/colunas              | `rowGap`, `columnGap`, `gap`                    |
-
----

@@ -1,6 +1,6 @@
 ---
 layout: aula
-title: "1 & 2. View e Componentes Visuais"
+title: "1. O componente View do React Native"
 parent: Aula 04 - Interfaces, Estilização e Listas no React Native
 nav_order: 1
 ---
@@ -85,5 +85,3 @@ Após isso, reinicie o servidor com `npx expo start` e pressione `w` para abrir 
 Tudo rodando aí em suas respectivas máquinas? 🧑‍💻
 
 Então daremos início à exploração dos componentes visuais fundamentais do React Native, como `Text`, `Button`, `TextInput` e `TouchableOpacity`, entendendo suas propriedades e como tipá-los corretamente em TypeScript. Utilize o projeto que você acabou de gerar acima para ir testando, ao longo da aula, os componentes e conceitos que serão abordados. 😊
-
----
