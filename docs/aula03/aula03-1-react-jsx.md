@@ -16,7 +16,7 @@ Apesar de React Native usar componentes visuais diferentes (como `View`, `Text`,
 * Ambos gerenciam dados com **estado (`useState`)** e respondem a mudanças com **efeitos (`useEffect`)**;
 * Ambos tratam a interface como uma **função pura do estado atual**.
 
-Portanto, **dominar os fundamentos do React** é um passo obrigatório para criar aplicações robustas, escaláveis e compreensíveis com React Native.
+Portanto, **dominar os fundamentos do React** é um passo obrigatório para criar aplicações robustas com React Native.
 
 ### 🧠 **1.2 Pensando em interfaces como funções do estado**
 
