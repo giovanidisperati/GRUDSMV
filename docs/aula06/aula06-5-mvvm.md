@@ -2,7 +2,7 @@
 layout: aula
 title: "5. Refatoração e Padrão MVVM"
 parent: Aula 06 - Context API, AsyncStorage e MVVM
-nav_order: 4
+nav_order: 5
 ---
 
 ## **5. Refatoração e Arquitetura: Aplicando o Padrão MVVM na Prática**

@@ -1,8 +1,8 @@
 ---
 layout: aula
-title: "6 & 7. Conclusão e Exercícios"
+title: "6. Conclusão"
 parent: Aula 06 - Context API, AsyncStorage e MVVM
-nav_order: 5
+nav_order: 6
 ---
 
 ## **6. Conclusão e Próximos Passos**
@@ -19,10 +19,6 @@ Para ter acesso ao código implementado nessa aula, acesse o [Branch **Aula06** 
 
 Posteriormente vou disponibilizar uma Branch "Aula06 - MVVM" para mostrar como ficaria a implementação "purista" (seguindo a definição teórica de maneira mais estrita) do MVVM com esse nosso aplicativo React Native.
 
------
+Essa semana não teremos exercícios 🤩
 
-## **7. Exercícios Práticos**
-
-Essa semana não teremos exercícios, podem aproveitar o feriado 🤩
-
-Lembrando que há atividades do Projeto a serem feitas. Na próxima semana, retornamos com os exercícios!
+Mas aproveito para lembrá-los que há atividades do Projeto a serem feitas. Na próxima semana, retornamos com os exercícios!

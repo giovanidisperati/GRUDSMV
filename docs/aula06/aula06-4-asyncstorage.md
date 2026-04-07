@@ -2,7 +2,7 @@
 layout: aula
 title: "4. Persistência com AsyncStorage"
 parent: Aula 06 - Context API, AsyncStorage e MVVM
-nav_order: 3
+nav_order: 4
 ---
 
 ## **4. Tornando o Estado Persistente com AsyncStorage**

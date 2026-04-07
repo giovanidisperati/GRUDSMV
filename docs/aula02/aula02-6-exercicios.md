@@ -5,7 +5,7 @@ parent: Aula 02 - JavaScript Moderno e TypeScript
 nav_order: 6
 ---
 
-## 5. Exercícios Propostos (TypeScript)
+## 6. Exercícios Propostos (TypeScript)
 
 Os exercícios a seguir visam solidificar os principais conceitos de TypeScript abordados nesta aula: **tipagem explícita**, **interfaces**, **tipos literais**, **uniões**, **generics** e **utility types**. Vamos reforçar o que vimos pois utilizaremos posteriormente.
 

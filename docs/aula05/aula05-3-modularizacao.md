@@ -18,5 +18,3 @@ Além disso, nossa comunicação com serviços externos continua centralizada em
 Por fim, todo o contrato de tipos continua em **`src/types`**. Lá já temos `Navigation.ts`, que descreve rotas e parâmetros; qualquer novo modelo global, como um futuro `PokemonDetailed`, deve ser criado na mesma pasta para manter o autocompletar e as verificações de tempo de compilação funcionando em todo o projeto.
 
 Seguir essa divisão — componentes reaproveitáveis, telas, serviços, utilitários e tipos globais — garante um código modular, facilita o trabalho em equipe e torna as próximas funcionalidades mais fáceis de integrar. Isso contudo, diz respeito à decisões de "baixo nível", ao Design concreto da nossa aplicação. Vamos ver agora como proceder em relação às decisões de alto nível: a arquitetura de nossa aplicação!
-
----

@@ -2,7 +2,7 @@
 layout: aula
 title: "3. Implementando Favoritos com Context API"
 parent: Aula 06 - Context API, AsyncStorage e MVVM
-nav_order: 2
+nav_order: 3
 ---
 
 ## **3. Implementando o Gerenciamento de Favoritos com a Context API**
@@ -464,5 +464,3 @@ Essa prática reforça a **Separação de Responsabilidades (SoC)** e nos alinha
 A verificação `if (!context)` dentro do hook é outra prática de desenvolvimento defensivo que previne erros e torna o debugging mais simples.
 
 Portanto, a solução implementada não apenas resolve o problema de compartilhar estado, mas o faz de uma maneira que promove um código mais limpo, desacoplado, testável e fácil de dar manutenção — todos os pilares de uma aplicação React Native moderna e bem-arquiteturada.
-
------

@@ -1,6 +1,6 @@
 ---
 layout: aula
-title: "5 & 6. Conclusão e Exercícios"
+title: "5. Conclusão e Exercícios"
 parent: Aula 05 - Navegação, Modularização e Arquiteturas
 nav_order: 5
 ---
@@ -23,7 +23,7 @@ E, como já sabem, agora é hora dos nossos...
 
 ---
 
-## 6. Exercícios 
+## Exercícios 
 
 ### **Exercício 1: Análise Crítica da Arquitetura Atual**
 

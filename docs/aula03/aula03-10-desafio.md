@@ -5,7 +5,7 @@ parent: Aula 03 - Introdução ao React (Componentes, Props e Hooks)
 nav_order: 10
 ---
 
-# Construindo seu próprio React!
+## Construindo seu próprio React!
 *Baseado no artigo original 'Build your own React', publicado por Rodrigo Pombo.*
 
 Ao longo desta aula, você aprendeu a *usar* o React: componentes, props, `useState`, `useEffect`. Agora vamos um nível abaixo: entender como esse motor funciona internamente. Para isso, construiremos uma versão simplificada da biblioteca `Didact`, criada pelo autor Rodrigo Pombo, que tem por ideia demonstrar os princípios do React. Nossa implementação seguirá a arquitetura real do React, sem as otimizações de código de produção mas com os mesmos princípios estruturais.

@@ -115,5 +115,3 @@ O importante é sempre buscar:
 * **Manutenibilidade:** Facilitar a compreensão, modificação e extensão do código.
 
 Nossa Pokédex, mesmo sem aderir rigidamente a um desses padrões formais, já aplica o princípio da separação de responsabilidades ao ter componentes de UI, uma camada de serviço para dados e tipos definidos. Conforme ela evoluir, poderemos introduzir Custom Hooks e outras técnicas para aprimorar ainda mais sua estrutura e refatorá-la, eventualmente, para um desses padrões!
-
----

@@ -2,7 +2,7 @@
 layout: aula
 title: "2. Context API – Do Estado Local ao Global"
 parent: Aula 06 - Context API, AsyncStorage e MVVM
-nav_order: 1
+nav_order: 2
 ---
 
 ## **2. Do Estado Local ao Global: A Context API do React**
@@ -88,5 +88,3 @@ Em resumo, o fluxo é simples:
 3.  **Consuma** o estado onde for necessário com o hook `useContext`.
 
 Compreendido o plano de ação, vamos para a prática!
-
------

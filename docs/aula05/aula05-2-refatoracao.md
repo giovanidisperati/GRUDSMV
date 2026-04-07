@@ -281,5 +281,3 @@ Repare que **ainda precisamos terminar a implementação das funcionalidades ped
 O mais difícil era o Desafio que acabamos de implementar! Então caso não tenha conseguido, tente, agora a partir do código fornecido acima, fazer as implementações das melhorias pedidas nos exercícios 1 a 4 da aula anterior. Irei gravar um vídeo que será disponibilizado no Moodle mostrando a implementação completa (e o código-fonte será disponibilizado), mas tente fazer os exercícios pois a prática é o que leva ao entendimento concreto do que estamos fazendo!
 
 Dito isso, vamos prosseguir para um tema importante que ainda não abordamos de maneira suficiente até aqui: arquitetura e modularização de nossas aplicações mobile.
-
----
