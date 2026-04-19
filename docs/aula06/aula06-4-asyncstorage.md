@@ -397,5 +397,3 @@ export function useFavorites(): FavoritesContextData {
 Com este arquivo, toda a lógica complexa de estado global e persistência está encapsulada em um só lugar. Nossos componentes de UI podem simplesmente usar o hook `useFavorites` sem se preocupar com os detalhes da implementação.
 
 Agora que temos um sistema de dados funcional, podemos dar um passo atrás e analisar como essa estrutura se encaixa no padrão de arquitetura MVVM, que será o tema da nossa próxima seção.
-
------

@@ -241,5 +241,3 @@ Por exemplo, podemos escrever testes automatizados para verificar:
 Isso está perfeitamente alinhado com o que vimos na Aula 05: o MVVM proporciona uma testabilidade altíssima porque a lógica de apresentação e de negócio é completamente desacoplada da camada de renderização.
 
 Ao adotar esse padrão, não estamos apenas escrevendo código que funciona hoje, mas construindo uma base sólida que pode crescer, ser modificada e, acima de tudo, ser testada com confiança, garantindo a qualidade da nossa aplicação a longo prazo.
-
------

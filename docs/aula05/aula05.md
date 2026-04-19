@@ -16,7 +16,3 @@ Na Aula 04, desenvolvemos uma Pokédex visual e modular, aprendendo a estruturar
 * Uma introdução a visões arquiteturais comuns em aplicativos móveis.
 
 Para isso, vamos partir de onde paramos na aula anterior (PokéDex) e dar continuidade aos conceitos que precisam ser abordados!
-
----
-
-Use o índice na barra ao lado para navegar nos tópicos da Aula.
