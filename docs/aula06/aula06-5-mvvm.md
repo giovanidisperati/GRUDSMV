@@ -7,77 +7,58 @@ nav_order: 5
 
 ## **5. Refatoração e Arquitetura: Aplicando o Padrão MVVM na Prática**
 
-Até agora, focamos na implementação técnica para resolver nossos problemas: usamos a `Context API` para o estado global e o `AsyncStorage` para a persistência. No entanto, sem perceber, a estrutura que criamos ao fazer isso nos alinhou naturalmente com um dos padrões de arquitetura mais importantes para aplicações React: o **MVVM (Model-View-ViewModel)**.
+Até agora, focamos na implementação técnica: usamos a `Context API` para o estado global e o `AsyncStorage` para a persistência. Sem perceber, a estrutura que criamos ao fazer isso nos alinhou naturalmente com o padrão **MVVM** que discutimos na Aula 05. As peças se encaixam da seguinte forma:
 
-Na Aula 05, discutimos o MVVM de forma teórica, como um modelo para separar as responsabilidades da nossa aplicação. Agora, vamos analisar como o nosso sistema de favoritos já é uma implementação prática desse padrão. As peças se encaixam da seguinte forma:
+  * **Model:** Nossa camada de serviços (`services/api.ts`), responsável por buscar os dados brutos da PokéAPI.
+  * **View:** Os componentes de interface — `PokemonCard`, `PokedexScreen`, `PokemonDetailsScreen` — cuja responsabilidade é exibir os dados e capturar as interações do usuário.
+  * **ViewModel:** O hook customizado `useFavorites`. Ele é o intermediário que prepara os dados para a *View* e contém toda a lógica de negócio, sem nunca conhecer os detalhes da interface.
 
-  * **Model:** Continua sendo nossa camada de serviços (`services/api.ts`), responsável por buscar os dados brutos da PokéAPI.
-  * **View:** São nossos componentes de interface, como o `PokemonCard` e a `PokedexScreen`. A responsabilidade deles é apenas exibir os dados e capturar as interações do usuário.
-  * **ViewModel:** É o nosso hook customizado `useFavorites`! Ele é o intermediário que prepara os dados para a `View` e contém toda a lógica de negócio (adicionar, remover, salvar no disco), sem nunca conhecer os detalhes da interface.
+Nesta seção, vamos aprofundar essa conexão e entender como essa arquitetura torna o código mais limpo, testável e fácil de evoluir.
 
-Nesta seção, vamos aprofundar essa conexão, explorando como essa arquitetura torna nosso código mais limpo, testável e fácil de evoluir.
+### **5.1. O que são Hooks Customizados?**
 
-### **5.1. Revisitando o MVVM: Hooks Customizados como *ViewModels***
+Na Aula 05, mencionamos que a filosofia do MVVM se alinha perfeitamente com o uso de **Hooks Customizados** para servir como o *ViewModel*. Antes de passarmos a como isso funciona na prática com o `useFavorites`, é importante entendermos o conceito em si.
 
-Na Aula 05, introduzimos o padrão de arquitetura MVVM (Model-View-ViewModel) como um modelo ideal para aplicações reativas, como as que construímos com React Native. Naquela ocasião, mencionamos que a filosofia do MVVM se alinha perfeitamente com o uso de **Hooks Customizados** para servir como o *ViewModel*.
+Até agora, utilizamos hooks fornecidos pelo próprio React (`useState`, `useEffect`). No entanto, o verdadeiro poder do ecossistema de hooks está na capacidade de **criar os nossos próprios**.
 
-Antes de passarmos ao uso dos Hooks Customizados, entretanto, é importante abordarmos esse conceito (como prometido na aula anterior!)
-
-#### **O que é um Hook Customizado?**
-
-Até agora, nós utilizamos Hooks que o próprio React nos fornece, como `useState` e `useEffect`. No entanto, o verdadeiro poder do ecossistema de Hooks está na capacidade de **criar os nossos próprios**.
-
-Um **Hook Customizado** é, essencialmente, uma **função JavaScript reutilizável** cujo nome, por convenção, sempre começa com a palavra `use` (ex: `useFavorites`). A sua principal característica é que ela pode **chamar outros Hooks** dentro dela (como `useState`, `useEffect` ou até mesmo outros hooks customizados).
+Um **Hook Customizado** é uma função JavaScript reutilizável cujo nome, por convenção, sempre começa com `use` (ex: `useFavorites`). Sua principal característica é que ela pode **chamar outros hooks** dentro dela — como `useState`, `useEffect` ou até outros hooks customizados.
 
 **Por que criar um Hook Customizado?**
 
-O objetivo é **extrair e compartilhar lógica com estado** entre diferentes componentes.
-
-Imagine que vários componentes no nosso app precisam buscar dados de uma API. Em cada um deles, provavelmente repetiríamos a mesma lógica:
+O objetivo é **extrair e compartilhar lógica com estado** entre diferentes componentes. Imagine que vários componentes no nosso app precisassem buscar dados de uma API. Em cada um deles, repetiríamos a mesma lógica:
 
   * Um `useState` para guardar os dados.
   * Um `useState` para controlar o estado de `loading`.
   * Um `useState` para armazenar uma mensagem de `error`.
-  * Um `useEffect` para fazer a chamada `fetch` quando o componente monta.
+  * Um `useEffect` para fazer a chamada quando o componente monta.
 
-Isso é repetitivo e propenso a erros. Com um Hook Customizado, como um hipotético `useFetch(url)`, poderíamos encapsular toda essa lógica em um só lugar. Assim, em vez de reescrever tudo, um componente simplesmente faria:
+Isso é repetitivo e propenso a erros. Com um Hook Customizado como um hipotético `useFetch(url)`, poderíamos encapsular toda essa lógica em um só lugar. Assim, qualquer componente simplesmente faria:
 
 ```javascript
 const { data, loading, error } = useFetch('https://pokeapi.co/api/v2/pokemon/pikachu');
 ```
 
-O componente recebe os dados prontos para usar, sem se preocupar com os detalhes de como eles foram buscados ou gerenciados.
+O componente recebe os dados prontos para usar, sem se preocupar com os detalhes de como foram buscados ou gerenciados.
 
 **As Regras de Ouro dos Hooks Customizados:**
 
-1.  **O nome deve começar com `use`:** Isso não é apenas uma convenção. É o que permite que o linter do React verifique se as "Regras dos Hooks" (como não chamar hooks dentro de condicionais) estão sendo seguidas.
-2.  **Eles compartilham lógica, não estado:** Cada vez que um componente diferente chama o mesmo hook customizado, ele recebe sua **própria versão isolada do estado**. O `useFetch` para o "Pikachu" e o `useFetch` para o "Charmander" terão seus próprios estados de `data`, `loading` e `error`, independentes um do outro.
+1.  **O nome deve começar com `use`:** Isso não é apenas uma convenção. É o que permite que o linter do React verifique se as "Regras dos Hooks" (como não chamar hooks dentro de condicionais) estão sendo seguidas corretamente.
+2.  **Eles compartilham lógica, não estado:** Cada componente que chama o mesmo hook recebe sua **própria versão isolada do estado**. O `useFetch` para o "Pikachu" e o `useFetch` para o "Charmander" terão seus próprios `data`, `loading` e `error`, completamente independentes. Isso é diferente de um Contexto, onde o estado é compartilhado — um detalhe importante que veremos na seção seguinte.
 
-É exatamente por essa capacidade de encapsular lógica e estado que os Hooks Customizados se tornam a ferramenta perfeita para implementar o padrão **ViewModel** no React. O hook se torna o nosso ViewModel, e o componente que o utiliza se torna a nossa View.
+É exatamente por essa capacidade de encapsular lógica que os Hooks Customizados se tornam a ferramenta perfeita para implementar o *ViewModel* no React.
 
-#### **Uso dos Hooks Customizados para refatoração da aplicação em MVVM**
+### **5.2. `useFavorites` como ViewModel: teoria encontra prática**
 
-Vamos relembrar rapidamente as responsabilidades de um *ViewModel* no padrão MVVM:
+Na Aula 05, imaginamos um `usePokedexViewModel` hipotético como exemplo de ViewModel implementado via Custom Hook. O nosso `useFavorites` é a primeira implementação real desse conceito no projeto. Vamos analisar como ele cumpre cada responsabilidade que definimos para um ViewModel:
 
-  * Ele prepara e expõe os dados do *Model* para a *View*.
-  * Ele contém a lógica de apresentação e o estado da UI (como `isLoading`, `errorMessage`, etc.).
-  * Ele expõe "comandos" (funções) que a *View* pode invocar.
-  * Ele não tem nenhuma referência direta à *View*, o que o torna testável e reutilizável.
+| Responsabilidade do ViewModel | Como `useFavorites` cumpre |
+| :--- | :--- |
+| Expor dados e estado observável | Expõe `favorites` |
+| Expor comandos que a View invoca | Expõe `addFavorite`, `removeFavorite`, `isFavorite` |
+| Conter toda a lógica de negócio | Gerencia a interação com `AsyncStorage`, deduplicação, persistência |
+| Não ter referência direta à View | Não importa nenhum componente de UI; pode ser usado em qualquer tela |
 
-Agora, vamos analisar o hook `useFavorites` que criamos. Ele cumpre exatamente todas essas responsabilidades:
-
-  * **Expõe Dados e Estado:** O nosso hook gerencia os estados internos (`favorites`, `loading`) e os expõe para qualquer componente que o consuma.
-  * **Contém a Lógica de Negócio:** Toda a lógica complexa — como adicionar, remover, checar se um item é favorito e, mais importante, a interação com o `AsyncStorage` — está contida dentro do `FavoritesProvider` e é gerenciada pelo hook. A *View* não tem ideia de como essa mágica acontece.
-  * **Expõe Comandos (Funções):** O hook expõe "comandos" na forma das funções `addFavorite` e `removeFavorite`. Os componentes da *View* simplesmente invocam essas funções em resposta a eventos do usuário (como um `onPress`), sem se preocupar com a implementação.
-  * **É Desacoplado da View:** O hook `useFavorites` não importa nem conhece nenhum componente visual. Ele poderia ser usado na `PokedexScreen`, no `PokemonCard` ou em qualquer outra tela. Essa independência é o que o torna um *ViewModel* perfeito: ele é reutilizável e pode ser testado de forma isolada.
-
-Portanto, ao criar um hook customizado que encapsula um estado (seja local ou de um contexto) e a lógica para manipulá-lo, estamos, na prática, implementando o padrão ViewModel. Essa é uma das formas mais poderosas e elegantes de estruturar aplicações React Native, resultando em um código mais organizado e fácil de manter.
-
-### **5.2. Criando o `useFavorites`: Nosso Primeiro *ViewModel***
-
-A partir do trabalho que acabamos de desenvolver, estabelecemos a conexão teórica: um Hook Customizado pode funcionar como um *ViewModel*. Agora, vamos formalizar isso e analisar como nosso hook `useFavorites`, que já está em nosso arquivo `src/contexts/FavoritesContext.tsx`, é, na prática, o nosso primeiro ViewModel.
-
-Vamos rever o código do nosso hook:
+O código do hook em si é enganosamente simples:
 
 ```typescript
 // Em src/contexts/FavoritesContext.tsx...
@@ -91,153 +72,80 @@ export function useFavorites(): FavoritesContextData {
 }
 ```
 
-Este simples hook encapsula toda a complexidade de interagir com o `FavoritesContext`. Qualquer componente que o chame não precisa saber sobre `useContext` ou sobre a estrutura interna do provedor. Ele apenas pede: "me dê a lógica de favoritos".
+Qualquer componente que o chame não precisa saber sobre `useContext`, sobre o `FavoritesProvider` ou sobre o `AsyncStorage`. Ele apenas pede: "me dê a lógica de favoritos" — e recebe de volta um conjunto de dados e funções prontos para usar.
 
-Ele cumpre perfeitamente o papel do ViewModel, como discutido na Aula 05:
-
-  * **Expõe o estado:** Através da propriedade `favorites`.
-  * **Expõe os comandos:** Através das funções `addFavorite`, `removeFavorite` e `isFavorite`.
-
-Lembre-se do exemplo hipotético da Aula 05, onde imaginamos um `usePokedexViewModel`. O nosso `useFavorites` é a primeira implementação real desse conceito em nosso projeto. Estamos efetivamente separando a lógica de estado do componente de visualização.
-
-Ao adotar este padrão, a lógica de negócio se torna centralizada e reutilizável. A seguir, veremos o resultado direto dessa organização: nossos componentes de *View* se tornarão muito mais simples, limpos e focados apenas em sua tarefa de apresentação.
-
-### **5.3. A *View* Simplificada: Componentes Limpos e Declarativos e a Abordagem do "Component-as-ViewModel"**
-
-O grande benefício de encapsular nossa lógica no hook `useFavorites` é que nossos componentes de interface — as *Views*, no jargão do MVVM — se tornam incrivelmente mais simples e declarativos.
-
-Como discutido na Aula 05, a responsabilidade da *View* é apenas **exibir os dados** que recebe e **delegar as ações do usuário** para o *ViewModel*. Ela não precisa saber *como* as coisas funcionam por baixo dos panos.
-
-Vamos ver como o nosso `PokemonCard` fica após adotar o `useFavorites`:
+O resultado direto disso é que nossos componentes de *View* se tornam incrivelmente mais limpos e declarativos. Veja como o `PokemonCard` interage com os favoritos após adotar o `useFavorites`:
 
 ```typescript
-// components/PokemonCard.tsx
-import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { Pokemon } from '../types/Pokemon';
-import { RootStackParamList } from '../types/Navigation';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { capitalize } from '../utils/format';
+// components/PokemonCard.tsx (trecho relevante)
 
-// 1. Apenas importamos o hook, que é a nossa interface com a lógica
+// 1. Apenas importamos o hook — essa é a nossa única conexão com a lógica
 import { useFavorites } from '../contexts/FavoritesContext';
 
-type PokemonCardNavigationProp = NativeStackNavigationProp<RootStackParamList, 'PokemonDetails'>;
-
 export const PokemonCard = ({ pokemon }: { pokemon: Pokemon }) => {
-  const navigation = useNavigation<PokemonCardNavigationProp>();
-
   // 2. Consumimos o ViewModel para obter o estado e os comandos
   const { addFavorite, removeFavorite, isFavorite } = useFavorites();
   const favorite = isFavorite(pokemon.id);
 
-  // 3. A função de handle apenas delega a ação para o ViewModel
+  // 3. A função de handle apenas delega a ação para o ViewModel;
+  //    o card não sabe como a adição ou remoção funciona por dentro
   const handleToggleFavorite = () => {
-    if (favorite) {
-      removeFavorite(pokemon.id);
-    } else {
-      addFavorite(pokemon.id);
-    }
+    if (favorite) { removeFavorite(pokemon.id); }
+    else          { addFavorite(pokemon.id); }
   };
 
   return (
-    <TouchableOpacity
-      onPress={() => navigation.navigate('PokemonDetails', { pokemonId: pokemon.id })}
-      style={styles.touchableCard}
-    >
-      <View style={[styles.cardInner, favorite && styles.cardFavorite]}>
-        <TouchableOpacity onPress={handleToggleFavorite} style={styles.favoriteButton}>
-          <Text style={styles.favoriteIcon}>{favorite ? '⭐' : '☆'}</Text>
-        </TouchableOpacity>
-        
-        <Image source={{ uri: pokemon.image }} style={styles.image} />
-        <Text style={styles.name}>{capitalize(pokemon.name)}</Text>
-      </View>
-    </TouchableOpacity>
+    // ...
+    // 4. A renderização é puramente declarativa: exibe o que o ViewModel informa
+    <Text>{favorite ? '⭐' : '☆'}</Text>
+    // ...
   );
 };
-
-// ... (estilos permanecem os mesmos)
-const styles = StyleSheet.create({
-    touchableCard: {
-    flex: 1,
-    margin: 8,
-  },
-  cardInner: {
-    backgroundColor: '#f0f0f0',
-    padding: 12,
-    borderRadius: 12,
-    alignItems: 'center',
-    flex: 1,
-    position: 'relative',
-  },
-  cardFavorite: {
-    backgroundColor: '#fffbe6',
-    borderColor: '#facc15',
-    borderWidth: 2,
-  },
-  image: { width: 80, height: 80 },
-  name: { marginTop: 8, fontWeight: 'bold' },
-  favoriteButton: {
-    position: 'absolute',
-    top: 8,
-    right: 8,
-    zIndex: 1,
-  },
-  favoriteIcon: {
-    fontSize: 24,
-  },
-});
 ```
 
-Observe como o `PokemonCard` agora ficou mais limpo. Ele não tem `useState`, não tem `useEffect` e não tem conhecimento sobre `AsyncStorage`. Ele apenas:
+O `PokemonCard` não tem `useState`, não tem `useEffect` e não tem conhecimento sobre `AsyncStorage`. Ele apenas pergunta ao ViewModel o que deve exibir e delega as ações. Se amanhã decidirmos salvar os favoritos numa nuvem em vez do `AsyncStorage`, o `PokemonCard` não precisará mudar uma linha — apenas o `FavoritesProvider` interno ao hook será alterado.
 
-1.  Pergunta ao `useFavorites` se o Pokémon atual é um favorito.
-2.  Exibe uma estrela com base na resposta.
-3.  Chama a função correspondente (`addFavorite` ou `removeFavorite`) quando o usuário clica.
+### **5.3. MVVM no React é Pragmático, não Purista**
 
-A mesma lógica se aplica à tela `PokemonDetailsScreen`. O componente `PokemonDetailsScreen` também utiliza o `useFavorites` para interagir com a lógica de favoritos, mantendo-se sincronizado com o estado global.
+É fundamental reconhecer que, em React Native, a linha entre *View* e *ViewModel* é mais fluida do que em implementações clássicas do MVVM em plataformas como Android com Java. Essa não é uma falha — é uma característica do paradigma funcional reativo, e entendê-la evita uma confusão comum.
 
-**Uma Nota Importante sobre a "View" em React Native e o MVVM:**
+Componentes como `PokemonDetailsScreen` são naturalmente responsáveis por **duas coisas ao mesmo tempo**: definir a interface (o JSX) *e* gerenciar o estado local necessário para ela (`useState` para `pokemon`, `isLoading`, `error`). Essa fusão de View e ViewModel no mesmo componente é chamada de **"Component-as-ViewModel"** e é a abordagem padrão, pragmática e idiomática do React.
 
-É fundamental reconhecer que, em React Native, a linha entre **View** e **ViewModel** pode ser mais fluida do que em implementações puristas de MVVM em outras plataformas. Isso ocorre porque os componentes funcionais do React, como `PokemonCard` e `PokemonDetailsScreen`, são naturalmente responsáveis por **ambas as tarefas**: definir a interface do usuário (o JSX) *e* conter a lógica de apresentação e o estado local necessário para essa interface (através de `useState` e `useEffect`, por exemplo, para o carregamento dos detalhes do Pokémon).
+O ponto importante é que isso **não viola o MVVM** — ele apenas o adapta ao paradigma funcional. A chave para manter a separação de responsabilidades é:
 
-Essa abordagem é comumente referida como **"Component-as-ViewModel"** ou uma interpretação **pragmática** do MVVM. Em vez de ter uma classe de ViewModel totalmente separada e uma classe de View totalmente separada, o próprio componente React atua como a View que renderiza o JSX *e* como a ViewModel que gerencia o estado e a lógica específica da tela (como o `isLoading`, `error`, e o `pokemon` carregado na `PokemonDetailsScreen`).
+1.  **Lógica de negócio compartilhada ou complexa → Hook Customizado ou Contexto:** Tudo que precisa ser reutilizado entre telas ou que envolve regras não-triviais (como a persistência de favoritos) sai do componente e vai para um hook. É o que fizemos com `useFavorites`.
+2.  **Lógica específica daquela tela → dentro do componente:** O estado de `isLoading` e `error` da `PokemonDetailsScreen` não faz sentido em nenhum outro lugar. Mantê-lo no componente é a decisão correta, não uma concessão.
 
-A chave para manter a separação de responsabilidades no MVVM, mesmo com essa fusão de View e ViewModel em um único componente React, está em:
+A divisão que fizemos no projeto pode ser visualizada assim:
 
-1.  **Delegar a lógica de negócios complexa e compartilhada para Hooks Customizados ou Contextos específicos (como `useFavorites`):** Isso garante que essa lógica possa ser reutilizada e testada isoladamente, sem acoplar-se a componentes de UI específicos.
-2.  **Manter a lógica do componente de tela (View/ViewModel) focada apenas na apresentação e no estado necessário para *aquela* tela específica:** Evitando que ele se torne um "Deus Objeto" que lida com tudo.
+```
+PokemonDetailsScreen.tsx        → View + ViewModel local (carregamento, erro)
+useFavorites (FavoritesContext) → ViewModel compartilhado (favoritos, persistência)
+services/api.ts                 → Model (dados brutos da API)
+```
 
-Essa simplicidade torna o componente reutilizável e fácil de testar visualmente. A mesma lógica se aplica à tela `PokemonDetailsScreen`, que também pode usar o `useFavorites` da mesma forma para se manter sincronizada.
+Para projetos React Native, esta interpretação pragmática, componentes gerenciam seu próprio estado de UI local enquanto hooks customizados centralizam a lógica compartilhada, é o que a comunidade considera boas práticas, e é o que separa um protótipo de um produto sustentável.
 
-Essa separação clara entre a *View* (o que o usuário vê) e o *ViewModel* (a lógica por trás) é a essência do MVVM e a chave para construir aplicações que sejam fáceis de entender e economicamente viáveis de se modificar. Em sequência, vamos explorar os benefícios diretos dessa arquitetura em termos de testabilidade e manutenção.
+### **5.4. Benefícios Visíveis: Testabilidade e Separação de Responsabilidades**
 
-### **5.4. Benefícios Visíveis: Testabilidade e Separação de Responsabilidades (SoC)**
+A estrutura que construímos traz dois benefícios práticos imediatos que são pilares no desenvolvimento de software de qualidade.
 
-A refatoração que fizemos, separando nossa lógica no hook `useFavorites` (nosso *ViewModel*), não é apenas uma questão de organização. Ela traz dois benefícios práticos imediatos que são pilares no desenvolvimento de software de qualidade: a **testabilidade** e uma clara **separação de responsabilidades**.
+**Separação de Responsabilidades (SoC) na Prática**
 
-#### Separação de Responsabilidades (SoC) na Prática
+Com a nova estrutura, cada parte tem um papel único e bem definido:
 
-Com a nova estrutura, cada parte da nossa aplicação tem um papel único e bem definido:
+  * **View (`PokemonCard`, `PokedexScreen`):** exibe a interface e notifica o ViewModel sobre ações do usuário. Não sabe como os favoritos são salvos ou gerenciados.
+  * **ViewModel (`useFavorites`):** contém a lógica de negócio — adicionar, remover, persistir. Serve os dados para a View, mas não se importa com a aparência dela.
 
-  * **View (`PokemonCard`, `PokedexScreen`):** Sua única tarefa é exibir a interface e notificar o *ViewModel* sobre as ações do usuário. Ela é "burra" e não sabe como os favoritos são salvos ou gerenciados.
-  * **ViewModel (`useFavorites`):** Contém toda a lógica de negócio — adicionar, remover, persistir dados. Ele serve os dados e as funções para a `View`, mas não se importa com a aparência dela (se é um botão, um texto, etc.).
+Essa separação torna o código muito mais fácil de depurar. Se houver um bug visual, o problema está na *View*. Se os favoritos não estão sendo salvos corretamente, o problema está no *ViewModel*. Sem essa separação, essas duas categorias de problema estariam misturadas no mesmo arquivo.
 
-Essa separação torna o código muito mais fácil de entender. Se houver um bug visual, sabemos que o problema está na *View*. Se os favoritos não estão sendo salvos corretamente, o problema está no *ViewModel*. Isso simplifica drasticamente a depuração e a manutenção.
+**Testabilidade Aprimorada**
 
-#### Testabilidade Aprimorada
+Este é talvez o benefício mais poderoso. Como o `useFavorites` é essencialmente uma função JavaScript — não um componente com JSX — podemos testar toda a sua lógica de forma isolada, sem renderizar um único elemento visual. É possível escrever testes automatizados para verificar:
 
-Este é talvez o benefício mais poderoso. Como nosso *ViewModel* (`useFavorites`) é um hook customizado — que é apenas uma função JavaScript — podemos testar toda a sua lógica de forma isolada, sem precisar renderizar um único componente visual.
-
-Por exemplo, podemos escrever testes automatizados para verificar:
-
-  * Se `addFavorite` realmente adiciona um ID ao array.
+  * Se `addFavorite` realmente adiciona um ID ao array sem duplicar.
   * Se `removeFavorite` o remove corretamente.
   * Se `isFavorite` retorna `true` ou `false` como esperado.
-  * Se a lógica de interação com o `AsyncStorage` está funcionando.
+  * Se a interação com o `AsyncStorage` funciona corretamente, inclusive sob falhas simuladas.
 
-Isso está perfeitamente alinhado com o que vimos na Aula 05: o MVVM proporciona uma testabilidade altíssima porque a lógica de apresentação e de negócio é completamente desacoplada da camada de renderização.
-
-Ao adotar esse padrão, não estamos apenas escrevendo código que funciona hoje, mas construindo uma base sólida que pode crescer, ser modificada e, acima de tudo, ser testada com confiança, garantindo a qualidade da nossa aplicação a longo prazo.
+Isso está perfeitamente alinhado com o que vimos na Aula 05: o MVVM proporciona testabilidade alta porque a lógica de negócio é completamente desacoplada da camada de renderização. Ao adotar esse padrão, não estamos apenas escrevendo código que funciona hoje, mas construindo uma base que pode crescer, ser modificada e testada com confiança — garantindo a qualidade da aplicação a longo prazo.
